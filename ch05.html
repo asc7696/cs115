@@ -133,7 +133,7 @@ button{cursor:pointer}
     <label>班級</label><input id="classNo" value="301">
     <label>座號</label><input id="seatNo" value="12">
     <label>姓名</label><input id="studentName" class="name" value="王小明">
-    ★填寫班級座號姓名，完成後移到頁面底端⇩按下【上傳學習記錄】，並確認上傳成功!!!</button>
+    ★填寫班級座號姓名，完成後移到頁面底端⇩按下【上傳學習成果】，務必確認上傳成功!!!</button>
   </div>
 </header>
 
@@ -228,7 +228,7 @@ button{cursor:pointer}
     <article class="card wide">
       <div class="card-title purple">1-5 合併排序 Merge Sort（遞迴動畫）</div>
       <div class="card-body">
-        <div class="small">依課本範例：6、3、1、4、5、2、7。先「分」到單一數字，再逐層「治」：比較兩組第一個數字，取較小者加入上層。</div>
+        <div class="small">依課本範例：6、3、1、4、5、2、7。先「分」至最小單位(也就是單一數字)，再逐層「治」：兩兩合併，將數字由小到大排序。</div>
         <div class="stage">
           <div class="step">步驟 <strong id="mergeStep">1</strong> / 15</div>
           <div class="merge-wrap"><div id="mergeTree" class="merge-tree"></div></div>
@@ -256,17 +256,17 @@ button{cursor:pointer}
     <article class="card wide">
       <div class="card-title purple">1-6 快速排序 Quick Sort（動畫＋填寫練習）</div>
       <div class="card-body">
-        <div class="small">課本範例：6、3、1、4、5、2、7。每一輪從目前子數列中隨機選出基準值（pivot），將小於等於 pivot 的數字放左側，大於 pivot 的數字放右側，再對左右子數列重複相同方法，直到每個子數列只剩 1 個數字。</div>
+        <div class="small">課本範例：6、3、1、4、5、2、7。每一輪從目前子數列中隨機選出基準值（pivot），將小於等於基準值的數字放左側，大於基準值的數字放右側，再對左右子數列重複相同方法，直到每個子數列只剩 1 個數字。</div>
         <div class="stage quick-stage">
           <div class="step">動畫步驟 <strong id="quickStep">1</strong> / 5</div>
           <div id="quickArray" class="quick-array"></div>
           <div id="quickExplain" class="quick-explain"></div>
         </div>
         <div class="btns"><button class="btn bluebtn" onclick="quickPrev()">上一步</button><button class="btn greenbtn" onclick="quickNext()">下一步</button><button class="btn orangebtn" onclick="quickReset()">重置</button></div>
-        <div class="quick-note"><b>觀察重點：</b>依課本規則：小於等於 pivot 放左側，大於 pivot 放右側；再對左右子數列重複相同的方法，直到每個子數列只剩 1 個數字。</div>
+        <div class="quick-note"><b>觀察重點：</b>依規則：小於等於基準值放左側，大於基準值放右側；再對左右子數列重複相同的方法，直到每個子數列只剩 1 個數字。</div>
         <div class="quick-practice">
           <h3>✏️ 快速排序填寫練習</h3>
-          <div class="small">請將以下數列使用快速排序法由小到大進行排序，每次都選數列中第 1 個值為基準值，完成第一輪的排序。</div>
+          <div class="small">將以下數列使用快速排序法由小到大進行排序，每次都選數列中第 1 個值為基準值，請寫出第一輪的排序結果。</div>
           <div class="rule-card" style="margin-top:8px">
             數列：15、28、10、60、36、72、8
           </div>
