@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -91,7 +92,7 @@ button{cursor:pointer}
 .peg{height:135px;width:31%;position:relative;display:flex;align-items:center;justify-content:flex-end;flex-direction:column;z-index:2}
 .peg::before{content:"";position:absolute;bottom:0;width:6px;height:122px;background:#9a6d3b;border-radius:4px}
 .peg-label{position:absolute;bottom:-17px;font-weight:900;color:#76552e}
-.disks{display:flex;flex-direction:column;align-items:center;z-index:3;pointer-events:none}
+.disks{display:flex;flex-direction:column;align-items:center;z-index:3;pointer-events:auto;touch-action:none}.disk{touch-action:none;user-select:none;-webkit-user-select:none}
 .disk{height:20px;border-radius:7px;margin:1px 0;border:2px solid rgba(0,0,0,.1);box-shadow:0 2px 4px rgba(0,0,0,.12);color:#fff;text-align:center;font-size:11px;line-height:16px;font-weight:900}
 .disk.d1{width:38px;background:#e85d6b}.disk.d2{width:52px;background:#6b78d8}.disk.d3{width:66px;background:#54a96c}.disk.d4{width:80px;background:#e6a13a}.disk.d5{width:94px;background:#9a70c8}
 .dragging{opacity:.45}
@@ -120,10 +121,39 @@ button{cursor:pointer}
 @media(max-width:1250px){.cards{grid-template-columns:repeat(2,minmax(300px,1fr))}.config{grid-column:span 2}}
 @media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.dashboard{grid-template-columns:repeat(2,1fr)}.cards{grid-template-columns:1fr}.card.wide,.config{grid-column:span 1}.topbar{height:auto;flex-wrap:wrap;padding:10px}.student{margin-left:0;width:100%;flex-wrap:wrap}.topbar h1{font-size:17px}}
 
-.quick-stage{overflow:hidden}.quick-array{display:flex;align-items:flex-end;justify-content:center;gap:8px;flex-wrap:wrap;min-height:92px;padding:18px 8px 10px}.quick-cell{width:46px;height:52px;border:2px solid #cbd5e1;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;position:relative;transition:.25s}.quick-cell.pivot{border-color:#f59e0b;background:#fff7ed;transform:translateY(-6px)}.quick-cell.sorted{border-color:#16a34a;background:#f0fdf4}.quick-cell .tag{position:absolute;top:-22px;font-size:12px;color:#b45309;font-weight:700}.quick-explain{margin-top:8px;padding:12px 14px;border-radius:12px;background:#f8fafc;line-height:1.7}.quick-note{margin-top:12px;padding:10px 12px;border-left:4px solid #8b5cf6;background:#f5f3ff;border-radius:8px}.quick-practice{margin-top:18px;padding:16px;border:2px dashed #c4b5fd;border-radius:14px;background:#fafafa}.quick-practice h3{margin:0 0 8px}.practice-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}.practice-row label{display:flex;align-items:center;gap:5px;flex-wrap:wrap}.practice-row input{min-height:40px;border:1px solid #cbd5e1;border-radius:8px;padding:7px 10px;font-size:16px;min-width:120px}.practice-row input:focus{outline:2px solid #c4b5fd;outline-offset:1px}.quick-practice .btns{margin-top:12px}@media(max-width:600px){.quick-cell{width:40px;height:46px;font-size:18px}.practice-row{display:block}.practice-row label{margin:8px 0}.practice-row input{width:100%;box-sizing:border-box}}
+.quick-stage{overflow:hidden}.quick-array{display:flex;align-items:flex-end;justify-content:center;gap:8px;flex-wrap:wrap;min-height:92px;padding:18px 8px 10px}.quick-cell{width:46px;height:52px;border:2px solid #cbd5e1;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;position:relative;transition:.25s}.quick-cell.pivot{border-color:#f59e0b;background:#fff7ed;transform:translateY(-6px)}.quick-cell.sorted{border-color:#16a34a;background:#f0fdf4}.quick-cell .tag{position:absolute;top:-22px;font-size:12px;color:#b45309;font-weight:700}.quick-explain{margin-top:8px;padding:12px 14px;border-radius:12px;background:#f8fafc;line-height:1.7}.quick-note{margin-top:12px;padding:10px 12px;border-left:4px solid #8b5cf6;background:#f5f3ff;border-radius:8px}.quick-practice{margin-top:18px;padding:16px;border:2px dashed #c4b5fd;border-radius:14px;background:#fafafa}.quick-practice h3{margin:0 0 8px}.practice-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}.practice-row label{display:flex;align-items:center;gap:5px;flex-wrap:wrap}.practice-row input{min-height:40px;border:1px solid #cbd5e1;border-radius:8px;padding:7px 10px;font-size:16px;min-width:120px}.practice-row input:focus{outline:2px solid #c4b5fd;outline-offset:1px}.quick-practice .btns{margin-top:12px}.quick-rounds{margin-top:14px;border:1px solid #d9e2ef;border-radius:10px;background:#fff;padding:9px 10px}.quick-round-title{font-weight:900;color:#425a88;margin-bottom:7px}.quick-round{display:flex;gap:12px;align-items:center;padding:7px 8px;border-top:1px solid #edf1f7;border-radius:6px;transition:.2s}.quick-round b{min-width:52px;color:#64748b}.quick-round span{font-family:monospace;font-weight:800;letter-spacing:.5px}.quick-round.active{background:#fff7ed;outline:2px solid #f3c56b}.quick-round.active b{color:#b45309}.quick-round.done{background:#f0fdf4}.quick-round.done b{color:#16803a}
+.quick-practice .btns{margin-top:12px}@media(max-width:600px){.quick-cell{width:40px;height:46px;font-size:18px}.practice-row{display:block}.practice-row label{margin:8px 0}.practice-row input{width:100%;box-sizing:border-box}}
 
 .quick-partition{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin:14px 0 4px}.quick-side{min-height:72px;padding:12px;border:2px dashed #cbd5e1;border-radius:14px;background:#f8fafc}.quick-side-title{font-size:13px;font-weight:800;margin-bottom:8px;text-align:center}.quick-side.left .quick-side-title{color:#2563eb}.quick-side.right .quick-side-title{color:#dc2626}.quick-side-items{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}.quick-side .quick-cell{width:42px;height:44px;font-size:18px}.quick-cell.current{border-color:#7c3aed;background:#f5f3ff;transform:translateY(-4px)}.quick-pivot-box{text-align:center}.quick-pivot-label{font-size:13px;font-weight:800;color:#b45309;margin-bottom:6px}.quick-pivot-box .quick-direction{font-size:12px;font-weight:700;color:#64748b;margin-top:5px}.quick-cell.sorted{border-color:#16a34a;background:#f0fdf4}.quick-cell.pivot{border-color:#f59e0b;background:#fff7ed;transform:translateY(-6px)}
 @media(max-width:700px){.quick-partition{grid-template-columns:1fr}.quick-pivot-box{order:-1}}
+
+/* 快速排序雙側同步處理 */
+.quick-full-result{border:2px solid #94a3b8;border-radius:10px;background:#fff;padding:9px 12px;text-align:center}.quick-full-result b{display:block;font-size:12px;color:#475569;margin-bottom:5px}.quick-full-result span{font-family:monospace;font-weight:900;font-size:16px;letter-spacing:.4px}.quick-parallel{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}.quick-group-panel{border:2px solid #d7dfeb;border-radius:12px;padding:8px;background:#fbfcff}.quick-group-panel .quick-box{min-width:0}.quick-row.compact{gap:5px}.quick-row.compact .quick-box{min-width:72px;padding:7px 6px}.quick-row.compact .qnums{font-size:14px}.quick-box.pivotbox{background:#fff7ed;border-color:#f59e0b}.quick-small-label{margin-top:5px;font-size:11px;color:#64748b;font-weight:800}.merge-phase{display:inline-block;padding:4px 12px;border-radius:999px;font-weight:900;font-size:12px;background:#e0f2fe;color:#0369a1}.hanoi-board{touch-action:none}.disk{touch-action:none;user-select:none;-webkit-user-select:none;cursor:pointer}@media(max-width:700px){.quick-parallel{grid-template-columns:1fr}.quick-full-result span{font-size:13px}.quick-row.compact{flex-wrap:nowrap}.quick-row.compact .quick-box{flex:1}.quick-row.compact .qnums{font-size:12px}}
+
+/* 第5章新版互動：學習心得、分層遞迴、河內塔練習 */
+.reflection-wrap{background:#fffaf0;border:2px solid #f1d58a;border-radius:10px;padding:12px;margin-top:6px}
+.reflection-wrap h3{margin:0 0 7px;color:#8a641b;font-size:15px}
+.reflection-wrap textarea{width:100%;min-height:115px;resize:vertical;border:1px solid #d8c58e;border-radius:8px;padding:10px;line-height:1.65;background:#fffef9}
+.reflection-meta{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:6px;font-size:12px;color:#6e6652}
+.reflection-count.ok{color:#3a8d57;font-weight:800}.reflection-count.bad{color:#c14e59;font-weight:800}
+.fib-hierarchy{display:flex;flex-direction:column;align-items:center;gap:5px;padding:4px 0 8px;min-width:620px}
+.fib-row{display:flex;justify-content:center;gap:10px;width:100%}
+.fib-branch{font-size:12px;color:#69778b;font-weight:900;line-height:1}
+.fib-box{min-width:72px;padding:7px 9px;border:2px solid #9aaed0;border-radius:9px;background:#f7f9fe;text-align:center;font-weight:900;position:relative;box-shadow:0 2px 5px rgba(55,76,112,.08)}
+.fib-box.root{background:#fff6d7;border-color:#d8b34a}.fib-box.split{background:#f2f0ff;border-color:#8b7bd1}.fib-box.base{background:#edf9f0;border-color:#76b786}.fib-box.solve{background:#fff0e5;border-color:#e29a58}.fib-box.final{background:#eaf5ff;border-color:#5f91d5}
+.fib-children{display:flex;justify-content:center;gap:26px;position:relative}
+.fib-child-col{display:flex;flex-direction:column;align-items:center;gap:4px}
+.fib-caption,.merge-caption{font-size:11px;color:#65748a;text-align:center}
+.merge-hierarchy{display:flex;flex-direction:column;align-items:center;gap:7px;min-width:600px;padding:4px 0 8px}
+.merge-row{display:flex;justify-content:center;align-items:flex-start;gap:12px;width:100%}
+.merge-box{min-width:84px;padding:7px 10px;border:2px solid #9db1d1;border-radius:9px;background:#f6f8fd;text-align:center;font-weight:900;box-shadow:0 2px 5px rgba(55,76,112,.07)}
+.merge-box.root{background:#fff6d7;border-color:#d8b34a}.merge-box.split{background:#f2f0ff;border-color:#8b7bd1}.merge-box.single{background:#edf9f0;border-color:#76b786}.merge-box.merge{background:#fff0e5;border-color:#e29a58}.merge-box.final{background:#eaf5ff;border-color:#5f91d5}
+.merge-branch{color:#65748a;font-weight:900;font-size:15px;line-height:1}
+.hanoi-hint{background:#fff8e9;border:1px solid #edd69e;border-radius:7px;padding:7px 9px;margin-top:7px;font-size:12px;line-height:1.55}
+.hanoi-success{color:#3a9560;font-weight:900;margin-top:6px}
+
+
+.quick-hierarchy{width:100%;text-align:center;padding:6px 4px 2px}.quick-flow{display:flex;flex-direction:column;align-items:center;gap:6px}.quick-row{display:flex;justify-content:center;align-items:stretch;gap:8px;flex-wrap:wrap;width:100%}.quick-box{border:2px solid #cbd5e1;border-radius:10px;background:#fff;padding:8px 10px;min-width:95px}.quick-box.root{background:#fff7ed;border-color:#f59e0b}.quick-box.left{background:#eff6ff;border-color:#60a5fa}.quick-box.right{background:#fff1f2;border-color:#fb7185}.quick-box.done{background:#f0fdf4;border-color:#4ade80}.quick-box .qtitle{font-size:12px;font-weight:900;margin-bottom:5px}.quick-box .qnums{font-family:monospace;font-weight:900;letter-spacing:.2px;line-height:1.6}.quick-arrow{font-size:20px;color:#64748b;font-weight:900;line-height:1}.quick-phase{display:inline-block;padding:4px 12px;border-radius:999px;font-weight:900;font-size:12px}.quick-phase.divide{background:#ede9fe;color:#6d28d9}.quick-phase.conquer{background:#dcfce7;color:#166534}.quick-result{margin-top:10px;padding:9px;border:1px solid #d9e2ef;border-radius:9px;background:#fff;font-weight:900}.quick-rounds .quick-round{opacity:.45}.quick-rounds .quick-round.active{opacity:1}.quick-rounds .quick-round.done{opacity:1}
 </style>
 </head>
 <body>
@@ -150,10 +180,12 @@ button{cursor:pointer}
   </div>
   <div class="menu-group"><div class="menu-head">第二部分：河內塔　⌃</div>
     <div class="menu-item"><span class="label">2-1　故事與規則</span><input type="checkbox" data-check="hstory"></div>
-    <div class="menu-item"><span class="label">2-2　3個盤子（動畫）</span><input type="checkbox" data-check="h3"></div>
-    <div class="menu-item"><span class="label">2-3　4個盤子（互動）</span><input type="checkbox" data-check="h4"></div>
-    <div class="menu-item"><span class="label">2-4　5個盤子（互動）</span><input type="checkbox" data-check="h5"></div>
-    <div class="menu-item"><span class="label">2-5　河內塔演算法排序</span><input type="checkbox" data-check="halgo"></div>
+    <div class="menu-item"><span class="label">2-2　1個盤子（操作）</span><input type="checkbox" data-check="h1"></div>
+    <div class="menu-item"><span class="label">2-3　2個盤子（操作）</span><input type="checkbox" data-check="h2"></div>
+    <div class="menu-item"><span class="label">2-4　3個盤子（動畫示範）</span><input type="checkbox" data-check="h3"></div>
+    <div class="menu-item"><span class="label">2-5　4個盤子（互動）</span><input type="checkbox" data-check="h4"></div>
+    <div class="menu-item"><span class="label">2-6　5個盤子（互動）</span><input type="checkbox" data-check="h5"></div>
+    <div class="menu-item"><span class="label">2-7　河內塔演算法排序</span><input type="checkbox" data-check="halgo"></div>
   </div>
   <div class="menu-group"><div class="menu-head">第三部分：測驗　⌃</div>
     <div class="menu-item"><span class="label">3-1　綜合測驗（5題）</span><input type="checkbox" data-check="quiz"></div>
@@ -163,7 +195,7 @@ button{cursor:pointer}
 
 <main class="main">
   <section class="dashboard">
-    <div class="dash progress"><div class="dt">學習進度</div><div class="big" id="progressText">已完成 0 / 11 單元</div><div class="progressbar"><i id="progressBar"></i></div></div>
+    <div class="dash progress"><div class="dt">學習進度</div><div class="big" id="progressText">已完成 0 / 14 單元</div><div class="progressbar"><i id="progressBar"></i></div></div>
     <div class="dash score"><div class="dt">學習總分 🏆</div><div class="big" id="scoreText">0 分</div></div>
     <div class="dash hanoi"><div class="dt">最佳成績（河內塔）</div><div class="big" id="bestText" style="font-size:14px">四盤：--　五盤：--</div><div class="small" style="text-align:center">最低：15 步／31 步</div></div>
     <div class="dash quiz"><div class="dt">測驗成績</div><div class="big" id="quizText">0 / 5 題</div><div class="progressbar"><i id="quizBar" style="background:#d85b63"></i></div></div>
@@ -190,6 +222,19 @@ button{cursor:pointer}
       </div>
     </article>
 
+    <!-- rules -->
+    <article class="card">
+      <div class="card-title blue">1-2 從金幣找出演算法規則</div>
+      <div class="card-body">
+        <div class="rule-card"><b>① 分</b>：把 8 枚金幣分成兩組 4 枚。</div>
+        <div class="rule-card"><b>② 比</b>：放到天平兩端比較重量。</div>
+        <div class="rule-card"><b>③ 留</b>：留下較輕的一組。</div>
+        <div class="rule-card"><b>④ 重複</b>：把候選金幣再分成兩組。</div>
+        <div class="rule-card"><b>⑤ 結束</b>：只剩 2 枚時，比較一次即可找出假幣。</div>
+        <label class="lesson-check"><input type="checkbox" data-check="rules"> 我了解</label>
+      </div>
+    </article>
+
     <!-- 1-3 -->
     <article class="card">
       <div class="card-title purple">1-3 Divide and Conquer（分而治之）</div>
@@ -213,11 +258,11 @@ button{cursor:pointer}
     <article class="card wide">
       <div class="card-title purple">1-4 費氏數列 Fibonacci（遞迴動畫）</div>
       <div class="card-body">
-        <div class="small">課本以 F(4) 示範：F(n)=F(n-1)+F(n-2)，並以 F(1)=1、F(0)=0 作為停止條件。按「下一步」觀看「分」與「治」的完整層次。</div>
+        <div class="small">本節改以 <b>F(3)</b> 示範：F(n)=F(n-1)+F(n-2)，並以 F(1)=1、F(0)=0 作為停止條件。按「下一步」觀察「分 → 治 → 合」如何一層一層展開與回傳。</div>
         <div class="stage">
-          <div class="step">步驟 <strong id="fibStep">1</strong> / 15</div>
+          <div class="step">步驟 <strong id="fibStep">1</strong> / 8</div>
           <div class="fib-wrap"><div id="fibTree" class="fib-tree"></div></div>
-          <div id="fibExplain" class="fib-sum">先從 F(4) 開始</div>
+          <div id="fibExplain" class="fib-sum">先從 F(3) 開始</div>
         </div>
         <div class="btns"><button class="btn bluebtn" onclick="fibPrev()">上一步</button><button class="btn greenbtn" onclick="fibNext()">下一步</button><button class="btn orangebtn" onclick="fibReset()">重置</button></div>
         <label class="lesson-check"><input type="checkbox" data-check="fib"> 我了解</label>
@@ -228,9 +273,9 @@ button{cursor:pointer}
     <article class="card wide">
       <div class="card-title purple">1-5 合併排序 Merge Sort（遞迴動畫）</div>
       <div class="card-body">
-        <div class="small">依課本範例：6、3、1、4、5、2、7。先「分」至最小單位(也就是單一數字)，再逐層「治」：兩兩合併，將數字由小到大排序。</div>
+        <div class="small">本節改以 <b>4、8、7、1</b> 示範。先「分」到每組只剩一個數字，再由下往上逐層「治」：合併時比較兩組目前最前面的數字，較小者先取出。</div>
         <div class="stage">
-          <div class="step">步驟 <strong id="mergeStep">1</strong> / 15</div>
+          <div class="step">步驟 <strong id="mergeStep">1</strong> / 7</div>
           <div class="merge-wrap"><div id="mergeTree" class="merge-tree"></div></div>
           <div id="mergeExplain" class="fib-sum">原始數列 → 開始分割</div>
         </div>
@@ -239,41 +284,34 @@ button{cursor:pointer}
       </div>
     </article>
 
-    <!-- rules -->
-    <article class="card">
-      <div class="card-title blue">1-2 從金幣找出演算法規則</div>
-      <div class="card-body">
-        <div class="rule-card"><b>① 分</b>：把 8 枚金幣分成兩組 4 枚。</div>
-        <div class="rule-card"><b>② 比</b>：放到天平兩端比較重量。</div>
-        <div class="rule-card"><b>③ 留</b>：留下較輕的一組。</div>
-        <div class="rule-card"><b>④ 重複</b>：把候選金幣再分成兩組。</div>
-        <div class="rule-card"><b>⑤ 結束</b>：只剩 2 枚時，比較一次即可找出假幣。</div>
-        <label class="lesson-check"><input type="checkbox" data-check="rules"> 我了解</label>
-      </div>
-    </article>
-
     <!-- quick sort -->
     <article class="card wide">
       <div class="card-title purple">1-6 快速排序 Quick Sort（動畫＋填寫練習）</div>
       <div class="card-body">
-        <div class="small">課本範例：6、3、1、4、5、2、7。每一輪從目前子數列中隨機選出基準值（pivot），將小於等於基準值的數字放左側，大於基準值的數字放右側，再對左右子數列重複相同方法，直到每個子數列只剩 1 個數字。</div>
+        <div class="small">P.105 範例：<b>9、-3、5、2、6、8、-6、1、3</b>。依課本示範逐輪進行快速排序，請觀察每一輪完成後，數列如何逐漸接近由小到大的結果。</div>
         <div class="stage quick-stage">
-          <div class="step">動畫步驟 <strong id="quickStep">1</strong> / 5</div>
+          <div class="step">動畫步驟 <strong id="quickStep">1</strong> / 4</div>
           <div id="quickArray" class="quick-array"></div>
           <div id="quickExplain" class="quick-explain"></div>
+          <div class="quick-rounds" id="quickRounds">
+            <div class="quick-round-title">📌 每一輪完成後的排序結果</div>
+            <div class="quick-round" data-round="1"><b>第1輪</b><span>-3　2　-6　1　3　9　5　6　8</span></div>
+            <div class="quick-round" data-round="2"><b>第2輪</b><span>-3　-6　1　2　3　5　6　8　9</span></div>
+            <div class="quick-round" data-round="3"><b>第3輪</b><span>-6　-3　1　2　3　5　6　8　9</span></div>
+          </div>
         </div>
         <div class="btns"><button class="btn bluebtn" onclick="quickPrev()">上一步</button><button class="btn greenbtn" onclick="quickNext()">下一步</button><button class="btn orangebtn" onclick="quickReset()">重置</button></div>
         <div class="quick-note"><b>觀察重點：</b>依規則：小於等於基準值放左側，大於基準值放右側；再對左右子數列重複相同的方法，直到每個子數列只剩 1 個數字。</div>
         <div class="quick-practice">
           <h3>✏️ 快速排序填寫練習</h3>
-          <div class="small">將以下數列使用快速排序法由小到大進行排序，每次都選數列中第 1 個值為基準值，請寫出第一輪的排序結果。</div>
+          <div class="small">請根據 P.105 的數列，依快速排序的「分」與「再分」概念，寫出指定輪次的排序結果。答案請用空白隔開。</div>
           <div class="rule-card" style="margin-top:8px">
-            數列：15、28、10、60、36、72、8
+            題目數列：9、-3、5、2、6、8、-6、1、3
           </div>
           <div class="practice-row">
-            <label>① pivot = <input id="quickAnsPivot" inputmode="numeric" maxlength="2" aria-label="pivot答案"></label>
-            <label>② 左側（≤ pivot） = <input id="quickAnsLeft" placeholder="例如：1 2" aria-label="左側答案"></label>
-            <label>③ 右側（&gt; pivot） = <input id="quickAnsRight" placeholder="例如：1 2 3" aria-label="右側答案"></label>
+            <label style="width:100%">① 第1輪 = <input id="quickAnsRound1" placeholder="請輸入 9 個數字，以空白隔開" aria-label="第1輪答案" style="width:min(520px,100%)"></label>
+            <label style="width:100%">② 第2輪 = <input id="quickAnsRound2" placeholder="請輸入 9 個數字，以空白隔開" aria-label="第2輪答案" style="width:min(520px,100%)"></label>
+            <label style="width:100%">③ 第3輪 = <input id="quickAnsRound3" placeholder="請輸入 9 個數字，以空白隔開" aria-label="第3輪答案" style="width:min(520px,100%)"></label>
           </div>
           <div class="btns"><button class="btn greenbtn" onclick="checkQuickPractice()">檢查答案</button><button class="btn graybtn" onclick="resetQuickPractice()">重新填寫</button></div>
           <div id="quickPracticeResult" class="quiz-result"></div>
@@ -293,20 +331,49 @@ button{cursor:pointer}
       </div>
     </article>
 
+    <!-- hanoi 1 -->
+    <article class="card">
+      <div class="card-title orange">2-2 1個盤子（自己操作）</div>
+      <div class="card-body">
+        <div class="small">先從最簡單的情況開始。請把唯一的盤子由 A 移到 C。可以拖曳，也可以先點盤子再點目標柱。</div>
+        <div class="hanoi-board" id="h1Board"></div>
+        <div class="small">步數：<b id="h1Moves">0</b>　最少：<b>1</b></div>
+        <div id="h1Result" class="small"></div>
+        <div class="btns"><button class="btn orangebtn" onclick="hanoiReset(1)">重置</button></div>
+        <div class="hanoi-hint">💡 思考：只有一個盤子時，還需要先搬開其他盤子嗎？</div>
+        <label class="lesson-check"><input type="checkbox" data-check="h1"> 我了解</label>
+      </div>
+    </article>
+
+    <!-- hanoi 2 -->
+    <article class="card">
+      <div class="card-title orange">2-3 2個盤子（自己操作）</div>
+      <div class="card-body">
+        <div class="small">請自己找出最少步數，把 2 個盤子由 A 移到 C。規則：一次一個、大盤不能壓小盤。</div>
+        <div class="hanoi-board" id="h2Board"></div>
+        <div class="small">步數：<b id="h2Moves">0</b>　最少：<b>3</b></div>
+        <div id="h2Result" class="small"></div>
+        <div class="btns"><button class="btn orangebtn" onclick="hanoiReset(2)">重置</button></div>
+        <div class="hanoi-hint">💡 提示：先把小盤移到 B，再把大盤移到 C，最後把小盤移到 C。</div>
+        <label class="lesson-check"><input type="checkbox" data-check="h2"> 我了解</label>
+      </div>
+    </article>
+
     <!-- hanoi 3 -->
     <article class="card">
-      <div class="card-title orange">2-2 3個盤子（動畫：7步）</div>
+      <div class="card-title orange">2-4 3個盤子（動畫示範：7步）</div>
       <div class="card-body">
-        <div class="small">按「下一步」觀看標準解法，並同步記錄盤子的移動方式。</div>
+        <div class="small">先讓電腦示範完整解法。觀察：在搬最大的盤子之前，為什麼一定要先把上面的 2 個盤子移開？</div>
         <div class="stage"><div class="step">步驟 <strong id="h3Step">0</strong> / 7</div><div class="hanoi-board" id="h3Board"></div><div class="small" id="h3Move">請按下一步</div></div>
         <div class="btns"><button class="btn bluebtn" onclick="h3Prev()">上一步</button><button class="btn greenbtn" onclick="h3Next()">下一步</button><button class="btn orangebtn" onclick="h3Reset()">重置</button></div>
+        <div class="hanoi-hint">🔎 觀察重點：3 個盤子的解法，是把「2 個盤子」的問題當成子問題反覆處理。</div>
         <label class="lesson-check"><input type="checkbox" data-check="h3"> 我了解</label>
       </div>
     </article>
 
     <!-- hanoi 4 -->
     <article class="card">
-      <div class="card-title orange">2-3 4個盤子（互動）</div>
+      <div class="card-title orange">2-5 4個盤子（互動）</div>
       <div class="card-body">
         <div class="small">拖曳「最上方盤子」到另一根柱子。也可用點擊方式：先點盤子，再點目標柱。最佳步數：15。</div>
         <div class="hanoi-board" id="h4Board"></div>
@@ -319,7 +386,7 @@ button{cursor:pointer}
 
     <!-- hanoi 5 -->
     <article class="card">
-      <div class="card-title orange">2-4 5個盤子（互動）</div>
+      <div class="card-title orange">2-6 5個盤子（互動）</div>
       <div class="card-body">
         <div class="small">挑戰更大的問題。拖曳最上方盤子完成 A → C。最佳步數：31。</div>
         <div class="hanoi-board" id="h5Board"></div>
@@ -332,7 +399,7 @@ button{cursor:pointer}
 
     <!-- hanoi algo -->
     <article class="card wide">
-      <div class="card-title orange">2-5 河內塔演算法：拖曳填空（6選4）</div>
+      <div class="card-title orange">2-7 河內塔演算法：拖曳填空（6選4）</div>
       <div class="card-body">
         <div class="small">共有 4 個步驟，提供 6 個備選答案，其中 4 個正確、2 個干擾答案。請將正確答案拖曳到對應的步驟空格。</div>
         <div id="algoList"></div>
@@ -354,12 +421,17 @@ button{cursor:pointer}
     </article>
 
     <section class="config">
-      <b>☁ GAS 雲端學習成果</b>
-      <span class="small">　貼上部署後的 Web App `/exec` 網址，網站會將學生的進度、分數、測驗、河內塔最佳成績與移動紀錄送到 Google 試算表。</span><br>
-      <input id="gasUrl" placeholder="https://script.google.com/macros/s/你的部署ID/exec">
-      <button class="btn purplebtn" onclick="saveGasUrl()">儲存 GAS 網址</button>
-      <button class="btn greenbtn" onclick="uploadToGAS()">☁ 上傳學習成果</button>
-      <span id="gasStatus" class="small"></span>
+      <div class="reflection-wrap">
+        <h3>📝 我的學習心得</h3>
+        <div class="small">請回顧本章的學習活動，寫下你對「分而治之、遞迴、合併排序、快速排序或河內塔」的理解與感受，<b>至少 50 字</b>。上傳學習成果時，學習心得會一併送出。</div>
+        <textarea id="reflection" maxlength="1000" placeholder="例如：這一章讓我發現，複雜的問題可以先拆成比較小的問題……"></textarea>
+        <div class="reflection-meta"><span id="reflectionStatus">尚未完成（至少 50 字）</span><span id="reflectionCount">0 / 1000 字</span></div>
+      </div>
+      <div class="btns">
+        <button class="btn greenbtn" onclick="uploadToGAS()">☁ 上傳學習成果（含學習心得）</button>
+        <button class="btn graybtn" onclick="exportRecord()">下載學習紀錄</button>
+        <span id="gasStatus" class="small"></span>
+      </div>
     </section>
   </section>
   <div class="footer">所有學習進度先自動保存於瀏覽器 localStorage；上傳 GAS 後，教師可在 Google 試算表彙整全班成果。</div>
@@ -367,12 +439,12 @@ button{cursor:pointer}
 </div>
 
 <script>
-const CHECKS=['coin','rules','dc','fib','merge','quick','hstory','h3','h4','h5','halgo','quiz'];
+const CHECKS=['coin','rules','dc','fib','merge','quick','hstory','h1','h2','h3','h4','h5','halgo','quiz'];
 const KEY='ch05_algo_complete_v3';
 const state=JSON.parse(localStorage.getItem(KEY)||'{}');
 state.complete=state.complete||{}; state.best=state.best||{4:null,5:null}; state.moves=state.moves||{4:[],5:[]};
-state.quiz=state.quiz||{score:0,answers:[]}; state.quick=state.quick||{animation:false,practiceScore:0,answers:{}}; state.score=state.score||0;
-const DEFAULT_GAS_URL='https://script.google.com/macros/s/AKfycbyUP55dZktxCrD0AwntJJyZ5egs9SBsBdMksnmt_XUfbvKiH2wZEQN-26emyR-Yo2auQg/exec'; let gasUrl=localStorage.getItem('ch05_gas_url')||DEFAULT_GAS_URL;
+state.quiz=state.quiz||{score:0,answers:[]}; state.quick=state.quick||{animation:false,practiceScore:0,answers:{}}; state.score=state.score||0; state.reflection=state.reflection||'';
+const DEFAULT_GAS_URL='https://script.google.com/macros/s/AKfycbyUP55dZktxCrD0AwntJJyZ5egs9SBsBdMksnmt_XUfbvKiH2wZEQN-26emyR-Yo2auQg/exec';
 
 function save(){localStorage.setItem(KEY,JSON.stringify(state)); updateDashboard();}
 function setComplete(k,v){state.complete[k]=v; save();}
@@ -387,7 +459,8 @@ function updateDashboard(){
   document.querySelectorAll('[data-check]').forEach(c=>{c.checked=!!state.complete[c.dataset.check]});
 }
 document.querySelectorAll('[data-check]').forEach(c=>c.addEventListener('change',e=>setComplete(e.target.dataset.check,e.target.checked)));
-document.getElementById('gasUrl').value=gasUrl; if(gasUrl) localStorage.setItem('ch05_gas_url',gasUrl);
+const reflectionEl=document.getElementById('reflection'); if(reflectionEl){reflectionEl.value=state.reflection||''; reflectionEl.addEventListener('input',saveReflection); updateReflectionUI();}
+
 
 function exportRecord(){
   const data=buildRecord();
@@ -395,20 +468,31 @@ function exportRecord(){
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`第5章_${data.student.name||'學生'}_學習紀錄.json`;a.click();URL.revokeObjectURL(a.href);
 }
 function buildRecord(){
+ const reflection=document.getElementById('reflection')?.value.trim()||state.reflection||'';
  return {time:new Date().toISOString(),student:{class:document.getElementById('classNo').value,seat:document.getElementById('seatNo').value,name:document.getElementById('studentName').value},
  complete:state.complete,score:state.score,progress:CHECKS.filter(k=>state.complete[k]).length+'/'+CHECKS.length,
- quiz:state.quiz,quickSort:state.quick,bestHanoi:{four:state.best[4],five:state.best[5]},hanoiMoves:{four:state.moves[4],five:state.moves[5]}};
+ reflection:reflection,reflectionLength:[...reflection].length,learningReflection:reflection,心得:reflection,
+ quiz:state.quiz,quickSort:state.quick,bestHanoi:{one:state.best[1],two:state.best[2],four:state.best[4],five:state.best[5]},hanoiMoves:{one:state.moves[1],two:state.moves[2],four:state.moves[4],five:state.moves[5]}};
 }
-function saveGasUrl(){gasUrl=document.getElementById('gasUrl').value.trim();localStorage.setItem('ch05_gas_url',gasUrl);document.getElementById('gasStatus').textContent=' 已儲存 GAS 網址';}
+function saveReflection(){
+ const el=document.getElementById('reflection'); if(!el)return;
+ state.reflection=el.value; save(); updateReflectionUI();
+}
+function updateReflectionUI(){
+ const el=document.getElementById('reflection'),count=document.getElementById('reflectionCount'),status=document.getElementById('reflectionStatus');
+ if(!el||!count||!status)return;
+ const n=[...el.value.trim()].length; count.textContent=`${n} / 1000 字`;
+ status.textContent=n>=50?'✓ 已達到 50 字，可以上傳':'尚未完成（至少 50 字）';
+ status.className='reflection-count '+(n>=50?'ok':'bad');
+}
 function uploadToGAS(){
- const status=document.getElementById('gasStatus');
- if(!gasUrl){status.textContent=' 請先輸入 GAS Web App 網址';return;}
- status.textContent=' 上傳中…';
- fetch(gasUrl,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(buildRecord())})
- .then(()=>status.textContent=' 已送出（請到 Google 試算表確認）')
- .catch(()=>status.textContent=' 上傳失敗，請檢查網址或部署權限');
+ const status=document.getElementById('gasStatus'),reflection=document.getElementById('reflection').value.trim();
+ if([...reflection].length<50){status.textContent=' 請先完成至少 50 字的學習心得';document.getElementById('reflection').focus();return;}
+ state.reflection=reflection; save(); status.textContent=' 上傳中…';
+ fetch(DEFAULT_GAS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(buildRecord())})
+ .then(()=>status.textContent=' 已送出（學習心得已一併上傳，請到 Google 試算表確認）')
+ .catch(()=>status.textContent=' 上傳失敗，請稍後再試或檢查 GAS 部署權限');
 }
-
 let coinIdx=0;
 const coinSteps=[
  {l:[1,2,3,4],r:[5,6,7,8],t:'第一次秤重：1、2、3、4 與 5、6、7、8 比較。左邊較輕，因此假幣一定在 1、2、3、4。',res:'結果：左邊（1、2、3、4）較輕，假幣在這一堆！'},
@@ -425,122 +509,168 @@ function coinPrev(){coinIdx=Math.max(0,coinIdx-1);renderCoin()} function coinRes
 renderCoin();
 
 const fibSteps=[
- {tree:['F(4)'],exp:'原問題：計算 F(4)'},
- {tree:['F(4)','↙ ↘','F(3)','F(2)'],exp:'分：F(4)=F(3)+F(2)，F(3) 與 F(2) 各自成為獨立子問題'},
- {tree:['F(4)','↙ ↘','F(3)','F(2)','↙ ↘','F(2)','F(1)','F(1)','F(0)'],exp:'繼續分：F(3)→F(2)+F(1)，右側 F(2)→F(1)+F(0)，每個節點都是獨立子問題'},
- {tree:['F(4)','↙ ↘','F(3)','F(2)','↙ ↘','F(2)','F(1)','F(1)','F(0)','↙ ↘','F(1)','F(0)'],exp:'再分左側的 F(2)→F(1)+F(0)，直到每個最小子問題都只剩 F(1) 或 F(0)'},
- {tree:['F(1)=1','F(0)=0','F(1)=1','F(0)=0'],exp:'治：最小子問題的答案已知：F(1)=1、F(0)=0'},
- {tree:['F(2)=F(1)+F(0)=1'],exp:'回傳：F(2)=1+0=1'},
- {tree:['F(3)=F(2)+F(1)=1+1=2'],exp:'回傳：F(3)=2'},
- {tree:['F(2)=F(1)+F(0)=1'],exp:'右側 F(2)=1'},
- {tree:['F(4)=F(3)+F(2)=2+1=3'],exp:'最後合併：F(4)=3'}
+ {type:'start',exp:'① 原問題：先從 F(3) 開始。'},
+ {type:'split',exp:'② 分：F(3) 拆成 F(2) + F(1)。'},
+ {type:'split2',exp:'③ 繼續分：F(2) 再拆成 F(1) + F(0)。'},
+ {type:'base',exp:'④ 停止分割：F(1)=1、F(0)=0，已到最小子問題。'},
+ {type:'solve1',exp:'⑤ 治：F(2)=F(1)+F(0)=1+0=1，答案往上一層回傳。'},
+ {type:'solve2',exp:'⑥ 治：F(3)=F(2)+F(1)=1+1=2。'},
+ {type:'combine',exp:'⑦ 合：把子問題的答案合併成原問題的答案，得到 F(3)=2。'},
+ {type:'done',exp:'🎉 完成：F(3)=2。可以看到問題先一層一層「分」，再一層一層「治」與回傳。'}
 ];
 let fibIdx=0;
+function fibBox(txt,cls=''){return `<span class="fib-box ${cls}">${txt}</span>`;}
 function renderFib(){
- const s=fibSteps[fibIdx];document.getElementById('fibStep').textContent=(fibIdx+1);document.getElementById('fibExplain').textContent=s.exp;
- document.getElementById('fibTree').innerHTML=s.tree.map((x,i)=>x.includes('↙')||x.includes('↘')?`<div class="fib-connector">${x}</div>`:`<div class="fib-level">${x.split('　').map(y=>`<span class="node ${y.includes('=1')||y.includes('=0')?'base':''}">${y}</span>`).join('')}</div>`).join('');
+ const s=fibSteps[fibIdx]; document.getElementById('fibStep').textContent=fibIdx+1; document.getElementById('fibExplain').textContent=s.exp;
+ let h='';
+ if(s.type==='start') h=`<div class="fib-hierarchy"><div class="fib-row">${fibBox('F(3)','root')}</div><div class="fib-caption">原問題</div></div>`;
+ if(s.type==='split') h=`<div class="fib-hierarchy"><div class="fib-row">${fibBox('F(3)','root')}</div><div class="fib-branch">↙　　　　　　　↘</div><div class="fib-children"><div class="fib-child-col">${fibBox('F(2)','split')}</div><div class="fib-child-col">${fibBox('F(1)','base')}</div></div><div class="fib-caption">第一層：F(3) → F(2) + F(1)</div></div>`;
+ if(s.type==='split2') h=`<div class="fib-hierarchy"><div class="fib-row">${fibBox('F(3)','root')}</div><div class="fib-branch">↙　　　　　　　↘</div><div class="fib-children"><div class="fib-child-col">${fibBox('F(2)','split')}<div class="fib-branch">↙　↘</div><div class="fib-children"><div class="fib-child-col">${fibBox('F(1)','base')}</div><div class="fib-child-col">${fibBox('F(0)','base')}</div></div></div><div class="fib-child-col">${fibBox('F(1)','base')}</div></div><div class="fib-caption">第二層：只有仍可分解的 F(2) 繼續往下分</div></div>`;
+ if(s.type==='base') h=`<div class="fib-hierarchy"><div class="fib-row">${fibBox('F(3)','root')}</div><div class="fib-branch">↙　　　　　　　↘</div><div class="fib-children"><div class="fib-child-col">${fibBox('F(2)','split')}<div class="fib-branch">↙　↘</div><div class="fib-children"><div class="fib-child-col">${fibBox('F(1)=1','base')}</div><div class="fib-child-col">${fibBox('F(0)=0','base')}</div></div></div><div class="fib-child-col">${fibBox('F(1)=1','base')}</div></div><div class="fib-caption">最底層：F(1)、F(0) 是停止條件</div></div>`;
+ if(s.type==='solve1') h=`<div class="fib-hierarchy"><div class="fib-row">${fibBox('F(3)','root')}</div><div class="fib-branch">↙　　　　　　　↘</div><div class="fib-children"><div class="fib-child-col">${fibBox('F(2)=1','solve')}<div class="fib-caption">1 + 0 = 1 ↑</div></div><div class="fib-child-col">${fibBox('F(1)=1','base')}</div></div><div class="fib-caption">先解最左下方的 F(2)，再把答案往上一層回傳</div></div>`;
+ if(s.type==='solve2') h=`<div class="fib-hierarchy"><div class="fib-row">${fibBox('F(3)=2','solve')}</div><div class="fib-branch">↖　　　　　　　↗</div><div class="fib-children"><div class="fib-child-col">${fibBox('F(2)=1','solve')}</div><div class="fib-child-col">${fibBox('F(1)=1','base')}</div></div><div class="fib-caption">回到最上層：1 + 1 = 2</div></div>`;
+ if(s.type==='combine') h=`<div class="fib-hierarchy"><div class="fib-row">${fibBox('F(3)=2','root')}</div><div class="fib-caption">F(3) ← F(2)=1 ＋ F(1)=1</div><div class="fib-row">${fibBox('1','solve')} <span style="font-weight:900">＋</span> ${fibBox('1','solve')} <span style="font-weight:900">＝</span> ${fibBox('2','final')}</div><div class="fib-caption">合：把子問題答案合併成原問題的答案</div></div>`;
+ if(s.type==='done') h=`<div class="fib-hierarchy"><div class="fib-row">${fibBox('F(3)=2','final')}</div><div class="fib-caption">分：F(3) → F(2)+F(1)　｜　治：F(2)=1、F(1)=1　｜　合：1+1=2</div></div>`;
+ document.getElementById('fibTree').innerHTML=h;
 }
 function fibNext(){fibIdx=Math.min(fibSteps.length-1,fibIdx+1);renderFib();if(fibIdx===fibSteps.length-1){state.score=Math.max(state.score,10);save();}}
-function fibPrev(){fibIdx=Math.max(0,fibIdx-1);renderFib()} function fibReset(){fibIdx=0;renderFib()} renderFib();
+function fibPrev(){fibIdx=Math.max(0,fibIdx-1);renderFib()}
+function fibReset(){fibIdx=0;renderFib()}
+renderFib();
 
 const mergeSteps=[
- {groups:[['6','3','1','4','5','2','7']],e:'原始數列：6、3、1、4、5、2、7'},
- {groups:[['6','3','1'],['4','5','2','7']],e:'分：將數列大致對半分割'},
- {groups:[['6'],['3','1'],['4','5'],['2','7']],e:'繼續分割：直到每組不能再分'},
- {groups:[['6'],['3'],['1'],['4'],['5'],['2'],['7']],e:'最小子問題：每組只剩 1 個數字'},
- {groups:[['3','6'],['1']],e:'治：比較 6 與 3，先放入 3，再放 6'},
- {groups:[['3','6'],['1','4']],e:'治：1、4 合併成 1、4'},
- {groups:[['3','6'],['1','4'],['2','5'],['7']],e:'右側：2、5 合併；7 暫時保留'},
- {groups:[['1','3','4','6'],['2','5','7']],e:'兩兩合併後，得到兩組已排序子數列'},
- {groups:[['1','2','3','4','5','6','7']],e:'完成：比較兩組第一個數字，依序取較小者，得到完整排序'}
+ {type:'start',e:'① 原始數列：4、8、7、1。從整體開始。'},
+ {type:'split',e:'② 分：從中間切開，得到 [4、8] 與 [7、1]。'},
+ {type:'split2',e:'③ 分：每一組再繼續切，直到每組只剩一個數字。'},
+ {type:'merge1',e:'④ 治：4、8 已經有序；7、1 合併後變成 1、7。'},
+ {type:'merge2',e:'⑤ 治：現在有兩組已排序的子數列：[4、8] 與 [1、7]，準備逐一比較。'},
+ {type:'merge3',e:'⑥ 治／合：比較兩組最前面的數字，依序取出 1、4、7、8。'},
+ {type:'done',e:'🎉 完成：4、8、7、1 → 1、4、7、8。從下往上逐層合併，就是合併排序的「治」。'}
 ];
 let mergeIdx=0;
+function mergeBox(txt,cls=''){return `<span class="merge-box ${cls}">${txt}</span>`;}
 function renderMerge(){
- const s=mergeSteps[mergeIdx];document.getElementById('mergeStep').textContent=mergeIdx+1;document.getElementById('mergeExplain').textContent=s.e;
- document.getElementById('mergeTree').innerHTML=s.groups.map(g=>`<div class="merge-level">${g.map(x=>`<span class="group">${x}</span>`).join('<div class="merge-arrows">↙　↘</div>')}</div>`).join('');
+ const s=mergeSteps[mergeIdx]; document.getElementById('mergeStep').textContent=mergeIdx+1; document.getElementById('mergeExplain').textContent=s.e;
+ let h='';
+ if(s.type==='start') h=`<div class="merge-hierarchy"><div class="merge-row">${mergeBox('4、8、7、1','root')}</div><div class="merge-caption">原問題</div></div>`;
+ if(s.type==='split') h=`<div class="merge-hierarchy"><div class="merge-row">${mergeBox('4、8、7、1','root')}</div><div class="merge-branch">↙　　　　　　　　　↘</div><div class="merge-row">${mergeBox('4、8','split')}${mergeBox('7、1','split')}</div><div class="merge-caption">第一層：分成兩個子數列</div></div>`;
+ if(s.type==='split2') h=`<div class="merge-hierarchy"><div class="merge-row">${mergeBox('4、8、7、1','root')}</div><div class="merge-branch">↙　　　　　　　　　↘</div><div class="merge-row">${mergeBox('4、8','split')}${mergeBox('7、1','split')}</div><div class="merge-branch">↙　↘　　　　　　　　　↙　↘</div><div class="merge-row">${mergeBox('4','single')}${mergeBox('8','single')}${mergeBox('7','single')}${mergeBox('1','single')}</div><div class="merge-caption">第二層：每個子問題只剩一個數字，停止「分」</div></div>`;
+ if(s.type==='merge1') h=`<div class="merge-hierarchy"><div class="merge-row">${mergeBox('4、8','merge')}${mergeBox('1、7','merge')}</div><div class="merge-caption">第一層「治」：右側 7、1 排成 1、7；左側 4、8 已經有序</div></div>`;
+ if(s.type==='merge2') h=`<div class="merge-hierarchy"><div class="merge-row">${mergeBox('4、8','merge')}　＋　${mergeBox('1、7','merge')}</div><div class="merge-branch">　　　　　　↓</div><div class="merge-row">${mergeBox('4、8、1、7','split')}</div><div class="merge-caption">兩組都已排序，開始往上一層合併</div></div>`;
+ if(s.type==='merge3') h=`<div class="merge-hierarchy"><div class="merge-row">${mergeBox('4、8','merge')}　＋　${mergeBox('1、7','merge')}</div><div class="merge-branch">　　　　　　↓</div><div class="merge-row">${mergeBox('1','final')} → ${mergeBox('4','final')} → ${mergeBox('7','final')} → ${mergeBox('8','final')}</div><div class="merge-caption">依序比較兩組最前面的數字：1、4、7、8</div></div>`;
+ if(s.type==='done') h=`<div class="merge-hierarchy"><div class="merge-row">${mergeBox('4、8、7、1','root')}</div><div class="merge-branch">↓</div><div class="merge-row">${mergeBox('4、8','split')}　＋　${mergeBox('1、7','split')}</div><div class="merge-branch">↓</div><div class="merge-row">${mergeBox('1、4、7、8','final')}</div><div class="merge-caption">分：4、8、7、1 → 單一元素　｜　治：逐層排序合併　｜　合：得到完整排序</div></div>`;
+ document.getElementById('mergeTree').innerHTML=h;
 }
 function mergeNext(){mergeIdx=Math.min(mergeSteps.length-1,mergeIdx+1);renderMerge();if(mergeIdx===mergeSteps.length-1){state.score=Math.max(state.score,15);save();}}
-function mergePrev(){mergeIdx=Math.max(0,mergeIdx-1);renderMerge()} function mergeReset(){mergeIdx=0;renderMerge()} renderMerge();
+function mergePrev(){mergeIdx=Math.max(0,mergeIdx-1);renderMerge()}
+function mergeReset(){mergeIdx=0;renderMerge()}
+renderMerge();
 
-// Quick Sort：依課本圖5-8、圖5-9的示例與步驟
-// 課本：6、3、1、4、5、2、7；第一次隨機選 4 為 pivot，
-// 左子數列再選 2，右子數列再選 6；持續分割直到每個子數列只剩 1 個數字。
+// Quick Sort：P.105 範例——依課本呈現逐輪排序結果
 const quickSteps=[
-  {groups:[{left:[],pivot:4,right:[],title:'原始數列',desc:'① 原始數列：6、3、1、4、5、2、7。從數列中隨機選出基準值，例如 4。'}],
-   e:'課本規則：隨機選出 pivot。依遞增排序，小於等於 pivot 放左側，大於 pivot 放右側。'},
-  {groups:[{left:[3,1,2],pivot:4,right:[6,5,7],title:'第 1 次循環：pivot = 4',desc:'② 逐一比較：6 > 4 放右側；3 < 4 放左側；其餘依規則分區，形成 3、1、2 ｜ 4 ｜ 6、5、7。'}],
-   e:'第一次分割後，pivot 4 的位置確定，並形成左子數列（3、1、2）與右子數列（6、5、7）。'},
-  {groups:[{left:[1],pivot:2,right:[3],title:'第 2 次循環：處理左子數列 3、1、2',desc:'③ 從左子數列隨機選出 2 為 pivot：1 < 2 放左側；3 > 2 放右側。'}],
-   e:'左子數列分割後變成：1 ｜ 2 ｜ 3。左右子數列都只剩 1 個數字，因此左半部完成。'},
-  {groups:[{left:[],pivot:6,right:[7],title:'第 3 次循環：處理右子數列 6、5、7',desc:'④ 從右子數列隨機選出 6 為 pivot：5 ≤ 6 放左側；7 > 6 放右側。'}],
-   e:'右子數列分割後，左側還有 5、右側還有 7；接下來只需要確認各子數列已縮小到單一元素。'},
-  {groups:[{left:[],pivot:null,right:[],title:'遞迴停止：每個子數列只剩 1 個數字',singles:[1,2,3,4,5,6,7],done:true,desc:'⑤ 每個子數列都只剩 1 個數字，排序完成。'}],
-   e:'課本第 3 步：重複分割，直到每個子數列僅包含 1 個數字，排序即完成。'}
+  {
+    round:0,
+    arr:[9,-3,5,2,6,8,-6,1,3],
+    phase:'開始',
+    title:'原始數列',
+    desc:'先看完整數列。快速排序的核心是：選擇基準值（pivot），把資料分成左、右子問題，再繼續處理子問題。'
+  },
+  {
+    round:1,
+    arr:[-3,2,-6,1,3,9,5,6,8],
+    phase:'分 → 治',
+    groups:[
+      {name:'目前處理的完整數列',arr:[9,-3,5,2,6,8,-6,1,3],pivot:3,left:[-3,2,-6,1],right:[9,5,6,8]}
+    ],
+    title:'第1輪：以 3 為基準值',
+    desc:'分：以 3 為基準值，較小的放左側、較大的放右側；治：完成第一輪分區，3 的位置確定。'
+  },
+  {
+    round:2,
+    arr:[-3,-6,1,2,3,5,6,8,9],
+    phase:'分 → 治',
+    groups:[
+      {name:'左半部子數列',arr:[-3,2,-6,1],pivot:1,left:[-3,-6],right:[2]},
+      {name:'右半部子數列',arr:[9,5,6,8],pivot:8,left:[5,6],right:[9]}
+    ],
+    title:'第2輪：同時處理左、右子問題',
+    desc:'分：第一輪形成的左半部與右半部要同時繼續處理。左半部以 1 為基準，右半部以 8 為基準；治：兩邊各自完成一次分區後，得到第2輪排序結果。'
+  },
+  {
+    round:3,
+    arr:[-6,-3,1,2,3,5,6,8,9],
+    phase:'分 → 治 → 合',
+    groups:[
+      {name:'左半部子問題',arr:[-3,-6],pivot:-3,left:[-6],right:[]},
+      {name:'右半部子問題',arr:[5,6],pivot:6,left:[5],right:[]}
+    ],
+    title:'第3輪：繼續處理兩側子問題',
+    desc:'分：左側 -3、-6 以 -3 為基準；右側 5、6 以 6 為基準。治：兩側子問題都縮小到單一元素；合：把各層已處理的結果組合，得到完整排序。'
+  }
 ];
 let quickIdx=0;
+function qbox(title,nums,cls){
+  return `<div class="quick-box ${cls||''}"><div class="qtitle">${title}</div><div class="qnums">${nums.length?nums.join('　'):'—'}</div></div>`;
+}
 function renderQuick(){
   const s=quickSteps[quickIdx];
   document.getElementById('quickStep').textContent=quickIdx+1;
-  document.getElementById('quickExplain').textContent=s.e;
-  const cell=(x,cls='')=>`<div class="quick-cell ${cls}">${x}</div>`;
-  document.getElementById('quickArray').innerHTML=s.groups.map(g=>{
-    if(g.done){
-      return `<div style="width:100%">
-        <div style="text-align:center;font-weight:900;margin-bottom:8px">${g.title}</div>
-        <div class="quick-side-items">${g.singles.map(x=>cell(x,'sorted')).join('')}</div>
-        <div class="small" style="text-align:center;margin-top:8px">${g.desc}</div>
-      </div>`;
-    }
-    if(g.pivot===null){
-      return `<div style="width:100%">
-        <div style="text-align:center;font-weight:900;margin-bottom:8px">${g.title}</div>
-        <div class="quick-side-items">${(g.singles||[]).map(x=>cell(x,'sorted')).join('')}</div>
-        <div class="small" style="text-align:center;margin-top:8px">${g.desc}</div>
-      </div>`;
-    }
-    const leftHtml=g.left.length?g.left.map(x=>cell(x,'sorted')).join(''):'<span>沒有元素</span>';
-    const rightHtml=g.right.length?g.right.map(x=>cell(x,'sorted')).join(''):'<span>沒有元素</span>';
-    return `<div style="width:100%">
-      <div style="text-align:center;font-weight:900;margin-bottom:8px">${g.title}</div>
-      <div class="quick-partition">
-        <div class="quick-side left">
-          <div class="quick-side-title">&lt;= pivot → 左側（較小或相等）</div>
-          <div class="quick-side-items">${leftHtml}</div>
-        </div>
-        <div class="quick-pivot-box">
-          <div class="quick-pivot-label">PIVOT</div>${cell(g.pivot,'pivot')}
-          <div class="quick-direction">以 ${g.pivot} 為基準</div>
-        </div>
-        <div class="quick-side right">
-          <div class="quick-side-title">&gt; pivot → 右側（較大）</div>
-          <div class="quick-side-items">${rightHtml}</div>
-        </div>
-      </div>
-      <div class="small" style="text-align:center;margin-top:8px">${g.desc}</div>
-    </div>`;
-  }).join('');
-}
+  const phase=s.phase==='開始'
+    ? '<span class="quick-phase divide">開始觀察</span>'
+    : `<span class="quick-phase divide">分：建立左、右子問題</span> <span class="quick-phase conquer">治：處理子問題</span>${s.round===3?' <span class="quick-phase merge-phase">合：組合結果</span>':''}`;
 
+  let h=`<div class="quick-hierarchy"><div style="margin-bottom:8px">${phase}</div>`;
+
+  if(s.round===0){
+    h+=`<div class="quick-flow">${qbox('完整數列',s.arr,'root')}</div>`;
+  }else{
+    h+=`<div class="quick-full-result"><b>完整數列</b><span>${s.arr.join('　')}</span></div>`;
+    h+=`<div class="quick-arrow">↓ 分</div>`;
+    h+=`<div class="quick-parallel">`;
+    s.groups.forEach((g,i)=>{
+      h+=`<div class="quick-group-panel">
+        ${qbox(g.name,g.arr,'root')}
+        <div class="quick-arrow">↓</div>
+        <div class="quick-row compact">
+          ${qbox('← 左側',g.left,'left')}
+          ${qbox(`基準值 PIVOT = ${g.pivot}`,[g.pivot],'pivotbox')}
+          ${qbox('右側 →',g.right,'right')}
+        </div>
+        <div class="quick-small-label">${i===0&&s.groups.length>1?'左半部處理歷程':'子數列處理歷程'}</div>
+      </div>`;
+    });
+    h+=`</div><div class="quick-arrow">↓ 治</div>`;
+    h+=`<div class="quick-result">第${s.round}輪完成後的排序結果：<span>${s.arr.join('　')}</span></div>`;
+  }
+  h+='</div>';
+  document.getElementById('quickArray').innerHTML=h;
+  document.getElementById('quickExplain').innerHTML=`<b>${s.title}</b><br>${s.desc}`;
+  document.querySelectorAll('.quick-round').forEach(el=>{
+    const r=Number(el.dataset.round);
+    el.classList.toggle('active',r===s.round);
+    el.classList.toggle('done',r>0&&r<s.round);
+  });
+}
 function quickNext(){quickIdx=Math.min(quickSteps.length-1,quickIdx+1);renderQuick();if(quickIdx===quickSteps.length-1){state.quick.animation=true;state.score=Math.max(state.score,10);save();}}
 function quickPrev(){quickIdx=Math.max(0,quickIdx-1);renderQuick()}
 function quickReset(){quickIdx=0;renderQuick()}
 function normalizeNums(v){return v.trim().replace(/[，、,]+/g,' ').split(/\s+/).filter(Boolean).join(',')}
 function checkQuickPractice(){
- const pivot=document.getElementById('quickAnsPivot').value.trim();
- const left=normalizeNums(document.getElementById('quickAnsLeft').value);
- const right=normalizeNums(document.getElementById('quickAnsRight').value);
- const okP=pivot==='15',okL=left==='10,8',okR=right==='28,60,36,72';
- const score=[okP,okL,okR].filter(Boolean).length;
- state.quick.practiceScore=score;state.quick.answers={pivot,left,right};
- if(score===3){state.complete.quick=true;state.score=Math.max(state.score,20);document.getElementById('quickPracticeResult').textContent='🎉 全部正確！第一次 partition 後，15 已經定位，左側是 10、8，右側是 28、60、36、72。';}
- else {document.getElementById('quickPracticeResult').textContent=`目前答對 ${score} / 3。提示：先找出第一次選定的 pivot，再把比它小與比它大的數字分開。`;}
+ const a1=normalizeNums(document.getElementById('quickAnsRound1').value);
+ const a2=normalizeNums(document.getElementById('quickAnsRound2').value);
+ const a3=normalizeNums(document.getElementById('quickAnsRound3').value);
+ const ok1=a1==='-3,2,-6,1,3,9,5,6,8';
+ const ok2=a2==='-3,-6,1,2,3,5,6,8,9';
+ const ok3=a3==='-6,-3,1,2,3,5,6,8,9';
+ const score=[ok1,ok2,ok3].filter(Boolean).length;
+ state.quick.practiceScore=score;state.quick.answers={round1:a1,round2:a2,round3:a3};
+ if(score===3){state.complete.quick=true;state.score=Math.max(state.score,20);document.getElementById('quickPracticeResult').textContent='🎉 全部正確！三輪排序結果都完成了。請回到動畫再觀察每一輪數列的變化。';}
+ else {document.getElementById('quickPracticeResult').textContent=`目前答對 ${score} / 3。請對照上方「每一輪的排序結果」重新檢查。`; }
  save();updateDashboard();
 }
-function resetQuickPractice(){['quickAnsPivot','quickAnsLeft','quickAnsRight'].forEach(id=>document.getElementById(id).value='');state.quick.practiceScore=0;state.quick.answers={};document.getElementById('quickPracticeResult').textContent='';save()}
+function resetQuickPractice(){['quickAnsRound1','quickAnsRound2','quickAnsRound3'].forEach(id=>document.getElementById(id).value='');state.quick.practiceScore=0;state.quick.answers={};document.getElementById('quickPracticeResult').textContent='';save()}
 renderQuick();
 
-const h3Moves=[[2,'A','B'],[1,'A','C'],[2,'B','C'],[3,'A','B'],[1,'C','B'],[2,'C','A'],[1,'B','A']];
-// standard alternative ending at C:
 const h3Std=[[1,'A','C'],[2,'A','B'],[1,'C','B'],[3,'A','C'],[1,'B','A'],[2,'B','C'],[1,'A','C']];
 let h3Idx=0;
 function boardHTML(n,pegs){
@@ -549,52 +679,127 @@ function boardHTML(n,pegs){
 function renderH3(){
  let pegs={A:[3,2,1],B:[],C:[]};
  for(let i=0;i<h3Idx;i++){let [d,f,t]=h3Std[i];pegs[f].pop();pegs[t].push(d)}
- document.getElementById('h3Board').innerHTML=boardHTML(3,pegs);document.getElementById('h3Step').textContent=h3Idx;document.getElementById('h3Move').textContent=h3Idx?`盤 ${h3Std[h3Idx-1][0]}：柱 ${h3Std[h3Idx-1][1]} → 柱 ${h3Std[h3Idx-1][2]}`:'請按下一步開始';
+ document.getElementById('h3Board').innerHTML=boardHTML(3,pegs);
+ document.getElementById('h3Step').textContent=h3Idx;
+ document.getElementById('h3Move').textContent=h3Idx?`盤 ${h3Std[h3Idx-1][0]}：柱 ${h3Std[h3Idx-1][1]} → 柱 ${h3Std[h3Idx-1][2]}`:'請按下一步開始';
  if(h3Idx===7){state.score=Math.max(state.score,20);save();}
 }
-function h3Next(){h3Idx=Math.min(7,h3Idx+1);renderH3()} function h3Prev(){h3Idx=Math.max(0,h3Idx-1);renderH3()} function h3Reset(){h3Idx=0;renderH3()} renderH3();
+function h3Next(){h3Idx=Math.min(7,h3Idx+1);renderH3()}
+function h3Prev(){h3Idx=Math.max(0,h3Idx-1);renderH3()}
+function h3Reset(){h3Idx=0;renderH3()}
+renderH3();
 
 const hanoi={};
 function hanoiReset(n){
- hanoi[n]={pegs:{A:Array.from({length:n},(_,i)=>n-i),B:[],C:[]},moves:[],selected:null,dragDisk:null};
- renderHanoi(n);
+  hanoi[n]={pegs:{A:Array.from({length:n},(_,i)=>n-i),B:[],C:[]},moves:[],selected:null,dragDisk:null,dragFrom:null};
+  renderHanoi(n);
+  const r=document.getElementById('h'+n+'Result');
+  if(r)r.textContent='';
 }
 function renderHanoi(n){
- const x=hanoi[n], el=document.getElementById('h'+n+'Board'); el.innerHTML=boardHTML(n,x.pegs);
- el.querySelectorAll('.peg').forEach(p=>{p.addEventListener('click',()=>pegClick(n,p.dataset.peg));});
- el.querySelectorAll('.disk').forEach((d)=>{d.style.pointerEvents='auto';d.addEventListener('pointerdown',e=>startDrag(e,n));});
- document.getElementById('h'+n+'Moves').textContent=x.moves.length;
- document.getElementById('h'+n+'Log').innerHTML=x.moves.map((m,i)=>`${i+1}. 盤${m[0]}：柱 ${m[1]} → 柱 ${m[2]}`).join('<br>');
- document.getElementById('h'+n+'Best').textContent=x.moves.length?Math.min(x.moves.length,state.best[n]||999):'--';
+  const x=hanoi[n],el=document.getElementById('h'+n+'Board');
+  if(!el)return;
+  el.innerHTML=boardHTML(n,x.pegs);
+  el.style.touchAction='none';
+  el.querySelectorAll('.peg').forEach(p=>{
+    p.addEventListener('click',()=>pegClick(n,p.dataset.peg));
+    p.addEventListener('pointerup',e=>{
+      if(x.dragDisk!==null){e.preventDefault();finishDrag(n,p.dataset.peg);}
+    });
+  });
+  el.querySelectorAll('.disk').forEach(d=>{
+    d.style.pointerEvents='auto';
+    d.style.touchAction='none';
+    d.addEventListener('pointerdown',e=>startDrag(e,n));
+    d.addEventListener('click',e=>{
+      e.stopPropagation();
+      const peg=e.currentTarget.closest('.peg')?.dataset.peg;
+      if(peg)selectPeg(n,peg);
+    });
+  });
+  const moves=document.getElementById('h'+n+'Moves'),log=document.getElementById('h'+n+'Log'),best=document.getElementById('h'+n+'Best');
+  if(moves)moves.textContent=x.moves.length;
+  if(log)log.innerHTML=x.moves.map((m,i)=>`${i+1}. 盤${m[0]}：柱 ${m[1]} → 柱 ${m[2]}`).join('<br>');
+  if(best)best.textContent=x.moves.length?Math.min(x.moves.length,state.best[n]||999):'--';
 }
 function getTop(n,peg){const a=hanoi[n].pegs[peg];return a.length?a[a.length-1]:null}
 function makeMove(n,f,t){
- const x=hanoi[n],d=getTop(n,f); if(!d)return false; const td=getTop(n,t); if(td&&td<d)return false;
- x.pegs[f].pop();x.pegs[t].push(d);x.moves.push([d,f,t]);return true;
+  const x=hanoi[n],d=getTop(n,f);
+  if(!d||f===t)return false;
+  const td=getTop(n,t);
+  if(td&&td<d)return false;
+  x.pegs[f].pop();x.pegs[t].push(d);x.moves.push([d,f,t]);
+  return true;
+}
+function selectPeg(n,p){
+  const x=hanoi[n];
+  if(!getTop(n,p))return;
+  x.selected=p;
+  document.querySelectorAll('#h'+n+'Board .peg').forEach(q=>q.classList.remove('selectedPeg'));
+  const el=document.querySelector(`#h${n}Board .peg[data-peg="${p}"]`);
+  if(el)el.classList.add('selectedPeg');
+  const r=document.getElementById('h'+n+'Result');
+  if(r)r.textContent=`已選取柱 ${p} 的最上方盤子，請再點擊目標柱。`;
 }
 function pegClick(n,p){
- const x=hanoi[n];
- if(!x.selected){if(getTop(n,p)){x.selected=p;document.querySelectorAll('#h'+n+'Board .peg').forEach(q=>q.classList.remove('selectedPeg'));document.querySelector(`#h${n}Board .peg[data-peg="${p}"]`).classList.add('selectedPeg');}}
- else {const f=x.selected;document.querySelectorAll('#h'+n+'Board .peg').forEach(q=>q.classList.remove('selectedPeg'));x.selected=null;if(makeMove(n,f,p)){renderHanoi(n);checkHanoiWin(n);}}
+  const x=hanoi[n];
+  if(!x.selected){selectPeg(n,p);return;}
+  const f=x.selected;
+  document.querySelectorAll('#h'+n+'Board .peg').forEach(q=>q.classList.remove('selectedPeg'));
+  x.selected=null;
+  if(makeMove(n,f,p)){renderHanoi(n);checkHanoiWin(n);}
+  else{
+    renderHanoi(n);
+    const r=document.getElementById('h'+n+'Result');
+    if(r)r.textContent='⚠️ 這一步不符合規則：只能移動最上方盤子，且大盤不能放在小盤上。';
+  }
 }
 function startDrag(e,n){
- const p=e.currentTarget.parentElement.parentElement.dataset.peg; const x=hanoi[n]; if(getTop(n,p)!==Number(e.currentTarget.className.match(/d([1-5])/)[1]))return;
- x.dragDisk=getTop(n,p);x.dragFrom=p;e.currentTarget.classList.add('dragging');
- const move=ev=>{ev.preventDefault();};const up=ev=>{document.removeEventListener('pointermove',move);document.removeEventListener('pointerup',up);document.querySelectorAll('.dragging').forEach(q=>q.classList.remove('dragging'));
-   const board=document.getElementById('h'+n+'Board');const r=board.getBoundingClientRect();const xPos=ev.clientX-r.left;const idx=Math.min(2,Math.max(0,Math.floor(xPos/(r.width/3))));const to=['A','B','C'][idx];
-   if(to!==x.dragFrom&&makeMove(n,x.dragFrom,to)){renderHanoi(n);checkHanoiWin(n);}
- };
- document.addEventListener('pointermove',move);document.addEventListener('pointerup',up);
+  e.preventDefault();
+  const diskEl=e.currentTarget,pegEl=diskEl.closest('.peg'),p=pegEl?.dataset.peg,x=hanoi[n];
+  const disk=Number((diskEl.className.match(/d([1-5])/)||[])[1]);
+  if(!p||!disk||getTop(n,p)!==disk)return;
+  x.dragDisk=disk;x.dragFrom=p;
+  diskEl.classList.add('dragging');
+  try{diskEl.setPointerCapture(e.pointerId);}catch(_){}
+  const up=ev=>{
+    if(ev.pointerId!==e.pointerId)return;
+    diskEl.removeEventListener('pointerup',up);
+    diskEl.classList.remove('dragging');
+    finishDrag(n,dropPegFromPoint(n,ev.clientX));
+  };
+  diskEl.addEventListener('pointerup',up);
+}
+function dropPegFromPoint(n,clientX){
+  const board=document.getElementById('h'+n+'Board'),r=board.getBoundingClientRect();
+  const xPos=Math.max(0,Math.min(r.width-1,clientX-r.left));
+  const idx=Math.min(2,Math.max(0,Math.floor(xPos/(r.width/3))));
+  return ['A','B','C'][idx];
+}
+function finishDrag(n,to){
+  const x=hanoi[n];
+  if(!x.dragFrom)return;
+  const from=x.dragFrom;
+  x.dragDisk=null;x.dragFrom=null;
+  document.querySelectorAll('#h'+n+'Board .dragging').forEach(q=>q.classList.remove('dragging'));
+  if(to!==from&&makeMove(n,from,to)){renderHanoi(n);checkHanoiWin(n);}
+  else{renderHanoi(n);}
 }
 function checkHanoiWin(n){
- const x=hanoi[n]; if(x.pegs.C.length===n){
-   const best=n===4?15:31;if(!state.best[n]||x.moves.length<state.best[n])state.best[n]=x.moves.length;
-   state.moves[n]=x.moves.slice();state.score=Math.max(state.score,25+(n===5?10:0));save();
-   alert(`完成 ${n} 盤！共 ${x.moves.length} 步。${x.moves.length===best?'剛好達到最佳步數！':'最佳步數為 '+best+' 步。'}`);
- }
+  const x=hanoi[n];
+  if(x.pegs.C.length===n){
+    const bestMap={1:1,2:3,4:15,5:31},best=bestMap[n];
+    if(!state.best[n]||x.moves.length<state.best[n])state.best[n]=x.moves.length;
+    state.moves[n]=x.moves.slice();
+    state.score=Math.max(state.score,n===5?35:(n===4?25:(n===2?10:5)));
+    state.complete['h'+n]=true;save();
+    const r=document.getElementById('h'+n+'Result');
+    if(r){r.className='hanoi-success';r.textContent=`🎉 完成！共 ${x.moves.length} 步。${x.moves.length===best?'剛好達到最少步數！':'最少步數為 '+best+' 步。'}`;}
+    else alert(`完成 ${n} 盤！共 ${x.moves.length} 步。${x.moves.length===best?'剛好達到最佳步數！':'最佳步數為 '+best+' 步。'}`);
+  }
 }
-function showLog(n){alert((hanoi[n].moves.length? hanoi[n].moves.map((m,i)=>`${i+1}. 盤${m[0]}：柱 ${m[1]} → 柱 ${m[2]}`).join('\\n'):'目前尚無移動紀錄。'))}
-hanoiReset(4);hanoiReset(5);
+function showLog(n){alert((hanoi[n].moves.length?hanoi[n].moves.map((m,i)=>`${i+1}. 盤${m[0]}：柱 ${m[1]} → 柱 ${m[2]}`).join('\n'):'目前尚無移動紀錄。'))}
+hanoiReset(1);hanoiReset(2);hanoiReset(4);hanoiReset(5);
 
 const algoCorrect=[
  '若 n=1，直接把盤子從 A 移到 C',
@@ -707,7 +912,7 @@ function submitQuiz(){
  document.getElementById('quizResult').textContent=`本次得分：${score} / 5 題${score===5?'　🎉 全對！':''}`;
 }
 function resetQuiz(){renderQuiz();document.getElementById('quizResult').textContent='';}
-renderQuiz();updateDashboard();
+renderQuiz(); updateReflectionUI(); updateDashboard();
 </script>
 </body>
 </html>
