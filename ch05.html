@@ -266,14 +266,14 @@ button{cursor:pointer}
         <div class="quick-note"><b>觀察重點：</b>依課本規則：小於等於 pivot 放左側，大於 pivot 放右側；再對左右子數列重複相同的方法，直到每個子數列只剩 1 個數字。</div>
         <div class="quick-practice">
           <h3>✏️ 快速排序填寫練習</h3>
-          <div class="small">請根據課本「馬上練習」的資料，若每次都選數列中第 1 個值為基準值，完成第一次 partition。</div>
+          <div class="small">請將以下數列使用快速排序法由小到大進行排序，每次都選數列中第 1 個值為基準值，完成第一輪的排序。</div>
           <div class="rule-card" style="margin-top:8px">
             數列：15、28、10、60、36、72、8
           </div>
           <div class="practice-row">
             <label>① pivot = <input id="quickAnsPivot" inputmode="numeric" maxlength="2" aria-label="pivot答案"></label>
-            <label>② 左側（≤ pivot） = <input id="quickAnsLeft" placeholder="例如：8 10" aria-label="左側答案"></label>
-            <label>③ 右側（&gt; pivot） = <input id="quickAnsRight" placeholder="例如：28 36 60 72" aria-label="右側答案"></label>
+            <label>② 左側（≤ pivot） = <input id="quickAnsLeft" placeholder="例如：1 2" aria-label="左側答案"></label>
+            <label>③ 右側（&gt; pivot） = <input id="quickAnsRight" placeholder="例如：1 2 3" aria-label="右側答案"></label>
           </div>
           <div class="btns"><button class="btn greenbtn" onclick="checkQuickPractice()">檢查答案</button><button class="btn graybtn" onclick="resetQuickPractice()">重新填寫</button></div>
           <div id="quickPracticeResult" class="quiz-result"></div>
