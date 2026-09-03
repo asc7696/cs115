@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -30,7 +31,7 @@ main{min-width:0}.hero{background:#fff;border-radius:24px;padding:22px;box-shado
 h2{margin:8px 0 10px}h3{margin-bottom:8px}
 .story{background:#fff7cc;border-left:6px solid #ffd92f;border-radius:12px;padding:13px;line-height:1.75}
 .code{background:#171717;color:#f8f8f2;border-radius:14px;padding:15px;overflow:auto;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;line-height:1.7;font-size:15px;white-space:pre;tab-size:4}
-.execgrid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(250px,.75fr);gap:14px;align-items:stretch}.memory{background:#f7fbff;border:2px solid #cfe0ff;border-radius:14px;padding:14px;min-height:220px}.memory h4{margin:0 0 10px;color:#2458b6}.memrow{display:flex;justify-content:space-between;gap:10px;padding:8px 10px;background:#fff;border-radius:9px;margin:6px 0;border:1px solid #e3eaf8;font-family:ui-monospace,monospace}.memname{font-weight:900}.memvalue{word-break:break-word;text-align:right}.runbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.runbtn{padding:9px 14px;border-radius:11px;background:#4f8cff;color:#fff;font-weight:900;box-shadow:0 3px 0 #285bb0}.runbtn.step{background:#7b61c9}.runbtn.reset{background:#eee;color:#493a27;box-shadow:none}.execinput{margin-top:10px;background:#fff8dc;border-radius:12px;padding:12px;border:1px solid #e5cc72}.execinput input{width:100%;padding:10px;border:2px solid #d5bd67;border-radius:9px;margin-top:6px}.currentline{outline:3px solid #ffd92f;outline-offset:2px;background:#3a3a3a}
+.execgrid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(250px,.75fr);gap:14px;align-items:stretch}.memory{background:#f7fbff;border:2px solid #cfe0ff;border-radius:14px;padding:14px;min-height:220px}.memory h4{margin:0 0 10px;color:#2458b6}.memrow{display:flex;justify-content:space-between;gap:10px;padding:8px 10px;background:#fff;border-radius:9px;margin:6px 0;border:1px solid #e3eaf8;font-family:ui-monospace,monospace}.memname{font-weight:900}.memvalue{word-break:break-word;text-align:right}.runbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.runbtn{padding:9px 14px;border-radius:11px;background:#4f8cff;color:#fff;font-weight:900;box-shadow:0 3px 0 #285bb0}.runbtn.step{background:#ffd92f;color:#000;box-shadow:0 3px 0 #c89d00}.runbtn.reset{background:#eee;color:#493a27;box-shadow:none}.execinput{margin-top:10px;background:#fff8dc;border-radius:12px;padding:12px;border:1px solid #e5cc72}.execinput input{width:100%;padding:10px;border:2px solid #d5bd67;border-radius:9px;margin-top:6px}.currentline{outline:3px solid #ffd92f;outline-offset:2px;background:#3a3a3a}
 @media(max-width:820px){.execgrid{grid-template-columns:1fr}}
 
 
@@ -64,7 +65,8 @@ h2{margin:8px 0 10px}h3{margin-bottom:8px}
 .code-line{display:flex;min-width:max-content;padding:2px 14px 2px 0;line-height:1.8}
 .line-no{display:inline-block;width:42px;text-align:right;padding-right:12px;color:#777;user-select:none}
 .line-text{padding-left:0}
-.code-line.current{background:#fff0a6;box-shadow:inset 5px 0 #ef5350}
+.step-demo-btn{background:#ffd92f !important;color:#000 !important;box-shadow:0 4px 0 #b88600 !important;border:2px solid #d4a900 !important;text-shadow:none !important}.step-demo-btn:hover{background:#ffea55 !important;color:#000 !important;transform:translateY(-1px)}.step-demo-btn:active{background:#f5c400 !important;color:#000 !important;box-shadow:0 2px 0 #8a6500 !important;transform:translateY(1px)}
+.code-line.current{background:#ffd92f;color:#000;font-weight:800;box-shadow:inset 7px 0 #b88600, inset 0 0 0 1px #b88600}.code-line.current .line-no{color:#000;font-weight:900}.code-line.current .line-text{color:#000}
 .code-line.executed .line-no{color:#2e7d32}
 .memory-view{background:#f8fbff;border:1px solid #d9e5f7;min-height:120px;padding:10px;border-radius:0 0 12px 12px}
 .memory-row{display:flex;justify-content:space-between;gap:12px;padding:8px 6px;border-bottom:1px solid #e4ebf5;font-family:ui-monospace,monospace}
@@ -80,9 +82,10 @@ h2{margin:8px 0 10px}h3{margin-bottom:8px}
 .challenge{border:2px dashed #e0b500;background:#fffdf0}
 input.answer{width:100%;padding:12px;border:2px solid #d5bd67;border-radius:10px;background:#fff}
 textarea{width:100%;min-height:110px;padding:12px;border:2px solid #d5bd67;border-radius:10px;background:#fff}
+.reflection-meta{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:6px;font-size:13px;color:#765d2c}.reflection-count{font-weight:900}.reflection-count.ok{color:#2e7d32}.reflection-count.bad{color:#c62828}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .btn{padding:10px 15px;border-radius:12px;background:#ffd92f;color:#4a3210;font-weight:900;box-shadow:0 3px 0 #c89d00}
-.btn.secondary{background:#eee}.btn.green{background:#77d681;color:#173e1b}.btn.red{background:#ff8a80}
+.btn.secondary{background:#eee}.btn.green{background:#77d681;color:#173e1b}.btn.red{background:#ff8a80}.btn:disabled{opacity:.6;cursor:not-allowed;box-shadow:none}
 .feedback{margin-top:10px;font-weight:800;min-height:24px}.ok{color:#2e7d32}.bad{color:#c62828}
 .quiz label{display:block;padding:11px;background:#fff8dc;border-radius:10px;margin:7px 0}.quiz input{margin-right:8px}
 .choice{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.choice button{background:#fff8dc;border:2px solid #ead37c;padding:12px;border-radius:12px}.choice button:hover{background:#ffec75}
@@ -114,7 +117,7 @@ footer{text-align:center;padding:25px;color:#765d2c}
   <div><h1>一起發現：生活中處處都有程式！</h1><p>這不是解題比賽。跟著皮卡丘觀察生活、動手修改程式，最後做出自己的小作品。</p><p><b id="scoreText">目前 0 分</b>　<span id="unitText">單元 1 / 11</span></p></div>
 </section>
 <div id="content"></div>
-<footer>⚡️ 皮卡丘 Python 冒險｜學習紀錄保存在本機瀏覽器。若要送到 Google 試算表，請在「上傳學習成果」設定 GAS Web App 網址。</footer>
+<footer>⚡️ 皮卡丘 Python 冒險｜學習紀錄保存在本機瀏覽器。Python 程式實作需要網路載入執行引擎。若要送到 Google 試算表，請在「上傳學習成果」設定 GAS Web App 網址。</footer>
 </main>
 </div>
 
@@ -123,7 +126,7 @@ footer{text-align:center;padding:25px;color:#765d2c}
    部署 GAS 後，可把 /exec 網址貼到這裡。
    若留空，第一次按「上傳本單元學習成果」時會詢問網址。
 */
-const GAS_URL = localStorage.getItem("pikaGasUrl") || "";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbzmRSQhwTf9pQFiraPsFPlY8qeAgfGMYtbnye7EimXQdkxZqmZU3GqisHZC5aQNtOSm/exec";
 let unitStartedAt = Date.now();
 
 const units=[
@@ -169,7 +172,7 @@ print("今天遇到：" + event)`,tip:"random 可以製造隨機效果，非常�
 ];
 
 const taskRequirements=[
-  ["一定要使用 print()", "至少建立一個變數", "輸出一句自己的歡迎語"],
+  ["使用 print()", "輸出「我是 皮卡丘」", "輸出「歡迎來到 Python 冒險國度！」"],
   ["建立至少 2 個變數", "變數中要有數字資料", "用 print() 顯示資料"],
   ["至少使用 3 種不同資料型態", "使用 type() 觀察型態", "自己增加一種資料"],
   ["使用 input()", "把輸入存入變數", "把輸入內容顯示出來"],
@@ -183,9 +186,8 @@ const taskRequirements=[
 ];
 
 const practiceTasks=[
-  {title:"我的第一句 Python",goal:"讓程式介紹自己",code:`name = "皮卡丘"
-print("我是 " + name)
-print("歡迎來到 Python 冒險！")`,hint:"試著把 name 改成你喜歡的角色名稱。"},
+  {title:"我的第一句 Python",goal:"用 print() 介紹自己",code:`print("我是 " + "皮卡丘")
+print("歡迎來到 Python 冒險國度！")`,hint:"試著把「皮卡丘」改成你喜歡的角色名稱。"},
   {title:"我的寶物盒",goal:"用變數管理資料",code:`gems = 12
 apples = 3
 print("寶石：", gems)
@@ -347,7 +349,7 @@ function render(){
     <div id="inputArea"></div>
     <div class="actions">
       <button class="btn" onclick="runDemo()">▶ 執行</button>
-      <button class="btn" onclick="stepDemo()">⏭ 逐步執行</button>
+      <button class="btn step-demo-btn" onclick="stepDemo()">⏭ 逐步執行</button>
       <button class="btn secondary" onclick="resetDemo()">↺ 重設</button>
     </div>
     <div id="stepStatus" class="feedback"></div>
@@ -377,7 +379,7 @@ function render(){
     </div>
 
     <div class="editor-toolbar">
-      <button class="btn" onclick="runStudentCode()">▶ 執行我的程式</button>
+      <button id="practiceRunBtn" class="btn" onclick="runStudentCode()">▶ 執行我的程式</button>
       <button class="mini-btn" onclick="saveStudentCode()">💾 保存程式</button>
       <button class="mini-btn" onclick="resetStudentCode()">↺ 還原範例</button>
       <button class="mini-btn" onclick="clearStudentCode()">🗑️ 清空</button>
@@ -401,8 +403,9 @@ function render(){
   ${state.unit===10?randomGame():''}
   <section class="card">
     <h3>🌱 我的發現</h3>
-    <p>用一句話記下今天學到什麼：</p>
-    <textarea id="reflection" placeholder="例如：我發現 if 可以讓程式依照不同情況做決定……">${esc(state.reflection)}</textarea>
+    <p><b>記下今天學到什麼及學習心得：</b>（至少50字）</p>
+    <textarea id="reflection" placeholder="請寫下今天學到的 Python 概念、操作過程、遇到的問題、解決方式或自己的發現……">${esc(state.reflection)}</textarea>
+    <div class="reflection-meta"><span>💡 建議可以寫：我學到了什麼？我怎麼做？哪裡最有趣或最困難？</span><span id="reflectionCount" class="reflection-count">0 / 50 字</span></div>
     <div class="actions">
       <button class="btn green" onclick="saveReflection()">💾 保存學習紀錄</button>
       <button class="btn" onclick="uploadUnitResult()">☁️ 上傳本單元學習成果</button>
@@ -417,6 +420,11 @@ function render(){
 
   initRunner();
   initStudentEditor();
+  const reflectionEl=document.getElementById('reflection');
+  if(reflectionEl){
+    reflectionEl.addEventListener('input',updateReflectionCount);
+    updateReflectionCount();
+  }
 }
 
 /* ===== 🐍 Python 教學逐步執行器 =====
@@ -594,21 +602,53 @@ function resetDemo(){
 /* ===== 💻 學生 Python 程式編輯器 ===== */
 let pyodide=null;
 let pyodidePromise=null;
+const PYODIDE_BASE='https://cdn.jsdelivr.net/pyodide/v0.29.4/full/';
+
+function loadScript(src, timeout=20000){
+  return new Promise((resolve,reject)=>{
+    if(typeof globalThis.loadPyodide==='function'){ resolve(); return; }
+    const script=document.createElement('script');
+    script.src=src;
+    script.async=true;
+    let settled=false;
+    const timer=setTimeout(()=>{
+      if(settled)return;
+      settled=true;
+      script.remove();
+      reject(new Error('Python 執行引擎載入逾時。請確認目前裝置可以連上網路，然後重新整理頁面。'));
+    },timeout);
+    script.onload=()=>{
+      if(settled)return;
+      settled=true;
+      clearTimeout(timer);
+      if(typeof globalThis.loadPyodide==='function') resolve();
+      else reject(new Error('Python 執行引擎檔案載入完成，但找不到 loadPyodide。請重新整理頁面。'));
+    };
+    script.onerror=()=>{
+      if(settled)return;
+      settled=true;
+      clearTimeout(timer);
+      script.remove();
+      reject(new Error('無法載入 Python 執行引擎。請確認網路連線，或關閉瀏覽器的廣告／腳本阻擋後再試。'));
+    };
+    document.head.appendChild(script);
+  });
+}
 
 function loadPyodideOnce(){
   if(pyodide) return Promise.resolve(pyodide);
   if(pyodidePromise) return pyodidePromise;
-  pyodidePromise=new Promise((resolve,reject)=>{
-    const s=document.createElement('script');
-    s.src='https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js';
-    s.onload=async()=>{
-      try{
-        pyodide=await loadPyodide();
-        resolve(pyodide);
-      }catch(e){reject(e)}
-    };
-    s.onerror=()=>reject(new Error('無法載入 Python 執行引擎'));
-    document.head.appendChild(s);
+
+  pyodidePromise=(async()=>{
+    await loadScript(PYODIDE_BASE+'pyodide.js');
+    if(typeof globalThis.loadPyodide!=='function'){
+      throw new Error('Python 執行引擎尚未準備完成，請重新整理頁面。');
+    }
+    pyodide=await globalThis.loadPyodide({indexURL:PYODIDE_BASE});
+    return pyodide;
+  })().catch(err=>{
+    pyodidePromise=null;
+    throw err;
   });
   return pyodidePromise;
 }
@@ -704,8 +744,13 @@ function checkPracticeTask(code){
   ];
   let result=[];
   switch(state.unit){
-    case 0: result=[/print\s*\(/i.test(code),/[a-z_]\w*\s*=/i.test(code),/print\s*\(/i.test(code)]; break;
-    case 1: result=[(code.match(/^\s*[a-z_]\w*\s*=/gim)||[]).length>=2,/\d/.test(code),/print\s*\(/.test(code)]; break;
+    case 0:
+      result=[
+        (code.match(/print\s*\(/gi)||[]).length>=2,
+        /我是\s*["']?\s*\+\s*["']?\s*皮卡丘|我是\s*皮卡丘/i.test(code),
+        /歡迎來到\s*Python\s*冒險國度！/i.test(code)
+      ];
+      break;    case 1: result=[(code.match(/^\s*[a-z_]\w*\s*=/gim)||[]).length>=2,/\d/.test(code),/print\s*\(/.test(code)]; break;
     case 2: result=[/(["']).*\1/.test(code),/type\s*\(/.test(code),/type\s*\(/.test(code)]; break;
     case 3: result=[/input\s*\(/.test(code),/[a-z_]\w*\s*=\s*input\s*\(/.test(code),/print\s*\(/.test(code)]; break;
     case 4: result=[/\bif\b/.test(code),/\bif\b.*:/.test(code),/print\s*\(/.test(code)]; break;
@@ -746,13 +791,17 @@ async function runStudentCode(){
   if(out)out.textContent='';
   if(mem)mem.innerHTML='<div class="memory-empty">執行中……</div>';
 
+  const runBtn=document.querySelector('#practiceRunBtn');
+  if(runBtn)runBtn.disabled=true;
   try{
-    const py=await loadPyodide();
+    const py=await loadPyodideOnce();
     let output='';
     const inputValue=document.getElementById('practiceInput')?.value || '';
 
-    py.setStdout({batched:(s)=>{output+=s;}});
-    py.setStderr({batched:(s)=>{output+=s;}});
+    // Pyodide 的 batched 輸出會把每一行的換行符號移除，
+    // 因此這裡要補回 \n，才能讓每個 print() 保持獨立一行。
+    py.setStdout({batched:(s)=>{output+=s+'\n';}});
+    py.setStderr({batched:(s)=>{output+=s+'\n';}});
 
     // input() 使用本單元輸入框；若未提供則使用空字串。
     py.setStdin({stdin:()=>inputValue});
@@ -792,9 +841,11 @@ async function runStudentCode(){
     if(st){st.className='exec-status ok';st.textContent='✅ Python 程式執行完成！';}
 
   }catch(err){
-    if(out)out.textContent=String(err);
-    if(st){st.className='exec-status bad';st.textContent='❌ 程式執行發生錯誤，請檢查紅字訊息。';}
+    if(out)out.textContent=String(err?.message || err);
+    if(st){st.className='exec-status bad';st.textContent='❌ 程式執行發生錯誤，請檢查下方訊息。';}
     if(mem)mem.innerHTML='<div class="memory-empty">程式發生錯誤，暫不更新</div>';
+  }finally{
+    if(runBtn)runBtn.disabled=false;
   }
 }
 
@@ -838,11 +889,35 @@ function check(){
 }
 function quick(v){document.getElementById('answer').value=v}
 function hint(){feedback.className='feedback';feedback.textContent='💡 '+units[state.unit].tip}
+function getReflectionText(){
+  return document.getElementById('reflection')?.value || state.reflection || '';
+}
+function reflectionLength(text){
+  // 中文學習心得以「非空白字元」計算，標點符號也算字數。
+  return String(text||'').replace(/\s/g,'').length;
+}
+function updateReflectionCount(){
+  const el=document.getElementById('reflection');
+  const counter=document.getElementById('reflectionCount');
+  if(!counter)return;
+  const n=reflectionLength(el?.value||'');
+  counter.textContent=`${n} / 50 字`;
+  counter.className='reflection-count '+(n>=50?'ok':'bad');
+}
 function saveReflection(){
-  state.reflection=document.getElementById('reflection').value;
-  save();
+  const text=getReflectionText();
+  const n=reflectionLength(text);
   const f=document.getElementById('uploadFeedback');
+  if(n<50){
+    if(f){f.className='feedback bad';f.textContent=`❌ 學習心得目前 ${n} 字，至少需要 50 字，請再補充。`;}
+    updateReflectionCount();
+    document.getElementById('reflection')?.focus();
+    return false;
+  }
+  state.reflection=text;
+  save();
   if(f){f.className='feedback ok';f.textContent='💾 已保存到這台裝置！';}
+  return true;
 }
 
 function getStudent(){
@@ -854,7 +929,7 @@ function getStudent(){
 }
 
 function getGasUrl(){
-  return (localStorage.getItem('pikaGasUrl') || GAS_URL || '').trim();
+  return GAS_URL.trim();
 }
 
 function buildPayload(){
@@ -884,12 +959,22 @@ function buildPayload(){
 }
 
 function uploadUnitResult(){
+  const reflectionText=getReflectionText();
+  const reflectionCount=reflectionLength(reflectionText);
+  if(reflectionCount<50){
+    const f=document.getElementById('uploadFeedback');
+    if(f){f.className='feedback bad';f.textContent=`❌ 學習心得目前 ${reflectionCount} 字，至少需要 50 字，完成後才能上傳。`;}
+    updateReflectionCount();
+    document.getElementById('reflection')?.focus();
+    return;
+  }
+
   const ed=document.getElementById('pythonEditor');
   if(ed){
     state.studentCode=state.studentCode||{};
     state.studentCode[state.unit]=ed.value;
   }
-  state.reflection=document.getElementById('reflection')?.value || state.reflection || '';
+  state.reflection=reflectionText;
   save();
 
   let url=getGasUrl();
