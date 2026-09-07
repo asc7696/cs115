@@ -620,6 +620,7 @@ F = ?</div></div>
 
 <section class="card">
 <div class="card-title red">🧪 章末測驗｜10 題</div>
+<div class="card-body"><p class="small">共 10 題，每題 1 分；請選出最佳答案。10 題全部正確即可完成章末測驗。</p></div>
 <div class="card-body" id="quizArea"></div>
 <div class="card-body">
 <button class="btn redbtn" onclick="submitQuiz()">開始／提交測驗</button>
@@ -861,7 +862,7 @@ function varMemoryRender(){
  const x=varMemorySteps[varMemoryI];
  document.getElementById('varMemoryAnim').innerHTML=varMemorySteps.map((s,i)=>`<div class="animbox ${i===varMemoryI?'active':''}">${s[0]}</div>${i<varMemorySteps.length-1?'<div class="arrow">→</div>':''}`).join('');
  document.getElementById('varMemoryText').textContent=`第 ${varMemoryI+1} 步：${x[1]}`;
- document.getElementById('memoryCell99').classList.toggle('active',varMemoryI>=1);
+ const cell99=document.getElementById('memoryCell99'); if(cell99) cell99.classList.toggle('active',varMemoryI>=1);
 }
 function varMemoryNext(){varMemoryI=Math.min(varMemorySteps.length-1,varMemoryI+1);varMemoryRender()}
 function varMemoryReset(){varMemoryI=0;varMemoryRender()}
