@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第1章 程式設計的概念與實作｜互動學習網站</title>
+<style>
+:root{
+ --blue:#3d72d9;--blue2:#edf4ff;--purple:#7564c9;--purple2:#f1efff;
+ --green:#3aa66b;--green2:#eefaf3;--orange:#ed8a20;--orange2:#fff5e9;
+ --red:#d95663;--red2:#fff0f2;--ink:#25324a;--muted:#65738b;
+ --line:#d9e1ef;--bg:#f4f7fb;--white:#fff;--shadow:0 5px 18px rgba(46,66,103,.09);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei",Arial,sans-serif;color:var(--ink);background:var(--bg);font-size:14px}
+button,input,textarea{font:inherit} button{cursor:pointer}
+.topbar{min-height:62px;background:linear-gradient(90deg,#416fd0,#5d73cb);color:#fff;display:flex;align-items:center;gap:16px;padding:10px 22px;box-shadow:0 3px 12px rgba(34,62,120,.2);position:sticky;top:0;z-index:20}
+.topbar h1{font-size:20px;margin:0;font-weight:900;white-space:nowrap}.student{margin-left:auto;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.student label{font-weight:700;font-size:12px}.student input{width:72px;border:0;border-radius:6px;padding:8px 9px;background:#f7fbff;color:#263653}.student input.name{width:120px}
+.layout{display:grid;grid-template-columns:230px 1fr;gap:14px;padding:12px 14px;max-width:1900px;margin:auto}
+.sidebar{background:#fff;border:1px solid #d9e2f1;border-radius:10px;padding:10px;height:calc(100vh - 86px);position:sticky;top:74px;overflow:auto}
+.side-title{font-size:16px;font-weight:900;color:#4268b5;padding:5px 8px 10px}.menu-group{border:1px solid #d7e2f6;border-radius:9px;margin-bottom:8px;overflow:hidden}
+.menu-head{background:#f0f5ff;color:#38599a;padding:9px 10px;font-weight:900}.menu-item{display:flex;align-items:center;gap:6px;padding:8px 9px;border-top:1px solid #edf1f7;font-size:12px}
+.menu-item .label{flex:1}.menu-item input{accent-color:var(--green);width:16px;height:16px}
+.tip{border:1px solid #a9ddb8;background:#f4fff7;border-radius:8px;padding:10px;margin-top:12px;color:#4d6a56;line-height:1.55;font-size:12px}
+.main{min-width:0}.hero{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px;box-shadow:var(--shadow);margin-bottom:10px}
+.hero h2{margin:0 0 6px;font-size:22px;color:#315cae}.hero p{margin:5px 0;color:var(--muted);line-height:1.7}
+.dashboard{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}.dash{background:#fff;border:1px solid var(--line);border-radius:9px;padding:10px 13px;box-shadow:var(--shadow);min-height:75px}
+.dash .dt{font-weight:900;text-align:center;font-size:13px}.dash .big{text-align:center;font-size:21px;font-weight:900;margin-top:5px}
+.dash.progress .dt{color:#bd8b22}.dash.score .dt{color:#3b8b52}.dash.practice .dt{color:#416ec5}.dash.quiz .dt{color:#cf4f59}
+.progressbar{height:8px;background:#e9edf4;border-radius:20px;margin-top:7px;overflow:hidden}.progressbar i{display:block;height:100%;background:var(--blue);width:0}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:10px}
+.card-title{padding:11px 13px;color:#fff;font-weight:900;font-size:15px}.blue{background:linear-gradient(90deg,#506fc8,#5f62bc)}.purple{background:linear-gradient(90deg,#7262c5,#6a5ab2)}
+.orange{background:linear-gradient(90deg,#e38318,#d97212)}.red{background:linear-gradient(90deg,#d85561,#ca4d58)}.green{background:linear-gradient(90deg,#48a76d,#3b9860)}
+.card-body{padding:12px}.small{font-size:12px;color:var(--muted);line-height:1.65}.lesson-check{display:flex;align-items:center;gap:7px;margin-top:10px;padding-top:9px;border-top:1px solid #edf0f5;font-weight:900}.lesson-check input{width:17px;height:17px;accent-color:var(--green)}
+.btns{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.btn{border:0;border-radius:6px;padding:7px 12px;font-weight:900;color:#fff}.btn.bluebtn{background:#4c88d9}.btn.greenbtn{background:#41a968}.btn.orangebtn{background:#ed9b25}.btn.graybtn{background:#8a97a8}.btn.redbtn{background:#d65a64}.btn.purplebtn{background:#7563c8}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stage{border:1px solid #d8e0eb;border-radius:8px;padding:11px;margin-top:8px;background:#fbfcff;min-height:155px}
+.pill{display:inline-block;border-radius:999px;padding:4px 9px;font-size:11px;font-weight:900;margin:2px}.pill.blue{background:#e7efff;color:#315eaf}.pill.green{background:#e7f7ee;color:#2c7d50}.pill.orange{background:#fff0d9;color:#a55c00}.pill.red{background:#ffe8eb;color:#ae3d49}
+.code{background:#172033;color:#eef5ff;border-radius:8px;padding:12px;font-family:Consolas,monospace;white-space:pre-wrap;line-height:1.65;font-size:13px}
+.flow{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}.flowbox{padding:11px 15px;border:2px solid #8ca9df;border-radius:10px;background:#f5f8ff;font-weight:900;text-align:center}.arrow{font-size:22px;color:#7182a2}
+.anim{min-height:125px;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}.animbox{padding:12px 16px;border-radius:10px;background:#fff;border:2px solid #b7c8e9;font-weight:900;min-width:130px;text-align:center;transition:.3s}.animbox.active{transform:translateY(-6px) scale(1.04);box-shadow:0 7px 18px rgba(50,80,130,.15);border-color:#4c88d9}
+.steptext{font-weight:900;color:#4a5d7d;margin-bottom:6px}.result{font-weight:900;text-align:center;padding:8px;border-radius:7px;margin-top:8px;background:#eefaf3;color:#2f7d50}
+.drag-area{display:grid;grid-template-columns:1fr 1fr;gap:10px}.drag-source,.dropzone{border:2px dashed #b9c7dd;border-radius:10px;padding:10px;min-height:135px;background:#fafcff}.dropzone{background:#f8fbff}.dropzone h4,.drag-source h4{margin:0 0 7px;color:#4b638d}.drag-item{display:inline-block;background:#fff;border:1px solid #9fb2d0;border-radius:8px;padding:8px 10px;margin:4px;cursor:grab;font-weight:900;box-shadow:0 2px 5px rgba(50,70,100,.08)}
+.practice{border:1px solid #dce3ef;background:#fbfcff;border-radius:8px;padding:10px;margin-top:8px}.practice-row{display:flex;align-items:center;gap:8px;margin:7px 0;flex-wrap:wrap}.practice input{width:130px;border:1px solid #b8c5d8;border-radius:6px;padding:7px}.feedback{font-weight:900;margin-top:7px}.ok{color:#2e8754}.bad{color:#c44c59}
+.quizq{border:1px solid #dce3ef;border-radius:8px;padding:10px;margin:8px 0;background:#fbfcff}.quizq b{display:block;margin-bottom:7px}.opt{display:block;border:1px solid #d9e1ef;border-radius:6px;padding:7px;margin:5px 0;background:#fff}.opt input{margin-right:7px}
+.reflection textarea{width:100%;min-height:160px;border:1px solid #bcc9dc;border-radius:8px;padding:10px;resize:vertical}.reflection-meta{display:flex;justify-content:space-between;margin-top:6px;font-size:12px}.footer{text-align:center;color:#7a879a;font-size:12px;padding:8px 0 20px}
+@media(max-width:1000px){.layout{grid-template-columns:1fr}.sidebar{position:relative;top:0;height:auto}.dashboard{grid-template-columns:1fr 1fr}.grid2,.drag-area{grid-template-columns:1fr}}
+
+/* === Chapter 1 enhanced animations === */
+.info-horizontal{display:flex;align-items:stretch;gap:8px;overflow-x:auto;padding:10px 4px 14px;scrollbar-width:thin}
+.info-card{min-width:180px;flex:1;border:2px solid #cbd7ea;border-radius:14px;background:#fff;padding:14px;text-align:center;transition:.35s;position:relative}
+.info-card .ico{font-size:38px;display:block;margin-bottom:6px}.info-card .title{font-weight:900;font-size:15px}.info-card .desc{font-size:12px;color:var(--muted);line-height:1.55;margin-top:5px}
+.info-card.active{transform:translateY(-8px) scale(1.03);border-color:#4c88d9;box-shadow:0 10px 22px rgba(50,80,130,.16);background:#f5f9ff}
+.info-arrow{display:flex;align-items:center;font-size:26px;color:#7b8eac;min-width:28px;justify-content:center}
+.recipe-compare{display:grid;grid-template-columns:1fr 90px 1fr;gap:10px;align-items:center;margin-top:10px}.recipe-card{border:2px solid #d7e1ee;border-radius:14px;background:#fff;padding:13px;min-height:210px}.recipe-card .bigicon{font-size:48px;text-align:center}.recipe-card h4{margin:5px 0;text-align:center}.recipe-card ul{margin:7px 0 0 18px;padding:0;line-height:1.7}.recipe-middle{text-align:center;font-size:34px;font-weight:900;color:#7284a5}.code-lines{background:#172033;color:#eef5ff;border-radius:9px;padding:10px;font-family:Consolas,monospace;line-height:1.6;white-space:pre-wrap}.lowhigh{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}.lh-card{border:2px solid #d7e1ee;border-radius:13px;padding:13px;background:#fff}.lh-card.machine{border-color:#b9c8e4;background:#f7faff}.lh-card.high{border-color:#b8ddc7;background:#f6fcf8}.lh-title{font-weight:900;font-size:16px;margin-bottom:7px}.lh-code{font-family:Consolas,monospace;font-size:14px;line-height:1.75;border-radius:8px;padding:11px;background:#172033;color:#f2f6ff;min-height:110px}.compare-caption{text-align:center;font-size:12px;color:var(--muted);margin-top:8px}
+.translate-scene{border:1px solid #d7e0ed;border-radius:13px;background:#fff;padding:13px;min-height:245px}.translate-head{display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:900}.interpreter-stage{display:grid;grid-template-columns:1fr 110px 1fr;align-items:center;gap:10px;margin-top:12px}.speech{border-radius:12px;padding:14px;border:2px solid #d5dfef;background:#f8fbff;min-height:100px;display:flex;flex-direction:column;justify-content:center;text-align:center}.speech .flag{font-size:28px}.interpreter-btn{width:78px;height:78px;border-radius:50%;border:0;background:#ed9b25;color:#fff;font-size:30px;box-shadow:0 5px 12px rgba(160,90,10,.2);justify-self:center}.interpreter-btn:active{transform:scale(.94)}.translation-bubble{min-height:42px;margin-top:10px;border-radius:10px;background:#fff5e9;color:#8a5a16;padding:9px;text-align:center;font-weight:900}.book-translate{display:grid;grid-template-columns:1fr 80px 1fr;align-items:center;gap:10px;margin-top:12px}.book{border:2px solid #cfd9e8;border-radius:10px;padding:12px;background:#fbfcff;text-align:center;min-height:120px}.book .cover{font-size:34px}.book .booktitle{font-weight:900;margin-top:4px}.book .booktext{font-size:12px;color:var(--muted);margin-top:6px}.translate-arrow{font-size:32px;text-align:center;color:#7a8dab}
+.op-tabs{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}.op-tab{border:1px solid #c5d2e5;background:#fff;border-radius:999px;padding:7px 12px;font-weight:900;color:#4c6286}.op-tab.active{background:#7563c8;color:#fff;border-color:#7563c8}.op-panel{border:2px solid #d9e1ee;border-radius:13px;background:#fff;padding:14px;min-height:235px}.op-example{font-family:Consolas,monospace;font-size:22px;text-align:center;background:#172033;color:#eef5ff;border-radius:10px;padding:14px;margin:9px 0}.op-table{width:100%;border-collapse:collapse;font-size:12px}.op-table th,.op-table td{border:1px solid #dce3ee;padding:7px;text-align:center}.op-table th{background:#f0f5ff}.truth{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.truthbox{border:1px solid #dce3ee;border-radius:10px;padding:10px;text-align:center;background:#fbfcff}.precedence-steps{display:grid;gap:7px}.precedence-step{padding:9px 11px;border-radius:9px;border:1px solid #dbe3ef;background:#fbfcff}.precedence-step.active{border-color:#7563c8;background:#f1efff;font-weight:900}.string-demo{display:grid;grid-template-columns:1fr 1fr;gap:10px}.string-box{border:1px solid #dbe3ef;border-radius:10px;padding:11px;background:#fbfcff}.string-result{margin-top:7px;background:#172033;color:#eef5ff;border-radius:8px;padding:9px;font-family:Consolas,monospace}.cast-flow{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}.cast-node{border:2px solid #b8c8df;border-radius:10px;padding:10px;background:#fff;text-align:center;font-weight:900}.console{background:#172033;color:#eef5ff;border-radius:10px;padding:12px;font-family:Consolas,monospace;line-height:1.7;min-height:145px;white-space:pre-wrap}.io-form{display:grid;grid-template-columns:1fr 1fr;gap:9px}.io-form label{font-size:12px;font-weight:900}.io-form input{width:100%;margin-top:4px;border:1px solid #bcc9dc;border-radius:7px;padding:8px}.io-output{margin-top:9px}.potion-modal{position:fixed;inset:0;background:rgba(21,30,48,.58);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}.potion-modal.show{display:flex}.potion-pop{width:min(380px,92vw);background:#fff;border-radius:22px;padding:22px;text-align:center;box-shadow:0 18px 55px rgba(0,0,0,.28);animation:potionPop .55s cubic-bezier(.2,1.5,.4,1)}.potion-bottle{font-size:96px;line-height:1;filter:drop-shadow(0 8px 8px rgba(0,0,0,.18));animation:potionFloat 1.5s ease-in-out infinite}.potion-pop h3{font-size:25px;margin:8px 0}.potion-pop p{color:var(--muted);margin:5px 0 12px}@keyframes potionPop{from{transform:scale(.45) rotate(-8deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}@keyframes potionFloat{50%{transform:translateY(-8px)}}
+@media(max-width:700px){.lowhigh,.recipe-compare,.interpreter-stage,.book-translate,.string-demo{grid-template-columns:1fr}.recipe-middle,.translate-arrow{transform:rotate(90deg)}.io-form{grid-template-columns:1fr}}
+
+
+/* === V4 變數／輸入輸出互動強化 === */
+.memory-map{display:grid;grid-template-columns:1fr 1.4fr;gap:14px;align-items:stretch;margin-top:10px}
+.memory-board{border:2px solid #cbd7ea;border-radius:14px;background:#f8fbff;padding:14px}
+.memory-title{font-weight:900;color:#48628f;margin-bottom:10px}
+.memory-address{font-family:Consolas,monospace;font-size:12px;color:#7b879b;margin-bottom:5px}
+.memory-cell{border:2px solid #9fb4d6;border-radius:10px;background:#fff;padding:12px;text-align:center;min-height:74px;transition:.35s}
+.memory-cell.active{transform:scale(1.03);border-color:#ed8a20;box-shadow:0 8px 18px rgba(160,100,20,.14);background:#fff9f0}
+.sticky-label{display:inline-block;background:#ffe99a;border:1px solid #e0c35a;border-radius:5px;padding:7px 13px;font-weight:900;box-shadow:2px 3px 0 rgba(150,120,40,.12);transform:rotate(-2deg)}
+.memory-pointer{display:flex;align-items:center;gap:8px;justify-content:center;margin:9px 0;color:#60779d;font-weight:900}
+.login-demo{border:2px solid #d8e2ef;border-radius:14px;background:#fff;padding:13px}
+.login-grid{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:10px;align-items:stretch}
+.login-panel{border:1px solid #d9e2ee;border-radius:11px;background:#fbfcff;padding:11px;min-height:190px}
+.login-panel h4{margin:0 0 8px;font-size:14px;color:#4a638e}
+.login-screen{background:#172033;color:#eef5ff;border-radius:9px;padding:16px;min-height:92px;display:flex;align-items:center;justify-content:center;text-align:center;font-family:Consolas,monospace;font-size:22px;font-weight:900}
+.login-keyboard{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+.login-key{border:1px solid #aebdd2;background:#fff;border-radius:7px;padding:8px;font-weight:900}
+.login-key:hover{background:#edf4ff}
+.login-var{background:#f6fcf8;border:1px solid #b9ddc7;border-radius:9px;padding:11px;font-family:Consolas,monospace;min-height:92px;white-space:pre-wrap}
+.login-step{margin-top:9px;background:#f1f5fb;border-radius:8px;padding:8px;font-size:12px;font-weight:900;text-align:center}
+.command-order{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.command-card{border:2px dashed #b6c5db;border-radius:9px;padding:10px;background:#fff;font-family:Consolas,monospace;cursor:pointer;user-select:none;min-width:210px}
+.command-card.selected{border-color:#4c88d9;background:#edf4ff;transform:translateY(-2px)}
+.order-slot{min-height:52px;border:2px dashed #c4cfdf;border-radius:9px;padding:7px;margin-top:8px;background:#fafcff}
+.io-trace{display:grid;grid-template-columns:1.1fr 1.3fr 1fr 1.15fr 1.15fr;gap:8px;align-items:stretch;margin-top:10px}
+.trace-panel{border:1px solid #d5deeb;border-radius:10px;background:#fbfcff;padding:9px;min-width:0}
+.trace-panel h4{font-size:12px;margin:0 0 7px;color:#52688d}
+.trace-content{font-size:12px;line-height:1.55;min-height:110px}
+.trace-panel.source .trace-content{font-family:Consolas,monospace;background:#172033;color:#eef5ff;border-radius:7px;padding:8px;white-space:pre-wrap}
+.trace-memory{font-family:Consolas,monospace;background:#f6fcf8;border:1px solid #b8ddc7;border-radius:7px;padding:8px;white-space:pre-wrap;min-height:90px}
+.trace-input{background:#fff8ec;border:1px solid #f0c77e;border-radius:7px;padding:8px;min-height:90px}
+.trace-output{background:#f4f8ff;border:1px solid #b9cbe8;border-radius:7px;padding:8px;min-height:90px;white-space:pre-wrap}
+.trace-panel.active{border:2px solid #ed8a20;box-shadow:0 6px 16px rgba(160,100,20,.12);transform:translateY(-2px)}
+.trace-stepbar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px;background:#f5f7fb;border-radius:9px;padding:8px}
+.trace-stepbar .trace-step{font-weight:900;color:#4c6287}
+.fill-code{background:#172033;color:#eef5ff;border-radius:9px;padding:12px;font-family:Consolas,monospace;line-height:1.8;white-space:pre-wrap}
+.blank-input{width:90px;background:#fff;border:2px solid #7fa5dd;border-radius:5px;padding:4px 6px;font-family:Consolas,monospace;color:#243452;font-weight:900}
+.temp-layout{display:grid;grid-template-columns:1fr 1.15fr;gap:10px}
+.temp-console{background:#172033;color:#eef5ff;border-radius:9px;padding:10px;font-family:Consolas,monospace;white-space:pre-wrap;min-height:105px}
+@media(max-width:1150px){.io-trace{grid-template-columns:1fr 1fr}.login-grid,.memory-map,.temp-layout{grid-template-columns:1fr}}
+@media(max-width:700px){.io-trace{grid-template-columns:1fr}.command-card{min-width:100%}}
+
+
+.variable-visual{grid-template-columns:1fr 1.25fr}.sticky-board{background:linear-gradient(180deg,#fffdf6,#fff);}.sticky-stack{display:flex;gap:10px;justify-content:center;align-items:flex-end;margin:14px 0}.sticky-note{width:88px;min-height:90px;padding:10px 7px 7px;border-radius:3px;box-shadow:0 5px 10px rgba(0,0,0,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(-2deg);font-family:Consolas,monospace}.sticky-note b{font-size:28px}.sticky-note span{font-weight:900;font-size:14px}.sticky-note small{font-family:inherit;margin-top:6px;font-size:10px}.note-a{background:#fff3a6}.note-b{background:#ffd9e1;transform:rotate(2deg)}.note-c{background:#cfeeff;transform:rotate(-1deg)}.memory-board-enhanced{position:relative}.memory-lane{display:grid;grid-template-columns:75px 1fr;gap:8px;align-items:center;margin:10px 0}.address{font:900 12px Consolas,monospace;background:#edf2f8;border:1px solid #cbd6e4;border-radius:7px;padding:9px;text-align:center}.memory-cell{border:2px solid #9bb6d8;border-radius:10px;background:#fff;padding:10px;display:grid;grid-template-columns:1fr;gap:2px;text-align:center;box-shadow:inset 0 0 0 3px #f4f7fb}.memory-cell b{font:900 24px Consolas,monospace}.memory-cell span{font-size:11px;color:#5a6d88}.memory-cell em{font-size:11px;font-style:normal;color:#28734d;font-weight:900}.memory-link{text-align:center;font:900 12px Consolas,monospace;color:#496b98;background:#f4f8ff;border-radius:8px;padding:7px}.op-practice-note{margin-top:8px;font-size:12px;color:#5a6b84}
+.login-input-button{margin-top:8px;width:100%}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <h1>第1章 程式設計的概念與實作｜互動學習</h1>
+  <div class="student">
+    <label>班級</label><input id="classNo" placeholder="例：101">
+    <label>座號</label><input id="seatNo" placeholder="01">
+    <label>姓名</label><input id="studentName" class="name" placeholder="請輸入姓名">
+    <button class="btn-top" onclick="saveStudent()">儲存資料</button>
+  </div>
+</header>
+
+<div class="layout">
+<aside class="sidebar">
+  <div class="side-title">📚 第一章學習目錄</div>
+  <div class="menu-group">
+    <div class="menu-head">1-1 程式設計的概念</div>
+    <label class="menu-item"><span class="label">1-1.1 程式語言的功能</span><input type="checkbox" data-check="lang"></label>
+    <label class="menu-item"><span class="label">1-1.2 直譯與編譯</span><input type="checkbox" data-check="translate"></label>
+    <label class="menu-item"><span class="label">1-1.3 語法與語意</span><input type="checkbox" data-check="error"></label>
+    <label class="menu-item"><span class="label">1-1.4 程式設計工具</span><input type="checkbox" data-check="ide"></label>
+  </div>
+  <div class="menu-group">
+    <div class="menu-head">1-2 Python 程式語言簡介</div>
+    <label class="menu-item"><span class="label">1-2.1 資料型態</span><input type="checkbox" data-check="type"></label>
+    <label class="menu-item"><span class="label">1-2.2 資料運算</span><input type="checkbox" data-check="operator"></label>
+    <label class="menu-item"><span class="label">1-2.3 變數</span><input type="checkbox" data-check="variable"></label>
+    <label class="menu-item"><span class="label">1-2.4 輸出／輸入</span><input type="checkbox" data-check="io"></label>
+    <label class="menu-item"><span class="label">章末測驗</span><input type="checkbox" data-check="quiz"></label>
+  </div>
+  <div class="tip">💡 建議學習流程：<br>先閱讀 → 拖曳分類 → 按「下一步」看動畫 → 完成學生練習 → 勾選「我了解」→ 最後完成測驗與心得。</div>
+</aside>
+
+<main class="main">
+<section class="hero">
+  <h2>Chapter 01｜程式設計的概念與實作</h2>
+  <p>本章從「人如何和電腦溝通」開始，認識程式、程式語言、翻譯方式、語法與語意，再進入 Python 的資料型態、運算、變數與輸入輸出。課本指出，軟體如文書處理、手機遊戲、成績計算與網路訂票系統，都是使用程式語言撰寫而成。</p>
+</section>
+
+<section class="dashboard">
+  <div class="dash progress"><div class="dt">學習進度</div><div class="big" id="progressText">0 / 12</div><div class="progressbar"><i id="progressBar"></i></div></div>
+  <div class="dash score"><div class="dt">學習總分</div><div class="big" id="scoreText">0 分</div></div>
+  <div class="dash practice"><div class="dt">互動／練習</div><div class="big" id="practiceText">0 / 8</div></div>
+  <div class="dash quiz"><div class="dt">測驗</div><div class="big" id="quizText">0 / 10</div><div class="progressbar"><i id="quizBar"></i></div></div>
+</section>
+
+
+<section class="card">
+<div class="card-title blue">💻 章前導入｜電腦是怎麼處理問題的？</div>
+<div class="card-body">
+<p>在開始學習「程式設計」之前，先認識電腦的基本工作方式。電腦可以接收資料、處理資料、記住資料，再把處理結果輸出給使用者。這就是我們接下來要學習的「資訊處理」概念。</p>
+
+<div class="flow">
+  <div class="flowbox">⌨️ 🖱️ 📷<br>輸入</div>
+  <div class="arrow">→</div>
+  <div class="flowbox">🧠<br>處理器<br><span class="small">CPU</span></div>
+  <div class="arrow">↔</div>
+  <div class="flowbox">💾<br>記憶體<br><span class="small">暫存處理中的資料</span></div>
+  <div class="arrow">→</div>
+  <div class="flowbox">🖥️ 🔊<br>輸出</div>
+</div>
+
+<div class="grid2">
+  <div class="stage">
+    <div class="steptext">① 輸入裝置</div>
+    <p class="small">把使用者或外部世界的資料送進電腦。</p>
+    <span class="pill blue">⌨️ 鍵盤</span>
+    <span class="pill blue">🖱️ 滑鼠</span>
+    <span class="pill blue">📷 鏡頭</span>
+  </div>
+  <div class="stage">
+    <div class="steptext">② 處理器 CPU</div>
+    <p class="small">依照指令進行計算、判斷與處理，是電腦執行工作的核心。</p>
+    <span class="pill orange">🧠 CPU</span>
+  </div>
+  <div class="stage">
+    <div class="steptext">③ 記憶體</div>
+    <p class="small">暫時保存電腦目前正在處理的資料與執行中的資訊。</p>
+    <span class="pill green">💾 記憶體</span>
+  </div>
+  <div class="stage">
+    <div class="steptext">④ 輸出裝置</div>
+    <p class="small">把電腦處理後的結果呈現給使用者。</p>
+    <span class="pill purple">🖥️ 螢幕</span>
+    <span class="pill purple">🔊 喇叭</span>
+  </div>
+</div>
+
+<div class="stage" style="margin-top:10px">
+  <div class="steptext">🔄 資訊處理：一個生活中的例子｜輸入考試成績 → 電腦處理 → 顯示總分</div>
+  <div id="infoProcessAnim" class="info-horizontal"></div>
+  <div id="infoProcessText" class="small" style="text-align:center"></div>
+  <div class="btns" style="justify-content:center">
+    <button class="btn bluebtn" onclick="infoProcessNext()">下一步</button>
+    <button class="btn graybtn" onclick="infoProcessReset()">重新播放</button>
+  </div>
+</div>
+<div class="lesson-check"><input type="checkbox" data-check="hardware"> 我了解電腦的輸入、處理、記憶與輸出</div>
+</div>
+</section>
+
+<section class="card">
+<div class="card-title purple">⌨️ 資訊處理模擬①｜輸入密碼：螢幕看到的是 #，記憶體保存的是真正數字</div>
+<div class="card-body">
+<p class="small">現在來模擬「輸入裝置 → 記憶體 → 輸出裝置」的資訊處理過程。請使用下面的虛擬鍵盤輸入 4 位數密碼。為了安全，螢幕只顯示 <b>#</b>；但在這個教學模擬中，可以觀察到記憶體暫存的是剛剛輸入的真正數字。</p>
+
+<div class="grid2">
+  <div class="stage">
+    <div class="steptext">⌨️ 虛擬鍵盤</div>
+    <div id="virtualKeyboard" style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;max-width:330px;margin:10px auto"></div>
+    <div class="btns" style="justify-content:center">
+      <button class="btn graybtn" onclick="passwordBackspace()">⌫ 刪除</button>
+      <button class="btn redbtn" onclick="passwordClear()">清除</button>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="steptext">🖥️ 螢幕｜使用者看到</div>
+    <div id="passwordScreen" style="font-family:Consolas,monospace;font-size:34px;letter-spacing:12px;text-align:center;background:#172033;color:#fff;border-radius:9px;padding:18px;margin:8px 0">----</div>
+    <div class="small" style="text-align:center">螢幕只顯示 #，不直接顯示密碼數字</div>
+
+    <div class="steptext" style="margin-top:12px">💾 記憶體｜電腦暫存</div>
+    <div id="passwordMemory" class="code" style="font-size:15px;text-align:center">目前沒有輸入資料</div>
+    <div id="passwordSync" class="result">等待鍵盤輸入……</div>
+  </div>
+</div>
+
+<div class="stage" style="margin-top:10px">
+  <div class="steptext">🔎 動態觀察</div>
+  <div id="passwordFlow" class="flow">
+    <div class="flowbox">⌨️ 鍵盤<br><span class="small">輸入 1 個數字</span></div>
+    <div class="arrow">→</div>
+    <div class="flowbox">💾 記憶體<br><span class="small">保存真正數字</span></div>
+    <div class="arrow">→</div>
+    <div class="flowbox">🖥️ 螢幕<br><span class="small">顯示 #</span></div>
+  </div>
+</div>
+<div class="lesson-check"><input type="checkbox" data-check="password"> 我觀察到「記憶體保存資料」與「螢幕呈現資料」可以不同</div>
+</div>
+</section>
+
+<section class="card">
+<div class="card-title orange">🎲 資訊處理模擬②｜抽籤系統：輸入指令 → 隨機處理 → 輸出結果</div>
+<div class="card-body">
+<p class="small">按下「開始抽籤」後，電腦會啟動隨機轉盤。轉盤共有 7 個可能結果：<b>紅藥水 ×2、藍藥水 ×3、紫藥水 ×2</b>。每次抽籤由電腦隨機選出其中一格，再把結果顯示在螢幕上。</p>
+
+<div class="grid2">
+  <div class="stage">
+    <div class="steptext">🎡 隨機轉盤</div>
+    <div style="position:relative;width:252px;margin:10px auto 4px">
+      <div style="position:absolute;z-index:4;top:-3px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-top:0;border-bottom:23px solid #d95663;filter:drop-shadow(0 2px 2px rgba(0,0,0,.2))"></div>
+      <div id="potionWheel" style="width:230px;height:230px;border-radius:50%;margin:10px auto;border:7px solid #d6deeb;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:conic-gradient(#e95b66 0 51.43deg,#6b8fe5 51.43deg 102.86deg,#9a6ad4 102.86deg 154.29deg,#e95b66 154.29deg 205.72deg,#6b8fe5 205.72deg 257.15deg,#9a6ad4 257.15deg 308.58deg,#6b8fe5 308.58deg 360deg);transition:transform 2.2s cubic-bezier(.12,.78,.22,1)">
+        <div style="width:82px;height:82px;border-radius:50%;background:#fff;border:4px solid #c8d2e3;display:flex;align-items:center;justify-content:center;font-size:34px;z-index:2">🎯</div>
+      </div>
+    </div>
+    <div class="btns" style="justify-content:center">
+      <button id="drawBtn" class="btn orangebtn" onclick="drawPotion()">🎲 開始抽籤</button>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="steptext">🖥️ 螢幕｜抽籤結果</div>
+    <div id="potionResult" style="min-height:100px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:30px;font-weight:900;background:#f7f9fd;border:1px solid #dce4f0;border-radius:9px">尚未抽籤</div>
+    <div id="potionProcess" class="result" style="background:#edf4ff;color:#3b63a8">等待按下抽籤按鈕</div>
+    <div class="small" style="margin-top:8px">資訊處理流程：<b>輸入（按鈕）→ 處理（隨機選擇）→ 輸出（抽籤結果）</b></div>
+  </div>
+</div>
+
+<div class="stage" style="margin-top:10px">
+  <div class="steptext">📊 目前抽籤次數與結果統計</div>
+  <div id="potionStats" class="flow"></div>
+</div>
+<div class="lesson-check"><input type="checkbox" data-check="random"> 我了解電腦可以利用程式進行隨機處理並輸出結果</div>
+</div>
+</section>
+
+<div id="potionModal" class="potion-modal" onclick="closePotionModal(event)">
+  <div class="potion-pop">
+    <div class="potion-bottle" id="potionBottle">🧪</div>
+    <h3 id="potionModalTitle">抽籤結果</h3>
+    <p id="potionModalText">電腦隨機選出的藥水是……</p>
+    <button class="btn orangebtn" onclick="closePotionModal()">知道了</button>
+  </div>
+</div>
+
+<section class="card">
+<div class="card-title blue">1-1 程式設計的概念｜程式語言與程式到底差在哪裡？</div>
+<div class="card-body">
+<p>課本說明：<b>程式（program）是一組用來指揮電腦工作的指令集合</b>；而用來指揮電腦運作、具有特定格式的語言，稱為<b>程式語言</b>。也就是說，程式語言是「溝通的語言」，程式則是「使用這種語言寫出的指令集合」。</p>
+<div class="flow">
+ <div class="flowbox">人類想完成一件事</div><div class="arrow">→</div>
+ <div class="flowbox">使用程式語言<br><span class="small">例如 Python</span></div><div class="arrow">→</div>
+ <div class="flowbox">寫成程式<br><span class="small">一組指令</span></div><div class="arrow">→</div>
+ <div class="flowbox">電腦執行</div>
+</div>
+<div class="stage">
+  <div class="steptext">🍲🎮 生活例子：語言＋食譜，就像程式語言＋程式</div>
+  <div class="recipe-compare">
+    <div class="recipe-card">
+      <div class="bigicon">🍲</div><h4>人類的世界</h4>
+      <p class="small">我使用「某個語言，例如中文或英文」撰寫「南瓜湯食譜」。</p>
+      <ul><li>中文／英文＝溝通的語言</li><li>南瓜湯食譜＝一組具體步驟</li><li>例如：切南瓜 → 加水 → 煮熟</li></ul>
+    </div>
+    <div class="recipe-middle">≈</div>
+    <div class="recipe-card">
+      <div class="bigicon">🎮</div><h4>電腦的世界</h4>
+      <p class="small">我使用「某個程式語言，例如 Java 或 Python」撰寫「五子棋遊戲程式」。</p>
+      <ul><li>Java／Python＝程式語言</li><li>五子棋遊戲程式＝一組具體指令</li><li>電腦依照指令執行遊戲</li></ul>
+    </div>
+  </div>
+  <div class="result">程式碼就像食譜：都是「一步一步告訴執行者要做什麼」的具體指令。</div>
+</div>
+<div class="grid2">
+ <div class="stage">
+   <div class="steptext">🧩 拖曳分類：哪些是「程式語言」？哪些是「程式」？</div>
+   <div class="drag-area">
+    <div class="drag-source" id="dragSource"><h4>待分類</h4>
+      <div class="drag-item" draggable="true" data-kind="language">Python</div>
+      <div class="drag-item" draggable="true" data-kind="program">print("你好")</div>
+      <div class="drag-item" draggable="true" data-kind="language">Java</div>
+      <div class="drag-item" draggable="true" data-kind="program">a = 5<br>print(a)</div>
+    </div>
+    <div>
+      <div class="dropzone" data-zone="language"><h4>🟦 程式語言</h4></div>
+      <div class="dropzone" data-zone="program" style="margin-top:8px"><h4>🟩 程式</h4></div>
+    </div>
+   </div>
+   <div id="dragFeedback" class="feedback"></div>
+ </div>
+</div>
+<div class="lesson-check"><input type="checkbox" data-check="lang"> 我了解「程式語言」與「程式」的關係</div>
+</div></section>
+
+<section class="card">
+<div class="card-title purple">1-1.1 程式語言的功能｜比較低階與高階程式碼的樣態</div>
+<div class="card-body">
+<p class="small">課本將程式語言分成低階語言與高階語言。機器語言由 0 與 1 組成；組合語言使用較接近人類語言的字組；高階語言則更接近人類語言，例如 C、C++、Java、Python。</p>
+<div class="lowhigh">
+  <div class="lh-card machine">
+    <div class="lh-title">🔹 低階語言</div>
+    <div class="lh-code">01000100 110000 01100100<br>01000100 110001 01100100<br><br>MOV HP,10</div>
+    <div class="compare-caption">越接近電腦硬體，閱讀時較不直觀</div>
+  </div>
+  <div class="lh-card high">
+    <div class="lh-title">🔸 高階語言</div>
+    <div class="lh-code">score = 10<br>print(score)<br><br># Python</div>
+    <div class="compare-caption">越接近人類語言，較容易閱讀與理解</div>
+  </div>
+</div>
+<div class="stage" style="margin-top:10px">
+  <div class="steptext">👀 看一看：程式碼的「樣態」有什麼不同？</div>
+  <div id="langCompareAnim" class="anim"></div>
+  <div id="langCompareText" class="small" style="text-align:center"></div>
+  <div class="btns" style="justify-content:center"><button class="btn purplebtn" onclick="langCompareNext()">下一步比較</button><button class="btn graybtn" onclick="langCompareReset()">重新播放</button></div>
+</div>
+<div class="practice"><b>學生練習</b>：請選出「高階語言」。
+<div class="practice-row">
+ <label><input type="radio" name="high" value="machine"> machine language</label>
+ <label><input type="radio" name="high" value="python"> Python</label>
+ <label><input type="radio" name="high" value="assembly"> assembly language</label>
+ <button class="btn greenbtn" onclick="checkHigh()">檢查</button>
+</div><div id="highFb" class="feedback"></div></div>
+</div></section>
+
+<section class="card">
+<div class="card-title orange">1-1.2 程式的直譯與編譯｜用「口譯」與「整篇翻譯」理解</div>
+<div class="card-body">
+<p class="small">課本的圖 1-6、圖 1-7分別呈現直譯與編譯流程：直譯是每次處理一行程式；編譯則先把整個程式翻譯完成，再產生可執行檔。</p>
+<div class="grid2">
+ <div class="translate-scene">
+  <div class="translate-head"><span>🎧 直譯：像同步口譯｜圖1-6</span><span class="pill orange">一句一句</span></div>
+  <div class="interpreter-stage">
+    <div class="speech"><span class="flag">🇰🇷</span><b id="koLine">안녕하세요, 여러분!</b><span class="small">歐巴說一句韓文</span></div>
+    <button class="interpreter-btn" onclick="interpSpeak()" title="按一下口譯員">🎧</button>
+    <div class="speech"><span class="flag">🇹🇼</span><b id="zhLine">按一下口譯員</b><span class="small">立即說中文</span></div>
+  </div>
+  <div id="interpText" class="translation-bubble">請先按一下口譯員圖像。</div>
+  <div class="btns" style="justify-content:center"><button class="btn orangebtn" onclick="interpNext()">下一句</button><button class="btn graybtn" onclick="interpReset()">重播</button></div>
+ </div>
+ <div class="translate-scene">
+  <div class="translate-head"><span>📚 編譯：像整篇文章翻譯｜圖1-7</span><span class="pill green">整篇翻譯</span></div>
+  <div class="book-translate">
+    <div class="book"><div class="cover">📖</div><div class="booktitle">哈利波特</div><div class="booktext">原文小說<br>English original</div></div>
+    <div class="translate-arrow">→</div>
+    <div class="book"><div class="cover">📕</div><div class="booktitle">哈利波特</div><div class="booktext">中譯本小說<br>Chinese translation</div></div>
+  </div>
+  <div id="compText" class="translation-bubble">先把整篇原文翻譯完成，再閱讀中譯本。</div>
+  <div class="btns" style="justify-content:center"><button class="btn greenbtn" onclick="compNext()">下一步</button><button class="btn graybtn" onclick="compReset()">重播</button></div>
+ </div>
+</div>
+<div class="practice"><b>學生練習</b>：完成直譯流程排序（逐行讀入 → 直譯 → 機器語言指令 → 電腦執行）。
+<div id="sortFlow" class="drag-source" style="min-height:70px">
+ <div class="drag-item flow-step" draggable="true" data-order="3">機器語言指令</div>
+ <div class="drag-item flow-step" draggable="true" data-order="1">依序讀入一行程式</div>
+ <div class="drag-item flow-step" draggable="true" data-order="4">電腦執行</div>
+ <div class="drag-item flow-step" draggable="true" data-order="2">直譯</div>
+</div>
+<div class="btns"><button class="btn greenbtn" onclick="checkFlow()">檢查排序</button></div><div id="flowFb" class="feedback"></div></div>
+<div class="lesson-check"><input type="checkbox" data-check="translate"> 我了解直譯與編譯的基本差別</div>
+</div></section>
+
+<section class="card">
+<div class="card-title red">1-1.3 程式的語法與語意｜「寫法對」不代表「答案對」</div>
+<div class="card-body">
+<p class="small">課本將常見錯誤分成語法錯誤與語意錯誤：語法不正確時，程式無法正確翻譯或執行；語意錯誤則可能語法正確、程式也能執行，但結果與預期不同。課本以 print 拼字錯誤與梯形面積公式中的 + 誤寫為 - 說明。</p>
+<div class="grid2">
+ <div class="stage"><b>例子 A：語法錯誤</b><div class="code">primt("第1支Python程式")</div><div class="result" style="background:#fff0f2;color:#b4434f">無法依正確語法執行</div></div>
+ <div class="stage"><b>例子 B：語意錯誤</b><div class="code">a = 5
+b = 10
+c = 8
+area = (a - b) * c / 2</div><div class="result" style="background:#fff0f2;color:#b4434f">程式可以執行，但計算邏輯錯誤</div></div>
+</div>
+<div class="practice"><b>學生練習</b>：請判斷下面是哪一種錯誤。
+<div class="code">print("你好"
+</div><div class="practice-row"><label><input type="radio" name="err" value="syntax"> 語法錯誤</label><label><input type="radio" name="err" value="semantic"> 語意錯誤</label><button class="btn greenbtn" onclick="checkErr()">檢查</button></div>
+<div id="errFb" class="feedback"></div></div>
+<div class="lesson-check"><input type="checkbox" data-check="error"> 我了解語法錯誤與語意錯誤</div>
+</div></section>
+
+<section class="card">
+<div class="card-title blue">1-1.4 程式設計工具簡介｜IDE</div>
+<div class="card-body">
+<p class="small">IDE（整合開發環境）把編寫、編譯／直譯、執行等開發工作整合在一起，並可能提供除錯、圖形介面設計與專案管理等功能。課本列出 Python IDLE、Google Colaboratory、Anaconda、PyCharm、Spyder、Jupyter 等開發環境。</p>
+<div class="flow"><div class="flowbox">文字編輯器</div><div class="arrow">＋</div><div class="flowbox">直譯器／編譯器</div><div class="arrow">＋</div><div class="flowbox">除錯工具</div><div class="arrow">＝</div><div class="flowbox">IDE</div></div>
+<div class="practice"><b>學生練習</b>：以下哪一個是課本列出的 Python 開發環境？
+<div class="practice-row"><label><input type="radio" name="ide" value="idle"> Python IDLE</label><label><input type="radio" name="ide" value="paint"> 小畫家</label><label><input type="radio" name="ide" value="calc"> 計算機</label><button class="btn greenbtn" onclick="checkIDE()">檢查</button></div><div id="ideFb" class="feedback"></div></div>
+<div class="lesson-check"><input type="checkbox" data-check="ide"> 我了解 IDE 的用途</div>
+</div></section>
+
+<section class="card">
+<div class="card-title green">1-2.1 資料型態｜Python 怎麼看待資料？</div>
+<div class="card-body">
+<p class="small">課本列出的 Python 基礎資料型態包括 int 整數、float 浮點數、str 字串、bool 布林。Python 會自動判定資料型態，也可用 type() 確認。</p>
+<div class="grid2">
+ <div class="stage"><b>互動：拖曳資料到正確型態</b>
+  <div class="drag-source" id="typeSource"><div class="drag-item" draggable="true" data-kind="int">911</div><div class="drag-item" draggable="true" data-kind="str">"831.0"</div><div class="drag-item" draggable="true" data-kind="bool">False</div><div class="drag-item" draggable="true" data-kind="float">11.5</div></div>
+ </div>
+ <div class="stage">
+  <div class="dropzone typezone" data-zone="int"><h4>int 整數</h4></div>
+  <div class="dropzone typezone" data-zone="float"><h4>float 浮點數</h4></div>
+  <div class="dropzone typezone" data-zone="str"><h4>str 字串</h4></div>
+  <div class="dropzone typezone" data-zone="bool"><h4>bool 布林</h4></div>
+ </div>
+</div>
+<div id="typeFb" class="feedback"></div>
+<div class="practice"><b>學生練習</b>：type("TWICE") 的資料型態是？
+<div class="practice-row"><input id="typeAns" placeholder="輸入 int / float / str / bool"><button class="btn greenbtn" onclick="checkType()">檢查</button></div><div id="typePracticeFb" class="feedback"></div></div>
+<div class="lesson-check"><input type="checkbox" data-check="type"> 我了解四種基本資料型態</div>
+</div></section>
+
+<section class="card">
+<div class="card-title purple">1-2.2 資料運算｜P12～P15：算術、比較、邏輯、優先順序、字串與型態轉換</div>
+<div class="card-body">
+<p class="small">課本在 P12～P15 依序介紹算術運算、比較運算、邏輯運算、運算子優先順序、字串運算與型態轉換。  </p>
+<div class="op-tabs">
+ <button class="op-tab active" onclick="showOpPanel('arith',this)">① 算術運算</button>
+ <button class="op-tab" onclick="showOpPanel('compare',this)">② 比較運算</button>
+ <button class="op-tab" onclick="showOpPanel('logic',this)">③ 邏輯運算</button>
+ <button class="op-tab" onclick="showOpPanel('priority',this)">④ 優先順序</button>
+ <button class="op-tab" onclick="showOpPanel('string',this)">⑤ 字串運算</button>
+ <button class="op-tab" onclick="showOpPanel('cast',this)">⑥ 手動轉換</button>
+</div>
+<div id="opPanel" class="op-panel"></div>
+<div id="opPractice" class="practice"></div>
+<div class="lesson-check"><input type="checkbox" data-check="operator"> 我了解運算子、運算元與運算優先順序</div>
+</div></section>
+
+<section class="card">
+<div class="card-title orange">1-2.3 變數｜像貼在資料上的便利貼</div>
+<div class="card-body">
+<p class="small">課本說明：資料（物件）會在記憶體中配置空間；若要取用資料，就要給資料的儲存位置一個變數名稱。變數就像「貼在資料上的便利貼」。以下用簡化圖示觀察變數、資料與記憶體的位置關係。</p>
+<div class="memory-map variable-visual">
+  <div class="memory-board sticky-board">
+    <div class="memory-title">🏷️ 變數＝貼在資料上的便利貼</div>
+    <div class="code" style="margin:8px 0">a = 99<br>b = 99<br>c = 3.14159</div>
+    <div class="sticky-stack">
+      <div class="sticky-note note-a"><b>a</b><span>= 99</span><small>便利貼 A</small></div>
+      <div class="sticky-note note-b"><b>b</b><span>= 99</span><small>便利貼 B</small></div>
+      <div class="sticky-note note-c"><b>c</b><span>= 3.14159</span><small>便利貼 C</small></div>
+    </div>
+    <p class="small" style="margin-bottom:0">變數名稱像便利貼，貼在資料上方；使用變數名稱，就能找到對應的資料。</p>
+  </div>
+  <div class="memory-board memory-board-enhanced">
+    <div class="memory-title">💾 記憶體：資料實際放置的位置（示意）</div>
+    <div class="memory-lane"><div class="address">0x1000</div><div class="memory-cell active"><b>99</b><span>整數資料</span><em> a、b 都可找到</em></div></div>
+    <div class="memory-link">a ───────┐<br>b ───────┘　→ 同一筆 99</div>
+    <div class="memory-lane"><div class="address">0x1010</div><div class="memory-cell active"><b>3.14159</b><span>浮點數資料</span><em> c 找到這裡</em></div></div>
+    <div class="memory-link">c ─────────→ 0x1010</div>
+  </div>
+</div>
+</div>
+<div class="stage" style="margin-top:10px">
+  <div class="steptext">🔎 看一看：便利貼如何找到記憶體中的資料？</div>
+  <div class="anim" id="varMemoryAnim"></div>
+  <div id="varMemoryText" class="small" style="text-align:center"></div>
+  <div class="btns" style="justify-content:center"><button class="btn orangebtn" onclick="varMemoryNext()">下一步</button><button class="btn graybtn" onclick="varMemoryReset()">重新播放</button></div>
+</div>
+<div class="practice"><b>學生練習</b>：哪一個變數名稱不符合課本所述命名規則？
+<div class="practice-row"><label><input type="radio" name="var" value="abc"> abc</label><label><input type="radio" name="var" value="_abC"> _abC</label><label><input type="radio" name="var" value="2days"> 2days</label><button class="btn greenbtn" onclick="checkVar()">檢查</button></div><div id="varFb" class="feedback"></div></div>
+<div class="lesson-check"><input type="checkbox" data-check="variable"> 我了解變數的概念與命名規則</div>
+</div></section>
+
+<section class="card">
+<div class="card-title red">1-2.4 輸出／輸入｜讓程式和使用者互動</div>
+<div class="card-body">
+<p class="small">課本介紹 <b>print()</b> 用來顯示資料，<b>input()</b> 用來取得使用者輸入；使用者輸入的值會以字串型態傳回，需要數值時再使用型態轉換。</p>
+
+<div class="stage">
+  <div class="steptext">👤 動畫展示：登入玩家姓名</div>
+  <p class="small">請想一想：使用者輸入姓名後，資料先去哪裡？程式又如何把姓名顯示在螢幕上？</p>
+  <div class="login-demo">
+    <div class="login-grid">
+      <div class="login-panel">
+        <h4>⌨️ 鍵盤輸入</h4>
+        <div class="login-screen" id="loginPrompt">請登入玩家姓名</div>
+        <div class="login-keyboard">
+          <button class="login-key" onclick="loginInput('小')">小</button><button class="login-key" onclick="loginInput('明')">明</button><button class="login-key" onclick="loginInput('王')">王</button>
+          <button class="login-key" onclick="loginInput('陳')">陳</button><button class="login-key" onclick="loginInput('林')">林</button><button class="login-key" onclick="loginInput('吳')">吳</button>
+          <button class="login-key" onclick="loginInput('A')">A</button><button class="login-key" onclick="loginInput('B')">B</button><button class="login-key" onclick="loginInput('C')">C</button>
+        </div>
+        <button class="btn bluebtn login-input-button" onclick="loginRunInput()">▶ 執行 input()</button><button class="btn graybtn" style="margin-top:7px" onclick="loginClear()">清除</button>
+      </div>
+      <div class="login-panel">
+        <h4>💾 記憶體／變數</h4>
+        <div id="loginVariable" class="login-var">x = ""
+等待使用者輸入……</div>
+        <div id="loginStep" class="login-step">第 1 步：等待 input()</div>
+      </div>
+      <div class="login-panel">
+        <h4>🖥️ 螢幕輸出</h4>
+        <div id="loginOutput" class="login-screen">等待程式執行……</div>
+        <div class="small" style="margin-top:7px;text-align:center">print() 將結果顯示給使用者</div>
+      </div>
+    </div>
+    <div class="btns" style="justify-content:center"><button class="btn redbtn" onclick="loginRunPrint()">▶ 執行 print()</button><button class="btn graybtn" onclick="loginClear()">重新開始</button></div>
+  </div>
+</div>
+
+<div class="practice">
+  <b>🧩 問題：請同學排序剛剛用到的指令</b>
+  <p class="small">請依照「先取得玩家姓名，再把姓名顯示出來」的執行歷程排序。</p>
+  <div class="command-order">
+    <div class="command-card" data-order="2" onclick="selectCommand(this)">print("您好," + x)</div>
+    <div class="command-card" data-order="1" onclick="selectCommand(this)">x = input("請輸入玩家姓名")</div>
+  </div>
+  <div id="commandOrderResult" class="order-slot">① 點第一個指令 → ② 點第二個指令</div>
+  <div class="btns"><button class="btn greenbtn" onclick="checkCommandOrder()">檢查排序</button><button class="btn graybtn" onclick="resetCommandOrder()">重新排序</button></div>
+  <div id="commandOrderFb" class="feedback"></div>
+</div>
+
+<div class="stage" style="margin-top:10px">
+  <div class="steptext">🛒 課本示例：計算找零金額｜逐步執行</div>
+  <p class="small">請先輸入資料，再按「下一步執行」。每一步都會同步更新「原始碼、記憶體變數、鍵盤輸入、螢幕輸出」，讓你看見程式實際執行的歷程。課本示例為單價 60 元、數量 3、支付 200 元。</p>
+  <div class="io-form" style="margin-bottom:8px">
+    <label>商品單價<input id="ioPrice" type="number" value="60"></label>
+    <label>購買數量<input id="ioQuantity" type="number" value="3"></label>
+    <label>支付金額<input id="ioDollar" type="number" value="200"></label>
+  </div>
+  <div class="io-trace">
+    <div class="trace-panel" id="traceExplain"><h4>📘 程式說明</h4><div id="traceExplainContent" class="trace-content">準備開始執行</div></div>
+    <div class="trace-panel source" id="traceSource"><h4>💻 原始碼</h4><div id="traceSourceContent" class="trace-content">price = 60
+quantity = int(input("輸入數量: "))
+sum = quantity * price
+print("總金額: ", sum, "元")
+dollar = int(input("輸入支付金額: "))
+print("找零", dollar - sum, "元")</div></div>
+    <div class="trace-panel" id="traceMemory"><h4>💾 記憶體變數</h4><div id="traceMemoryContent" class="trace-memory">等待執行……</div></div>
+    <div class="trace-panel" id="traceInput"><h4>⌨️ 鍵盤輸入</h4><div id="traceInputContent" class="trace-input">等待輸入……</div></div>
+    <div class="trace-panel" id="traceOutput"><h4>🖥️ 螢幕輸出</h4><div id="traceOutputContent" class="trace-output">等待輸出……</div></div>
+  </div>
+  <div class="trace-stepbar"><span id="traceStep" class="trace-step">尚未執行</span><div class="btns" style="margin-top:0"><button class="btn redbtn" onclick="changeStepNext()">▶ 下一步執行</button><button class="btn graybtn" onclick="changeStepReset()">↺ 重設</button></div></div>
+</div>
+
+<div class="stage" style="margin-top:10px">
+  <div class="steptext">📝 P.23 隨堂練習｜攝氏溫度轉華氏溫度</div>
+  <div class="temp-layout">
+    <div>
+      <p class="small">情境：Tom 從美國回來，想把台北看到的攝氏溫度轉成熟悉的華氏溫度。課本提示使用運算子、型態轉換、print() 與 input()。公式：<b>華氏溫度 = 9 × 攝氏溫度 / 5 + 32</b>。</p>
+      <div class="practice"><b>程式填空</b>：請完成原始碼，再按「檢查程式」。</div>
+      <div class="fill-code">C = <input class="blank-input" id="tempB1" placeholder="填空">(input("輸入攝氏溫度: "))
+F = <input class="blank-input" id="tempB2" placeholder="填空"> * C / <input class="blank-input" id="tempB3" placeholder="填空"> + 32
+print("<input class="blank-input" id="tempB4" placeholder="華氏">", F, "度")</div>
+      <div class="btns"><button class="btn greenbtn" onclick="checkTempFill()">檢查程式</button><button class="btn bluebtn" onclick="runTempFill()">▶ 執行程式</button><button class="btn graybtn" onclick="resetTempFill()">重設</button></div>
+      <div id="tempFb" class="feedback"></div>
+    </div>
+    <div>
+      <div class="trace-panel"><h4>📘 程式說明</h4><div id="tempExplain" class="trace-content">① 輸入攝氏溫度 → ② 轉換成華氏 → ③ 輸出華氏溫度</div></div>
+      <div class="trace-panel source" style="margin-top:8px"><h4>💻 原始碼（學生填空）</h4><div id="tempSource" class="trace-content">尚未完成</div></div>
+      <div class="trace-panel" style="margin-top:8px"><h4>💾 記憶體變數</h4><div id="tempMemory" class="trace-memory">C = ?
+F = ?</div></div>
+      <div class="trace-panel" style="margin-top:8px"><h4>⌨️ 輸入</h4><div class="trace-input"><label>攝氏溫度 <input id="tempInput" type="number" value="37" style="width:90px;padding:6px;border:1px solid #c5d1e2;border-radius:6px"> °C</label></div></div>
+      <div class="trace-panel" style="margin-top:8px"><h4>🖥️ 輸出結果</h4><div id="tempOutput" class="temp-console">等待執行……</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="practice"><b>學生練習</b>：如果要把字串 "55" 與數字 66 相加，避免 TypeError，可以怎麼做？
+<div class="practice-row"><label><input type="radio" name="cast" value="int"> int("55") + 66</label><label><input type="radio" name="cast" value="raw"> "55" + 66</label><label><input type="radio" name="cast" value="float"> float("55") + 66</label><button class="btn greenbtn" onclick="checkCast()">檢查</button></div><div id="castFb" class="feedback"></div></div>
+<div class="lesson-check"><input type="checkbox" data-check="io"> 我了解 print()、input() 與型態轉換</div>
+</div></section>
+
+<section class="card">
+<div class="card-title blue">📝 學生綜合練習｜把本章概念串起來</div>
+<div class="card-body">
+<p class="small">完成下列題目後，再勾選「我了解」。每完成一題可累積學習分數。</p>
+<div class="practice">
+<div class="practice-row"><b>①</b> Python 是 <input id="p1" placeholder="程式語言 / 程式">。</div>
+<div class="practice-row"><b>②</b> 程式是一組用來指揮電腦工作的 <input id="p2" placeholder="指令集合">。</div>
+<div class="practice-row"><b>③</b> print("你好") 中的 print 是 Python 的 <input id="p3" placeholder="函式名稱">。</div>
+<div class="practice-row"><b>④</b> type(3.0) 的結果是 <input id="p4" placeholder="float">。</div>
+<button class="btn greenbtn" onclick="checkComprehensive()">提交綜合練習</button>
+<div id="compFb" class="feedback"></div>
+</div>
+</div></section>
+
+<section class="card">
+<div class="card-title red">🧪 章末測驗｜10 題</div>
+<div class="card-body" id="quizArea"></div>
+<div class="card-body">
+<button class="btn redbtn" onclick="submitQuiz()">開始／提交測驗</button>
+<button class="btn graybtn" onclick="resetQuiz()">重新作答</button>
+<span id="quizFb" class="small"></span>
+</div>
+</section>
+
+<section class="card reflection">
+<div class="card-title green">📝 我的學習心得</div>
+<div class="card-body">
+<p class="small">請用自己的話回答：<b>這一章讓你對「程式」或「Python」有什麼新的理解？你覺得哪一個互動活動最有幫助？</b> 至少 50 字。完成後會與學習成果一起上傳至第五章共用的 GAS。</p>
+<textarea id="reflection" maxlength="1000" placeholder="請輸入至少 50 字的學習心得……"></textarea>
+<div class="reflection-meta"><span id="reflectionStatus">尚未完成（至少 50 字）</span><span id="reflectionCount">0 / 1000 字</span></div>
+<div class="btns"><button class="btn greenbtn" onclick="uploadToGAS()">☁ 上傳學習成果（含學習心得）</button><button class="btn graybtn" onclick="exportRecord()">下載學習紀錄</button><span id="gasStatus" class="small"></span></div>
+</div></section>
+
+<div class="footer">本網站依據使用者提供之《C247C1_ch01》課本內容設計互動活動；學習進度先保存於瀏覽器 localStorage，上傳後可由教師於共用 GAS 試算表彙整。</div>
+</main>
+</div>
+
+<script>
+const GAS_URL='https://script.google.com/macros/s/AKfycbyUP55dZktxCrD0AwntJJyZ5egs9SBsBdMksnmt_XUfbvKiH2wZEQN-26emyR-Yo2auQg/exec';
+const CHECKS=['hardware','password','random','lang','translate','error','ide','type','operator','variable','io','quiz'];
+const KEY='ch01_programming_interactive_v1';
+let state=JSON.parse(localStorage.getItem(KEY)||'{}');
+state.complete=state.complete||{}; state.score=state.score||0; state.practice=state.practice||{}; state.quiz=state.quiz||{score:0,answers:[]}; state.reflection=state.reflection||'';
+function save(){localStorage.setItem(KEY,JSON.stringify(state)); updateDashboard()}
+function addScore(key,pts=5){if(!state.practice[key]){state.practice[key]=true;state.score+=pts;save()}else updateDashboard()}
+function saveStudent(){save(); alert('學生資料已儲存於本機瀏覽器。')}
+function updateDashboard(){
+ const done=CHECKS.filter(k=>state.complete[k]).length;
+ document.getElementById('progressText').textContent=`${done} / ${CHECKS.length}`;
+ document.getElementById('progressBar').style.width=(done/CHECKS.length*100)+'%';
+ document.getElementById('scoreText').textContent=state.score+' 分';
+ document.getElementById('practiceText').textContent=`${Object.keys(state.practice).length} / 8`;
+ document.getElementById('quizText').textContent=`${state.quiz.score||0} / 10`;
+ document.getElementById('quizBar').style.width=((state.quiz.score||0)/10*100)+'%';
+ document.querySelectorAll('[data-check]').forEach(c=>c.checked=!!state.complete[c.dataset.check]);
+}
+document.querySelectorAll('[data-check]').forEach(c=>c.addEventListener('change',e=>{state.complete[e.target.dataset.check]=e.target.checked;save()}));
+['classNo','seatNo','studentName'].forEach(id=>{const el=document.getElementById(id);el.value=localStorage.getItem('ch01_'+id)||'';el.addEventListener('input',()=>localStorage.setItem('ch01_'+id,el.value))});
+const refl=document.getElementById('reflection'); refl.value=state.reflection; refl.addEventListener('input',()=>{state.reflection=refl.value;save();updateReflection()});
+function updateReflection(){const n=[...refl.value.trim()].length;document.getElementById('reflectionCount').textContent=`${n} / 1000 字`;document.getElementById('reflectionStatus').textContent=n>=50?'✓ 已達到 50 字，可以上傳':'尚未完成（至少 50 字）';document.getElementById('reflectionStatus').className=n>=50?'ok':'bad'}
+function exportRecord(){const d=buildRecord();const blob=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`第1章_${d.student.name||'學生'}_學習紀錄.json`;a.click();URL.revokeObjectURL(a.href)}
+function buildRecord(){
+ return {chapter:'ch01',time:new Date().toISOString(),student:{class:document.getElementById('classNo').value,seat:document.getElementById('seatNo').value,name:document.getElementById('studentName').value},complete:state.complete,score:state.score,progress:CHECKS.filter(k=>state.complete[k]).length+'/'+CHECKS.length,reflection:state.reflection,reflectionLength:[...state.reflection].length,learningReflection:state.reflection,心得:state.reflection,quiz:state.quiz,practice:state.practice,quickSort:{},bestHanoi:{},hanoiMoves:{}};
+}
+function uploadToGAS(){
+ const status=document.getElementById('gasStatus'),r=refl.value.trim();
+ if([...r].length<50){status.textContent='請先完成至少 50 字的學習心得';refl.focus();return}
+ state.reflection=r;save();status.textContent='上傳中…';
+ fetch(GAS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(buildRecord())})
+ .then(()=>status.textContent='✓ 已送出（學習心得已一併上傳，請至 ch01 試算表確認）')
+ .catch(()=>status.textContent='✕ 上傳失敗，請檢查 GAS 部署權限')
+}
+
+
+// ===== 章前導入：資訊處理動畫 =====
+let infoProcessI=0;
+const infoProcessSteps=[
+  ['⌨️','輸入成績','學生用鍵盤輸入國文 80、英文 90、數學 70','輸入裝置把資料送進電腦'],
+  ['💾','記憶資料','記憶體暫時保存 80、90、70','保存目前正在處理的資料'],
+  ['🧠','CPU 處理','CPU 依照程式指令計算：80 + 90 + 70 = 240','進行計算與判斷'],
+  ['🖥️','輸出結果','螢幕顯示：三科總分 240 分','把處理結果呈現給使用者']
+];
+function renderInfoProcess(){
+ const box=document.getElementById('infoProcessAnim');
+ box.innerHTML=infoProcessSteps.map((s,i)=>`<div class="info-card ${i===infoProcessI?'active':''}"><span class="ico">${s[0]}</span><div class="title">${s[1]}</div><div class="desc">${s[2]}</div></div>${i<infoProcessSteps.length-1?'<div class="info-arrow">→</div>':''}`).join('');
+ document.getElementById('infoProcessText').textContent=`第 ${infoProcessI+1} 步：${infoProcessSteps[infoProcessI][3]}｜${infoProcessSteps[infoProcessI][2]}`;
+}
+function infoProcessNext(){infoProcessI=Math.min(infoProcessSteps.length-1,infoProcessI+1);renderInfoProcess()}
+function infoProcessReset(){infoProcessI=0;renderInfoProcess()}
+
+// ===== 密碼鍵盤：螢幕 # 與記憶體真正數字同步 =====
+let passwordValue='';
+function renderKeyboard(){
+ const kb=document.getElementById('virtualKeyboard');
+ const nums=['1','2','3','4','5','6','7','8','9','0'];
+ kb.innerHTML=nums.map(n=>`<button class="btn bluebtn" style="font-size:18px;padding:12px" onclick="passwordInput('${n}')">${n}</button>`).join('');
+}
+function renderPassword(){
+ const screen=passwordValue.length ? '#'.repeat(passwordValue.length) : '----';
+ document.getElementById('passwordScreen').textContent=screen;
+ document.getElementById('passwordMemory').textContent=passwordValue.length
+   ? `password = "${passwordValue}"\n目前長度 = ${passwordValue.length} 位`
+   : '目前沒有輸入資料';
+ document.getElementById('passwordSync').textContent=passwordValue.length
+   ? `同步更新：鍵盤輸入 ${passwordValue.slice(-1)} → 記憶體記錄 ${passwordValue} → 螢幕顯示 ${screen}`
+   : '等待鍵盤輸入……';
+ document.getElementById('passwordSync').className='result';
+ if(passwordValue.length===4){
+   document.getElementById('passwordSync').textContent='✓ 已輸入 4 位數密碼！螢幕顯示 ####，記憶體仍保存剛剛輸入的 4 個數字。';
+   addScore('passwordInput',5);
+   state.complete.password=true; save();
+ } else if(passwordValue.length>4){
+   passwordValue=passwordValue.slice(0,4); renderPassword();
+ }
+}
+function passwordInput(n){
+ if(passwordValue.length>=4)return;
+ passwordValue+=n;
+ renderPassword();
+}
+function passwordBackspace(){passwordValue=passwordValue.slice(0,-1);renderPassword()}
+function passwordClear(){passwordValue='';renderPassword()}
+
+// ===== 抽籤隨機轉盤 =====
+const potionItems=[
+ {name:'紅藥水',emoji:'🧪',className:'red',weight:2},
+ {name:'藍藥水',emoji:'🧴',className:'blue',weight:3},
+ {name:'紫藥水',emoji:'🟣',className:'purple',weight:2}
+];
+const potionSlots=[
+ {name:'紅藥水',emoji:'🧪',color:'#e95b66'},
+ {name:'藍藥水',emoji:'🧴',color:'#6b8fe5'},
+ {name:'紫藥水',emoji:'🟣',color:'#9a6ad4'},
+ {name:'紅藥水',emoji:'🧪',color:'#e95b66'},
+ {name:'藍藥水',emoji:'🧴',color:'#6b8fe5'},
+ {name:'紫藥水',emoji:'🟣',color:'#9a6ad4'},
+ {name:'藍藥水',emoji:'🧴',color:'#6b8fe5'}
+];
+let potionCounts={'紅藥水':0,'藍藥水':0,'紫藥水':0};
+let potionDrawing=false;
+function drawPotion(){
+ if(potionDrawing)return;
+ potionDrawing=true;
+ const btn=document.getElementById('drawBtn');
+ btn.disabled=true;
+ btn.textContent='🎡 轉盤處理中…';
+ document.getElementById('potionProcess').textContent='處理器正在進行隨機選擇……';
+ const index=Math.floor(Math.random()*potionSlots.length);
+ const turns=5;
+ const anglePer=360/potionSlots.length;
+ const target=turns*360+(360-index*anglePer-anglePer/2);
+ const wheel=document.getElementById('potionWheel');
+ wheel.style.transform=`rotate(${target}deg)`;
+ setTimeout(()=>{
+   const item=potionSlots[index];
+   potionCounts[item.name]++;
+   document.getElementById('potionResult').innerHTML=`${item.emoji} ${item.name}`;
+   document.getElementById('potionProcess').textContent=`✓ 隨機處理完成：這次抽到「${item.name}」。`;
+   showPotionModal(item);
+   renderPotionStats();
+   potionDrawing=false;
+   btn.disabled=false;
+   btn.textContent='🎲 再抽一次';
+   addScore('potionDraw',5);
+   state.complete.random=true; save();
+ },2300);
+}
+function showPotionModal(item){
+ const modal=document.getElementById('potionModal');
+ document.getElementById('potionBottle').textContent=item.emoji;
+ document.getElementById('potionModalTitle').textContent=`抽到 ${item.name}！`;
+ document.getElementById('potionModalText').textContent=`恭喜！轉盤隨機選中了「${item.name}」，結果已輸出到螢幕。`;
+ modal.classList.add('show');
+}
+function closePotionModal(e){
+ if(e && e.target!==e.currentTarget)return;
+ document.getElementById('potionModal').classList.remove('show');
+}
+
+function renderPotionStats(){
+ const total=Object.values(potionCounts).reduce((a,b)=>a+b,0);
+ document.getElementById('potionStats').innerHTML=
+  `<div class="flowbox">🎲 總抽籤<br><b>${total}</b> 次</div>`+
+  `<div class="flowbox">🧪 紅藥水<br><b>${potionCounts['紅藥水']}</b> 次</div>`+
+  `<div class="flowbox">🧴 藍藥水<br><b>${potionCounts['藍藥水']}</b> 次</div>`+
+  `<div class="flowbox">🟣 紫藥水<br><b>${potionCounts['紫藥水']}</b> 次</div>`;
+}
+
+function markPractice(id,fb,ok,msg){document.getElementById(fb).textContent=msg;document.getElementById(fb).className='feedback '+(ok?'ok':'bad');if(ok)addScore(id,5)}
+let langCompareI=0;
+const langCompareSteps=[
+ ['低階：機器語言','01000100 110000 01100100','由 0、1 組成，電腦可直接執行。'],
+ ['低階：組合語言','MOV HP,10\nADD HP,5\nSUB HP,2','用較接近人類的字組表示指令，但仍與硬體關係密切。'],
+ ['高階：Python','score = 10\nprint(score)','語法較接近人類語言，閱讀與撰寫較容易。']
+];
+function renderLangCompare(){
+ const x=langCompareSteps[langCompareI];
+ document.getElementById('langCompareAnim').innerHTML=`<div class="lh-card ${langCompareI===2?'high':'machine'}" style="width:min(560px,100%);"><div class="lh-title">${x[0]}</div><div class="lh-code">${x[1].replace(/\n/g,'<br>')}</div></div>`;
+ document.getElementById('langCompareText').textContent=`第 ${langCompareI+1} 階：${x[2]}`;
+}
+function langCompareNext(){langCompareI=Math.min(langCompareSteps.length-1,langCompareI+1);renderLangCompare()}
+function langCompareReset(){langCompareI=0;renderLangCompare()}
+function checkHigh(){const v=document.querySelector('input[name=high]:checked')?.value;markPractice('high','highFb',v==='python',v==='python'?'正確：Python 是高階語言。':'再想想：課本將 machine language、assembly language 歸為低階語言。')}
+function checkFlow(){const items=[...document.querySelectorAll('#sortFlow .flow-step')];const ok=items.every((x,i)=>+x.dataset.order===i+1);markPractice('flow','flowFb',ok,ok?'排序正確：依序讀入 → 直譯 → 機器語言指令 → 電腦執行。':'排序尚未正確，請依照「逐行讀入 → 直譯 → 機器語言 → 執行」思考。')}
+function checkErr(){const v=document.querySelector('input[name=err]:checked')?.value;markPractice('err','errFb',v==='syntax',v==='syntax'?'正確：括號未完整符合語法規則，屬語法錯誤。':'這題不是計算結果錯誤，而是程式寫法本身不符合語法規則。')}
+function checkIDE(){const v=document.querySelector('input[name=ide]:checked')?.value;markPractice('idep','ideFb',v==='idle',v==='idle'?'正確：Python IDLE 是課本列出的 Python 開發環境。':'提示：課本列出的常見 Python 開發環境包含 Python IDLE。')}
+function checkType(){const v=document.getElementById('typeAns').value.trim().toLowerCase();markPractice('typep','typePracticeFb',v==='str',v==='str'?'正確：引號括起來的是字串。':'提示：課本示例 type("你好") 的結果是 str。')}
+let opI=0;const opSteps=['10 % 3 + 5 * 2 - (4 + 3)','1 + 5 * 2 - 7','1 + 10 - 7','11 - 7','4'];
+function opRender(){const a=document.getElementById('opAnim');const t=document.getElementById('opText');if(a)a.innerHTML=`<div class="animbox active">${opSteps[opI]}</div>`;if(t)t.textContent=opI===0?'先處理括號與高優先順序運算。':`第 ${opI} 步：${opSteps[opI]}`}
+function opNext(){opI=Math.min(opSteps.length-1,opI+1);opRender()}function opReset(){opI=0;opRender()}
+function interpReset(){interpI=0;document.getElementById('koLine').textContent='안녕하세요, 여러분!';document.getElementById('zhLine').textContent='按一下口譯員';document.getElementById('interpText').textContent='請先按一下口譯員圖像。'}
+let interpI=0;
+const interpLines=[
+ ['안녕하세요, 여러분!','謝謝大家來到見面會。'],
+ ['대만 팬 여러분, 안녕하세요!','台灣的粉絲大家好！']
+];
+function interpSpeak(){const x=interpLines[interpI%interpLines.length];document.getElementById('koLine').textContent=x[0];document.getElementById('zhLine').textContent=x[1];document.getElementById('interpText').textContent=`✓ 口譯員即時翻譯：「${x[1]}」`}
+function interpNext(){interpI=Math.min(1,interpI+1);document.getElementById('koLine').textContent=interpLines[interpI][0];document.getElementById('zhLine').textContent='按一下口譯員';document.getElementById('interpText').textContent='歐巴再說一句，請按一下口譯員圖像。'}
+let compI=0;
+const compSteps=[['📖 原文小說','先閱讀整篇原文'],['📝 整篇翻譯','翻譯整篇文章'],['📕 中譯本小說','得到完整的中文版本']];
+function compRender(){const x=compSteps[compI];document.getElementById('compText').textContent=`第 ${compI+1} 步：${x[1]}`;document.querySelector('.book-translate .book:nth-child(1)')?.classList.toggle('active',compI===0);}
+function compNext(){compI=Math.min(compSteps.length-1,compI+1);const x=compSteps[compI];document.getElementById('compText').textContent=`第 ${compI+1} 步：${x[1]}`}
+function compReset(){compI=0;compRender()}
+
+function checkHigh(){const v=document.querySelector('input[name=high]:checked')?.value;markPractice('high','highFb',v==='python',v==='python'?'正確：Python 是高階語言。':'再想想：課本將 machine language、assembly language 歸為低階語言。')}
+function checkFlow(){const items=[...document.querySelectorAll('#sortFlow .flow-step')];const ok=items.every((x,i)=>+x.dataset.order===i+1);markPractice('flow','flowFb',ok,ok?'排序正確：依序讀入 → 直譯 → 機器語言指令 → 電腦執行。':'排序尚未正確，請依照「逐行讀入 → 直譯 → 機器語言 → 執行」思考。')}
+function checkErr(){const v=document.querySelector('input[name=err]:checked')?.value;markPractice('err','errFb',v==='syntax',v==='syntax'?'正確：括號未完整符合語法規則，屬語法錯誤。':'這題不是計算結果錯誤，而是程式寫法本身不符合語法規則。')}
+function checkIDE(){const v=document.querySelector('input[name=ide]:checked')?.value;markPractice('idep','ideFb',v==='idle',v==='idle'?'正確：Python IDLE 是課本列出的 Python 開發環境。':'請回想課本列出的 Python 開發環境。')}
+function checkType(){const v=document.getElementById('typeAns').value.trim().toLowerCase();markPractice('typep','typePracticeFb',v==='str',v==='str'?'正確：引號括起來的是字串。':'提示：課本示例 type("你好") 的結果是 str。')}
+function showOpPanel(kind,btn){
+ document.querySelectorAll('.op-tab').forEach(x=>x.classList.remove('active')); if(btn)btn.classList.add('active');
+ const panel=document.getElementById('opPanel');
+ const panels={
+ arith:`<h3>① 算術運算｜P12</h3><p class="small">+、-、*、/、//、%、** 都是算術運算子。</p><div class="op-example">8 // 6 = 1　　7 % 2 = 1　　2 ** 3 = 8</div><table class="op-table"><tr><th>運算子</th><th>意義</th><th>例子</th><th>結果</th></tr><tr><td>+</td><td>加</td><td>1 + 2</td><td>3</td></tr><tr><td>-</td><td>減</td><td>2 - 1</td><td>1</td></tr><tr><td>*</td><td>乘</td><td>2 * 3</td><td>6</td></tr><tr><td>/</td><td>除</td><td>7 / 2</td><td>3.5</td></tr><tr><td>//</td><td>商數除法</td><td>7 // 2</td><td>3</td></tr><tr><td>%</td><td>餘數</td><td>7 % 2</td><td>1</td></tr><tr><td>**</td><td>次方</td><td>2 ** 3</td><td>8</td></tr></table>`,
+ compare:`<h3>② 比較運算｜P13</h3><p class="small">比較運算的結果是 True 或 False。</p><table class="op-table"><tr><th>運算子</th><th>意思</th><th>範例</th><th>結果</th></tr><tr><td>&gt;</td><td>大於</td><td>5 &gt; 9</td><td>False</td></tr><tr><td>&lt;</td><td>小於</td><td>3 &lt; 6</td><td>True</td></tr><tr><td>==</td><td>等於</td><td>2 == 2.0</td><td>True</td></tr><tr><td>&gt;=</td><td>大於或等於</td><td>9 &gt;= 99</td><td>False</td></tr><tr><td>&lt;=</td><td>小於或等於</td><td>8 &lt;= 8.0000001</td><td>True</td></tr><tr><td>!=</td><td>不等於</td><td>3 != 8</td><td>True</td></tr></table>`,
+ logic:`<h3>③ 邏輯運算｜P13</h3><p class="small">and、or、not 主要針對布林值做運算。</p><div class="truth"><div class="truthbox"><b>A and B</b><br>兩者都 True 才是 True</div><div class="truthbox"><b>A or B</b><br>至少一個 True 就是 True</div><div class="truthbox"><b>not A</b><br>True ↔ False</div></div>`,
+ priority:`<h3>④ 運算子優先順序｜P14</h3><p class="small">先處理括號，再依序完成次方、負號、乘除類、加減。</p><div class="precedence-steps"><div class="precedence-step active">① ( ) 括號</div><div class="precedence-step">② ** 次方</div><div class="precedence-step">③ 負數 -</div><div class="precedence-step">④ *、/、//、%</div><div class="precedence-step">⑤ +、-</div></div><div class="op-example">6 * 2 - (1 + 2)<br>→ 6 * 2 - 3<br>→ 12 - 3<br>→ 9</div>`,
+ string:`<h3>⑤ 字串運算｜P15</h3><p class="small">字串可以用 + 串接，也可以用 * 複製。</p><div class="string-demo"><div class="string-box"><b>＋ 串接</b><div class="code-lines">"55" + "66"</div><div class="string-result">5566</div></div><div class="string-box"><b>＊ 複製</b><div class="code-lines">"太" * 3 + "讚了!"</div><div class="string-result">太太太讚了!</div></div></div>`,
+ cast:`<h3>⑥ 手動轉換資料型態｜P15</h3><p class="small">不同型態直接運算可能出現 TypeError，可以使用 int()、float()、bool()、str()。</p><div class="cast-flow"><div class="cast-node">"55"<br><span class="small">str</span></div><div class="arrow">→</div><div class="cast-node">int("55")<br><span class="small">轉成 int</span></div><div class="arrow">→</div><div class="cast-node">+ 66<br><span class="small">可以運算</span></div><div class="arrow">→</div><div class="cast-node">121</div></div>`};
+ panel.innerHTML=panels[kind]||'';
+ const ex={arith:{q:'請填入 <code>10 % 3 + 5 * 2 - (4 + 3)</code> 的答案。',answer:'4',hint:'提示：先算括號，再算乘除類，最後算加減。'},compare:{q:'請判斷 <code>(4 + 1) * 2 = 2 + 4 * 2</code> 是否成立。',answer:'成立',hint:'提示：先算等號左右兩邊的數值，再判斷是否相等。'},logic:{q:'請填入 <code>True and False</code> 的結果。',answer:'false',hint:'提示：and 必須兩邊都是 True。'},priority:{q:'請填入 <code>6 * 2 - (1 + 2)</code> 的結果。',answer:'9',hint:'提示：先處理括號，再乘法，最後減法。'},string:{q:'請填入 <code>"Hi" + "Python"</code> 的結果。',answer:'HiPython',hint:'提示：+ 在字串中代表串接。'},cast:{q:'請填入 <code>int("55") + 66</code> 的結果。',answer:'121',hint:'提示：int("55") 會把字串 55 轉成整數。'}}[kind];
+ document.getElementById('opPractice').innerHTML=`<b>學生練習</b>：${ex.q}<div class="practice-row"><input id="opTopicAns" placeholder="請輸入答案"><button class="btn greenbtn" onclick="checkOpTopic('${kind}')">檢查</button></div><div class="op-practice-note">${ex.hint}</div><div id="opFb" class="feedback"></div>`;
+}
+function checkOpTopic(kind){const rules={arith:['4','4'],compare:['成立','成立'],logic:['false','False'],priority:['9','9'],string:['HiPython','HiPython'],cast:['121','121']};const v=document.getElementById('opTopicAns').value.trim();const ok=rules[kind][0].toLowerCase()===v.toLowerCase();const fb=document.getElementById('opFb');fb.textContent=ok?'✓ 正確！':'再依照本主題的運算規則逐步計算一次。';fb.className='feedback '+(ok?'ok':'bad');if(ok)addScore('op_'+kind,2)}
+
+// ===== 1-2.3 變數：記憶體位置動畫 =====
+let varMemoryI=0;
+const varMemorySteps=[
+ ['🏷️ 便利貼 a','變數 a 是名稱，不是資料本身。'],
+ ['💾 0x1000','a 指向記憶體中 0x1000 的資料 99。'],
+ ['🏷️ 便利貼 b','再建立變數 b，也可以指向同一筆資料。'],
+ ['🔗 a = b = 99','a、b 都能找到同一個整數物件 99。']
+];
+function varMemoryRender(){
+ const x=varMemorySteps[varMemoryI];
+ document.getElementById('varMemoryAnim').innerHTML=varMemorySteps.map((s,i)=>`<div class="animbox ${i===varMemoryI?'active':''}">${s[0]}</div>${i<varMemorySteps.length-1?'<div class="arrow">→</div>':''}`).join('');
+ document.getElementById('varMemoryText').textContent=`第 ${varMemoryI+1} 步：${x[1]}`;
+ document.getElementById('memoryCell99').classList.toggle('active',varMemoryI>=1);
+}
+function varMemoryNext(){varMemoryI=Math.min(varMemorySteps.length-1,varMemoryI+1);varMemoryRender()}
+function varMemoryReset(){varMemoryI=0;varMemoryRender()}
+
+function checkVar(){const v=document.querySelector('input[name=var]:checked')?.value;markPractice('varp','varFb',v==='2days',v==='2days'?'正確：變數名稱開頭的第1個字不可為數字。':'課本規則指出，變數名稱開頭不可使用數字。')}
+
+// ===== 1-2.4 登入玩家姓名動畫 =====
+let loginName='', loginX='';
+function loginRender(){
+ document.getElementById('loginPrompt').textContent=loginName||'請登入玩家姓名';
+ document.getElementById('loginVariable').textContent=loginX?`x = "${loginX}"\n記憶體：變數 x 已保存使用者輸入的姓名。`:'x = ""\n尚未執行 input()，等待使用者輸入……';
+ document.getElementById('loginStep').textContent=loginX?`第 2 步：input() 將「${loginX}」存入變數 x`:(loginName?'第 1 步：鍵盤已輸入，請執行 input()':'第 1 步：等待鍵盤輸入');
+}
+function loginInput(ch){if(loginName.length>=6)return;loginName+=ch;loginRender();document.getElementById('loginOutput').textContent='等待 input()……'}
+function loginRunInput(){if(!loginName){document.getElementById('loginOutput').textContent='請先用鍵盤輸入玩家姓名';return}loginX=loginName;loginRender();document.getElementById('loginOutput').textContent=`input() 執行完成，等待 print()……`;addScore('loginInput',2)}
+function loginRunPrint(){if(!loginX){document.getElementById('loginOutput').textContent='請先執行 input()，讓 x 取得玩家姓名';return}document.getElementById('loginOutput').textContent=`您好, ${loginX}`;document.getElementById('loginStep').textContent=`第 3 步：print() 將「您好, ${loginX}」輸出到螢幕`;addScore('loginDemo',3)}
+function loginClear(){loginName='';loginX='';loginRender();document.getElementById('loginOutput').textContent='等待程式執行……';resetCommandOrder()}
+
+let commandOrder=[];
+function selectCommand(el){if(el.classList.contains('selected'))return;commandOrder.push(el);el.classList.add('selected');document.getElementById('commandOrderResult').textContent=commandOrder.map((x,i)=>`第${i+1}個：${x.textContent}`).join('　→　')}
+function checkCommandOrder(){const ok=commandOrder.length===2&&commandOrder[0].dataset.order==='1'&&commandOrder[1].dataset.order==='2';const fb=document.getElementById('commandOrderFb');fb.textContent=ok?'✓ 正確！先 input() 取得姓名，再用 print() 顯示姓名。':'再想想：程式必須先取得 x 的值，才能在 print() 中使用 x。';fb.className='feedback '+(ok?'ok':'bad');if(ok)addScore('commandOrder',3)}
+function resetCommandOrder(){commandOrder=[];document.querySelectorAll('.command-card').forEach(x=>x.classList.remove('selected'));document.getElementById('commandOrderResult').textContent='① 點第一個指令 → ② 點第二個指令';document.getElementById('commandOrderFb').textContent=''}
+
+// ===== 課本找零示例：五欄同步逐步執行 =====
+let changeStep=0;
+const changeMax=6;
+function changeStepRender(){
+ const price=Number(document.getElementById('ioPrice').value)||0;
+ const quantity=Number(document.getElementById('ioQuantity').value)||0;
+ const dollar=Number(document.getElementById('ioDollar').value)||0;
+ const sum=price*quantity, change=dollar-sum;
+ const steps=[
+  {title:'準備價格',explain:'先建立商品單價 price。',src:'price = 60',mem:`price = ${price}`,inp:'尚未輸入',out:'尚未輸出',active:'traceMemory'},
+  {title:'輸入數量',explain:'input() 取得購買數量，再用 int() 轉成整數。',src:'quantity = int(input("輸入數量: "))',mem:`price = ${price}\nquantity = ${quantity}`,inp:`輸入數量: ${quantity}`,out:'尚未輸出',active:'traceInput'},
+  {title:'計算總金額',explain:'使用 quantity × price 計算 sum。',src:'sum = quantity * price',mem:`price = ${price}\nquantity = ${quantity}\nsum = ${sum}`,inp:`數量 = ${quantity}`,out:'尚未輸出',active:'traceMemory'},
+  {title:'輸出總金額',explain:'print() 把總金額顯示在螢幕。',src:'print("總金額: ", sum, "元")',mem:`sum = ${sum}`,inp:'已取得數量',out:`總金額: ${sum} 元`,active:'traceOutput'},
+  {title:'輸入支付金額',explain:'再次使用 input() 取得支付金額。',src:'dollar = int(input("輸入支付金額: "))',mem:`sum = ${sum}\ndollar = ${dollar}`,inp:`輸入支付金額: ${dollar}`,out:`總金額: ${sum} 元`,active:'traceInput'},
+  {title:'輸出找零',explain:'用支付金額 dollar 減去總金額 sum，得到找零。',src:'print("找零", dollar - sum, "元")',mem:`sum = ${sum}\ndollar = ${dollar}\nchange = ${change}`,inp:`支付 ${dollar} 元`,out:`總金額: ${sum} 元\n找零 ${change} 元`,active:'traceOutput'}
+ ];
+ const st=steps[Math.min(changeStep,changeMax-1)];
+ document.getElementById('traceExplainContent').textContent=st.explain;
+ document.getElementById('traceSourceContent').textContent=st.src;
+ document.getElementById('traceMemoryContent').textContent=st.mem;
+ document.getElementById('traceInputContent').textContent=st.inp;
+ document.getElementById('traceOutputContent').textContent=st.out;
+ document.getElementById('traceStep').textContent=`第 ${Math.min(changeStep+1,changeMax)} / ${changeMax} 步：${st.title}`;
+ ['traceExplain','traceSource','traceMemory','traceInput','traceOutput'].forEach(id=>document.getElementById(id).classList.toggle('active',id===st.active));
+}
+function changeStepNext(){if(changeStep<changeMax-1)changeStep++;changeStepRender();if(changeStep===changeMax-1)addScore('changeTrace',3)}
+function changeStepReset(){changeStep=0;changeStepRender()}
+
+// ===== P.23 攝氏轉華氏：程式填空 =====
+function tempValues(){return {b1:document.getElementById('tempB1').value.trim().toLowerCase(),b2:document.getElementById('tempB2').value.trim(),b3:document.getElementById('tempB3').value.trim(),b4:document.getElementById('tempB4').value.trim(),c:Number(document.getElementById('tempInput').value)||0}}
+function tempCorrect(v){return v.b1==='float'&&v.b2==='9'&&v.b3==='5'&&v.b4==='華氏'}
+function tempSourceText(v){return `C = ${v.b1||'____'}(input("輸入攝氏溫度: "))\nF = ${v.b2||'____'} * C / ${v.b3||'____'} + 32\nprint("${v.b4||'____'}", F, "度")`}
+function checkTempFill(){const v=tempValues();document.getElementById('tempSource').textContent=tempSourceText(v);const fb=document.getElementById('tempFb');const ok=tempCorrect(v);fb.textContent=ok?'✓ 程式填空正確！可以執行看看 37°C 會得到多少華氏溫度。':'再檢查三個重點：float()、公式中的 9 與 5，以及輸出的「華氏」。';fb.className='feedback '+(ok?'ok':'bad');if(ok)addScore('tempFill',4)}
+function runTempFill(){const v=tempValues();document.getElementById('tempSource').textContent=tempSourceText(v);if(!tempCorrect(v)){document.getElementById('tempOutput').textContent='請先完成正確的程式填空。';document.getElementById('tempFb').textContent='尚未完成，請先檢查程式。';document.getElementById('tempFb').className='feedback bad';return}const f=9*v.c/5+32;document.getElementById('tempMemory').textContent=`C = ${v.c}\nF = ${f}`;document.getElementById('tempOutput').textContent=`輸入攝氏溫度: ${v.c}\n華氏 ${f} 度`;document.getElementById('tempFb').textContent='✓ 執行成功！';document.getElementById('tempFb').className='feedback ok';addScore('tempRun',3)}
+function resetTempFill(){['tempB1','tempB2','tempB3','tempB4'].forEach(id=>document.getElementById(id).value='');document.getElementById('tempB3').value='';document.getElementById('tempSource').textContent='尚未完成';document.getElementById('tempMemory').textContent='C = ?\nF = ?';document.getElementById('tempOutput').textContent='等待執行……';document.getElementById('tempFb').textContent=''}
+
+function checkCast(){const v=document.querySelector('input[name=cast]:checked')?.value;markPractice('cast','castFb',v==='int',v==='int'?'正確：先把 "55" 轉成整數，再與 66 相加。':'"55" 是字串，直接與整數相加會產生型態錯誤；請思考如何先轉換。')}
+function checkComprehensive(){const ans=[document.getElementById('p1').value.trim(),document.getElementById('p2').value.trim(),document.getElementById('p3').value.trim(),document.getElementById('p4').value.trim().toLowerCase()];const ok=ans[0]==='程式語言'&&ans[1].includes('指令')&&ans[2]==='函式'&&ans[3]==='float';document.getElementById('compFb').textContent=ok?'✓ 四題全部正確！':'請再檢查：Python 是程式語言；程式是指令集合；print 是函式；3.0 是 float。';document.getElementById('compFb').className='feedback '+(ok?'ok':'bad');if(ok)addScore('comprehensive',10)}
+const quizData=[
+['在本章定義中，程式是什麼？',['一種電腦硬體','一組指揮電腦工作的指令集合','一種高階語言','一種IDE'],'B'],
+['下列何者屬於高階語言？',['machine language','assembly language','Python','0與1組成的機器語言'],'C'],
+['Python 在課本的分類中屬於哪一種翻譯方式？',['直譯式','編譯式','組譯式','人工翻譯式'],'A'],
+['程式可以執行，但結果與預期不同，較符合哪一種錯誤？',['語法錯誤','語意錯誤','硬體錯誤','輸入裝置錯誤'],'B'],
+['下列哪一個是課本列出的 Python 開發環境？',['Python IDLE','PowerPoint','小畫家','檔案總管'],'A'],
+['type("831.0") 的資料型態是？',['int','float','str','bool'],'C'],
+['在 Python 中，求餘數的算術運算子是？',['/','//','%','**'],'C'],
+['下列哪一個變數名稱不符合課本命名規則？',['abc','_abC','F10','2days'],'D'],
+['若要將字串 "55" 與數字 66 相加，哪個方式可避免 TypeError？',['"55" + 66','int("55") + 66','55 + "66"','"55" - 66'],'B'],
+['Python 中，若要讓使用者輸入資料，常用的函式是？',['print()','type()','input()','range()'],'C']
+];
+function renderQuiz(){document.getElementById('quizArea').innerHTML=quizData.map((q,i)=>`<div class="quizq"><b>${i+1}. ${q[0]}</b>${q[1].map((o,j)=>`<label class="opt"><input type="radio" name="q${i}" value="${String.fromCharCode(65+j)}"> ${String.fromCharCode(65+j)}. ${o}</label>`).join('')}</div>`).join('')}
+function submitQuiz(){let score=0,answers=[];quizData.forEach((q,i)=>{const v=document.querySelector(`input[name=q${i}]:checked`)?.value||'';answers.push(v);if(v===q[2])score++});state.quiz={score,answers};state.score=Math.max(state.score,score*5);state.complete.quiz=score===10;save();document.getElementById('quizFb').textContent=`本次測驗：${score} / 10 題。${score===10?'全部正確，章末測驗完成！':'可以重新作答，找出不熟悉的觀念。'}`;document.getElementById('quizFb').className=score===10?'ok':'bad'}
+function resetQuiz(){document.querySelectorAll('#quizArea input').forEach(x=>x.checked=false);document.getElementById('quizFb').textContent='已清除答案。'}
+document.querySelectorAll('.drag-item').forEach(makeDrag);
+function makeDrag(el){el.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain','drag');window.dragEl=el});}
+document.querySelectorAll('.dropzone').forEach(z=>z.addEventListener('dragover',e=>e.preventDefault()));
+document.querySelectorAll('.dropzone').forEach(z=>z.addEventListener('drop',e=>{e.preventDefault();const el=window.dragEl;if(!el)return;z.appendChild(el);const kind=el.dataset.kind,zone=z.dataset.zone;if(kind&&zone){const fb=document.getElementById('dragFeedback');if(fb){fb.textContent=kind===zone?'✓ 分類正確':'再想想：Python、Java 是語言；print(...) 等是使用語言寫出的程式。';fb.className='feedback '+(kind===zone?'ok':'bad')}}if(z.classList.contains('typezone')){const fb=document.getElementById('typeFb');const ok=kind===zone;fb.textContent=ok?'✓ 這筆資料型態分類正確。':'再觀察：引號、是否有小數點，以及 True/False。';fb.className='feedback '+(ok?'ok':'bad');if(ok)addScore('typedrag',3)}}));
+document.getElementById('sortFlow').addEventListener('dragover',e=>e.preventDefault());
+document.getElementById('sortFlow').addEventListener('drop',e=>{e.preventDefault();if(window.dragEl&&window.dragEl.classList.contains('flow-step'))document.getElementById('sortFlow').appendChild(window.dragEl)});
+let dragged=null;
+document.querySelectorAll('.drag-item').forEach(el=>el.addEventListener('dragstart',()=>dragged=el));
+renderInfoProcess();renderKeyboard();renderPassword();renderPotionStats();renderLangCompare();interpReset();compReset();showOpPanel('arith',document.querySelector('.op-tab'));varMemoryRender();loginRender();resetCommandOrder();changeStepRender();resetTempFill();renderQuiz();updateReflection();updateDashboard();
+</script>
+</body>
+</html>
