@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>第1章 程式設計的概念與實作｜互動學習網站</title>
+<title>第1章 程式設計的概念與實作｜互動學習網站 V18</title>
 <style>
 :root{
  --blue:#3d72d9;--blue2:#edf4ff;--purple:#7564c9;--purple2:#f1efff;
@@ -105,7 +105,18 @@ button,input,textarea{font:inherit} button{cursor:pointer}
 
 .variable-visual{grid-template-columns:1fr 1.25fr}.sticky-board{background:linear-gradient(180deg,#fffdf6,#fff);}.sticky-stack{display:flex;gap:10px;justify-content:center;align-items:flex-end;margin:14px 0}.sticky-note{width:88px;min-height:90px;padding:10px 7px 7px;border-radius:3px;box-shadow:0 5px 10px rgba(0,0,0,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(-2deg);font-family:Consolas,monospace}.sticky-note b{font-size:28px}.sticky-note span{font-weight:900;font-size:14px}.sticky-note small{font-family:inherit;margin-top:6px;font-size:10px}.note-a{background:#fff3a6}.note-b{background:#ffd9e1;transform:rotate(2deg)}.note-c{background:#cfeeff;transform:rotate(-1deg)}.memory-board-enhanced{position:relative}.memory-lane{display:grid;grid-template-columns:75px 1fr;gap:8px;align-items:center;margin:10px 0}.address{font:900 12px Consolas,monospace;background:#edf2f8;border:1px solid #cbd6e4;border-radius:7px;padding:9px;text-align:center}.memory-cell{border:2px solid #9bb6d8;border-radius:10px;background:#fff;padding:10px;display:grid;grid-template-columns:1fr;gap:2px;text-align:center;box-shadow:inset 0 0 0 3px #f4f7fb}.memory-cell b{font:900 24px Consolas,monospace}.memory-cell span{font-size:11px;color:#5a6d88}.memory-cell em{font-size:11px;font-style:normal;color:#28734d;font-weight:900}.memory-link{text-align:center;font:900 12px Consolas,monospace;color:#496b98;background:#f4f8ff;border-radius:8px;padding:7px}.op-practice-note{margin-top:8px;font-size:12px;color:#5a6b84}
 .login-input-button{margin-top:8px;width:100%}
-.trace-user-input{width:100%;box-sizing:border-box;font-size:18px;padding:10px 12px;border:2px solid #198754;border-radius:8px;outline:none;background:#fff;animation:inputFocusPulse 1.1s infinite;}@keyframes inputFocusPulse{0%,100%{box-shadow:0 0 0 0 rgba(25,135,84,.18)}50%{box-shadow:0 0 0 4px rgba(25,135,84,.18)}}</style>
+.trace-user-input{width:100%;box-sizing:border-box;font-size:18px;padding:10px 12px;border:2px solid #198754;border-radius:8px;outline:none;background:#fff;animation:inputFocusPulse 1.1s infinite;}@keyframes inputFocusPulse{0%,100%{box-shadow:0 0 0 0 rgba(25,135,84,.18)}50%{box-shadow:0 0 0 4px rgba(25,135,84,.18)}}
+/* === V13 程式挑戰加分題 === */
+.challenge{border:2px solid #e6c75b;background:#fffdf0;border-radius:10px;padding:12px;margin-top:10px}.challenge-title{font-weight:900;color:#8b6811;font-size:15px}.challenge-grid{display:grid;grid-template-columns:34% 66%;gap:14px;align-items:start}.challenge-task{background:#fff;border:1px solid #e0e6ef;border-radius:8px;padding:10px}.challenge-code-panel{background:#fff;border:1px solid #e0e6ef;border-radius:8px;padding:10px}.task-check{display:flex;align-items:flex-start;gap:8px;padding:7px 8px;border-radius:6px;background:#fff;border:1px solid #e0e6ef;margin-top:6px}.task-check input{margin-top:3px;accent-color:#2e8754}.task-check.ok{background:#f3fbf6;border-color:#bfe2cc}.task-check.bad{background:#fff6f7;border-color:#f0c5cb}.challenge textarea{display:block !important;width:100% !important;box-sizing:border-box !important;height:320px !important;min-height:320px !important;font-size:16px !important;border:2px solid #c8d3e3;border-radius:8px;padding:10px;font-family:Consolas,monospace;line-height:1.6;resize:vertical;background:#fff}.challenge-code{background:#172033;color:#eef5ff;border-radius:8px;padding:10px;font-family:Consolas,monospace;white-space:pre-wrap}.challenge-result{background:#f5f8ff;border:1px solid #c5d3ea;border-radius:8px;padding:10px;min-height:140px;white-space:pre-wrap;box-sizing:border-box}.check-list{display:grid;gap:5px;margin-top:8px}.check-item{padding:6px 8px;border-radius:6px;background:#fff;border:1px solid #e0e6ef}.check-item.ok{color:#2e8754;border-color:#bfe2cc;background:#f3fbf6}.check-item.bad{color:#c44c59;border-color:#f0c5cb;background:#fff6f7}@media(max-width:800px){.challenge-grid{grid-template-columns:1fr}}
+
+/* === V18：程式挑戰輸入框強制放大 === */
+.challenge-grid{display:grid !important;grid-template-columns:minmax(0,40%) minmax(0,60%) !important;gap:16px !important;align-items:stretch !important;}
+.challenge-task,.challenge-code-panel{min-width:0 !important;width:100% !important;}
+.challenge-code-panel{display:flex !important;flex-direction:column !important;}
+.challenge-code-panel > textarea[id^="progCh"][id$="Code"]{display:block !important;width:100% !important;max-width:none !important;min-width:100% !important;height:420px !important;min-height:420px !important;max-height:none !important;box-sizing:border-box !important;font-size:17px !important;line-height:1.65 !important;resize:vertical !important;}
+.challenge-result{width:100% !important;min-height:150px !important;}
+@media(max-width:900px){.challenge-grid{grid-template-columns:1fr !important;}}
+</style>
 </head>
 <body>
 <header class="topbar">
@@ -149,7 +160,7 @@ button,input,textarea{font:inherit} button{cursor:pointer}
   <div class="dash progress"><div class="dt">學習進度</div><div class="big" id="progressText">0 / 11</div><div class="progressbar"><i id="progressBar"></i></div></div>
   <div class="dash score"><div class="dt">學習總分</div><div class="big" id="scoreText">0 分</div></div>
   <div class="dash practice"><div class="dt">互動／練習</div><div class="big" id="practiceText">0 / 8</div></div>
-  <div class="dash quiz"><div class="dt">測驗</div><div class="big" id="quizText">0 / 5</div><div class="progressbar"><i id="quizBar"></i></div></div>
+  <div class="dash quiz"><div class="dt">測驗</div><div class="big" id="quizText">0 / 5</div><div class="progressbar"><i id="quizBar"></i></div></div><div class="dash" style="grid-column:span 4;background:#fffdf0;border-color:#ead987"><div class="dt" style="color:#9a7410">🌟 加分挑戰</div><div class="big" id="bonusText">0 / 10</div></div>
 </section>
 
 
@@ -481,24 +492,46 @@ print("找零", dollar - sum, "元")</div></div>
 </div>
 
 <div class="stage" style="margin-top:10px">
-  <div class="steptext">📝 P.23 隨堂練習｜攝氏溫度轉華氏溫度</div>
-  <div class="temp-layout">
-    <div>
-      <p class="small">情境：Tom 從美國回來，想把台北看到的攝氏溫度轉成熟悉的華氏溫度。課本提示使用運算子、型態轉換、print() 與 input()。公式：<b>華氏溫度 = 9 × 攝氏溫度 / 5 + 32</b>。</p>
-      <div class="practice"><b>程式填空</b>：請完成原始碼，再按「檢查程式」。</div>
-      <div class="fill-code">C = <input class="blank-input" id="tempB1" placeholder="填空">(input("輸入攝氏溫度: "))
-F = <input class="blank-input" id="tempB2" placeholder="填空"> * C / <input class="blank-input" id="tempB3" placeholder="填空"> + 32
-print("<input class="blank-input" id="tempB4" placeholder="填空">", F, "度")</div>
-      <div class="btns"><button class="btn greenbtn" onclick="checkTempFill()">檢查程式</button><button class="btn bluebtn" onclick="runTempFill()">▶ 執行程式</button><button class="btn graybtn" onclick="resetTempFill()">重設</button></div>
-      <div id="tempFb" class="feedback"></div>
+  <div class="steptext">🌟 加分挑戰 ①｜攝氏轉華氏（+5）</div>
+  <p class="small">請在預先提供的程式碼上完成修改。測試資料預設為 <b>37.6°C</b>。公式：<b>華氏溫度 = 9 × 攝氏溫度 / 5 + 32</b>。</p>
+  <div class="challenge">
+    <div class="challenge-title">🎯 指定目標</div>
+    <p class="small">請使用 <b>input()</b>、數值型態轉換與 <b>print()</b> 完成程式。不要直接寫出答案。</p>
+    <div class="challenge-grid">
+      <div>
+        <textarea id="cfCode">F=   input("請輸入攝氏溫度")  # 請補上型態轉換
+C=                            #請輸入計算式
+print( "   " , F )   #請修改，有雷</textarea>
+        <div class="btns"><button class="btn greenbtn" onclick="checkTempChallengeCF()">🔍 檢查程式</button><button class="btn graybtn" onclick="resetTempChallengeCF()">重設</button></div>
+        <div id="cfFb" class="feedback"></div>
+      </div>
+      <div>
+        <div class="trace-panel"><h4>🧪 測試輸入</h4><div class="trace-input">攝氏溫度：<input id="cfInput" type="number" value="37.6" step="0.1" style="width:90px;padding:6px;border:1px solid #c5d1e2;border-radius:6px"> °C</div></div>
+        <div class="trace-panel" style="margin-top:8px"><h4>📋 檢核結果</h4><div id="cfChecks" class="check-list"><div class="check-item">尚未檢查</div></div></div>
+        <div class="trace-panel" style="margin-top:8px"><h4>🖥️ 模擬輸出</h4><div id="cfOutput" class="challenge-result">等待檢核……</div></div>
+      </div>
     </div>
-    <div>
-      <div class="trace-panel"><h4>📘 程式說明</h4><div id="tempExplain" class="trace-content">① 輸入攝氏溫度 → ② 轉換成華氏 → ③ 輸出華氏溫度</div></div>
-      <div class="trace-panel source" style="margin-top:8px"><h4>💻 原始碼（學生填空）</h4><div id="tempSource" class="trace-content">尚未完成</div></div>
-      <div class="trace-panel" style="margin-top:8px"><h4>💾 記憶體變數</h4><div id="tempMemory" class="trace-memory">C = ?
-F = ?</div></div>
-      <div class="trace-panel" style="margin-top:8px"><h4>⌨️ 輸入</h4><div class="trace-input"><label>攝氏溫度 <input id="tempInput" type="number" value="37.6" step="0.1" style="width:90px;padding:6px;border:1px solid #c5d1e2;border-radius:6px"> °C</label></div></div>
-      <div class="trace-panel" style="margin-top:8px"><h4>🖥️ 輸出結果</h4><div id="tempOutput" class="temp-console">等待執行……</div></div>
+  </div>
+</div>
+
+<div class="stage" style="margin-top:10px">
+  <div class="steptext">🌟 加分挑戰 ②｜華氏轉攝氏（+5）</div>
+  <p class="small">換個方向自己設計程式。請讓使用者輸入華氏溫度，再計算並輸出攝氏溫度。測試資料預設為 <b>100°F</b>。
+  公式提示：<b>攝氏溫度 = (華氏溫度 - 32) × 5 / 9</b>。</p>
+  <div class="challenge">
+    <div class="challenge-title">🎯 指定目標</div>
+    <p class="small">同樣不提供標準程式碼。請自行設計，完成後讓系統檢查關鍵規則與指定結果。</p>
+    <div class="challenge-grid">
+      <div>
+        <textarea id="fcCode" placeholder="請在這裡寫你的 Python 程式……"></textarea>
+        <div class="btns"><button class="btn greenbtn" onclick="checkTempChallengeFC()">🔍 檢查程式</button><button class="btn graybtn" onclick="resetTempChallengeFC()">重設</button></div>
+        <div id="fcFb" class="feedback"></div>
+      </div>
+      <div>
+        <div class="trace-panel"><h4>🧪 測試輸入</h4><div class="trace-input">華氏溫度：<input id="fcInput" type="number" value="100" step="0.1" style="width:90px;padding:6px;border:1px solid #c5d1e2;border-radius:6px"> °F</div></div>
+        <div class="trace-panel" style="margin-top:8px"><h4>📋 檢核結果</h4><div id="fcChecks" class="check-list"><div class="check-item">尚未檢查</div></div></div>
+        <div class="trace-panel" style="margin-top:8px"><h4>🖥️ 模擬輸出</h4><div id="fcOutput" class="challenge-result">等待檢核……</div></div>
+      </div>
     </div>
   </div>
 </div>
@@ -519,6 +552,84 @@ F = ?</div></div>
 </div>
 </section>
 
+<section class="card">
+<div class="card-title red">💻 章後程式挑戰｜自己湊出指定結果</div>
+<div class="card-body"><p class="small">這 3 題不提供標準程式碼。請依照題目限制自己設計程式，再按「檢查程式」。系統會檢查你的程式是否符合規則，以及執行結果是否正確。</p></div>
+
+<div class="stage challenge-stage">
+  <div class="steptext">① 算術運算挑戰｜湊出 8</div>
+  <div class="challenge-grid">
+    <div class="challenge-task">
+      <div class="challenge-title">📋 任務說明</div>
+      <p>請使用 Python 的 <code>+</code>、<code>-</code>、<code>*</code>、<code>/</code> 四種算術運算子，設計一個運算式，輸出 <b>8</b>。</p>
+      <div class="check-list" id="progCh1Checks">
+        <label class="task-check"><input type="checkbox" disabled> <span>必須使用 +、-、*、/</span></label>
+        <label class="task-check"><input type="checkbox" disabled> <span>不可以直接寫 print(8)</span></label>
+        <label class="task-check"><input type="checkbox" disabled> <span>只能使用一個 print()</span></label>
+        <label class="task-check"><input type="checkbox" disabled> <span>執行結果為 8</span></label>
+      </div>
+    </div>
+    <div class="challenge-code-panel">
+      <div class="challenge-title">✏️ 程式碼輸入</div>
+      <textarea id="progCh1Code" placeholder="請在這裡輸入你的 Python 程式……" style="display:block;width:100%;max-width:none;min-width:100%;height:420px;min-height:420px;box-sizing:border-box;font-size:17px;line-height:1.65;resize:vertical;"></textarea>
+      <div class="btns" style="margin-top:10px"><button class="btn greenbtn" onclick="checkProgChallenge1()">▶ 執行／檢核</button><button class="btn graybtn" onclick="resetProgChallenge(1)">重設</button></div>
+      <div class="challenge-title" style="margin-top:10px">🖥️ 執行結果</div>
+      <div id="progCh1Result" class="challenge-result">尚未執行……</div>
+    </div>
+  </div><div id="progCh1Fb" class="feedback"></div>
+</div>
+
+<div class="stage challenge-stage">
+  <div class="steptext">② 字串運算挑戰｜30 個字的有意義一句話</div>
+  <div class="challenge-grid">
+    <div class="challenge-task">
+      <div class="challenge-title">📋 任務說明</div>
+      <p>請利用<strong>字串</strong>、<code>+</code> 與 <code>*</code>，讓螢幕輸出 <b>30 個字</b>，而且是有意義的一段話。</p>
+      <p class="small">例如：<code>print("耶"*3+"我要學Python"*3)</code></p>
+      <div class="check-list" id="progCh2Checks">
+        <label class="task-check"><input type="checkbox" disabled> <span>必須使用 +</span></label>
+        <label class="task-check"><input type="checkbox" disabled> <span>必須使用 *</span></label>
+        <label class="task-check"><input type="checkbox" disabled> <span>必須有兩段字串</span></label>
+        <label class="task-check"><input type="checkbox" disabled> <span>不可以直接把完整答案寫在一組引號裡</span></label>
+        <label class="task-check"><input type="checkbox" disabled> <span>只能使用一個 print()</span></label>
+        <label class="task-check"><input type="checkbox" disabled> <span>輸出剛好 30 個字</span></label>
+      </div>
+    </div>
+    <div class="challenge-code-panel">
+      <div class="challenge-title">✏️ 程式碼輸入</div>
+      <textarea id="progCh2Code" placeholder="請在這裡輸入你的 Python 程式……" style="display:block;width:100%;max-width:none;min-width:100%;height:420px;min-height:420px;box-sizing:border-box;font-size:17px;line-height:1.65;resize:vertical;"></textarea>
+      <div class="btns" style="margin-top:10px"><button class="btn greenbtn" onclick="checkProgChallenge2()">▶ 執行／檢核</button><button class="btn graybtn" onclick="resetProgChallenge(2)">重設</button></div>
+      <div class="challenge-title" style="margin-top:10px">🖥️ 執行結果</div>
+      <div id="progCh2Result" class="challenge-result">尚未執行……</div>
+    </div>
+  </div><div id="progCh2Fb" class="feedback"></div>
+</div>
+
+<div class="stage challenge-stage">
+  <div class="steptext">③ 邏輯運算挑戰｜自己組合出 True</div>
+  <div class="challenge-grid">
+    <div class="challenge-task">
+      <div class="challenge-title">📋 任務說明</div>
+      <p>請依照以下限制規則寫一個<strong>程式</strong>，讓最後結果是 <code>True</code>。</p>
+      <div class="check-list" id="progCh3Checks">
+        <label class="task-check"><input type="checkbox" disabled> <span>必須使用 &gt;、&lt;、==、!=、&gt;=、&lt;= 其中 2 個</span></label>
+        <label class="task-check"><input type="checkbox" disabled> <span>必須使用 and、or、not 其中 2 個</span></label>
+        <label class="task-check"><input type="checkbox" disabled> <span>不可以直接寫 print(True)</span></label>
+        <label class="task-check"><input type="checkbox" disabled> <span>只能使用一個 print()</span></label>
+        <label class="task-check"><input type="checkbox" disabled> <span>執行結果為 True</span></label>
+      </div>
+    </div>
+    <div class="challenge-code-panel">
+      <div class="challenge-title">✏️ 程式碼輸入</div>
+      <textarea id="progCh3Code" placeholder="請在這裡輸入你的 Python 程式……" style="display:block;width:100%;max-width:none;min-width:100%;height:420px;min-height:420px;box-sizing:border-box;font-size:17px;line-height:1.65;resize:vertical;"></textarea>
+      <div class="btns" style="margin-top:10px"><button class="btn greenbtn" onclick="checkProgChallenge3()">▶ 執行／檢核</button><button class="btn graybtn" onclick="resetProgChallenge(3)">重設</button></div>
+      <div class="challenge-title" style="margin-top:10px">🖥️ 執行結果</div>
+      <div id="progCh3Result" class="challenge-result">尚未執行……</div>
+    </div>
+  </div><div id="progCh3Fb" class="feedback"></div>
+</div>
+</section>
+
 <section class="card reflection">
 <div class="card-title green">📝 我的學習心得</div>
 <div class="card-body">
@@ -528,7 +639,7 @@ F = ?</div></div>
 <div class="btns"><button class="btn greenbtn" onclick="uploadToGAS()">☁ 上傳學習成果（含學習心得）</button><button class="btn graybtn" onclick="exportRecord()">下載學習紀錄</button><span id="gasStatus" class="small"></span></div>
 </div></section>
 
-<div class="footer">本網站依據使用者提供之《C247C1_ch01》課本內容設計互動活動；學習進度先保存於瀏覽器 localStorage，上傳後可由教師於共用 GAS 試算表彙整。</div>
+<div class="footer">本網站依據使用者提供之《C247C1_ch01》課本內容設計互動活動；學習進度先保存於瀏覽器 localStorage，上傳後可由教師於共用 GAS 試算表彙整；兩題溫度轉換為加分挑戰，各 +5 分。</div>
 </main>
 </div>
 
@@ -545,7 +656,7 @@ function updateDashboard(){
  const done=CHECKS.filter(k=>state.complete[k]).length;
  document.getElementById('progressText').textContent=`${done} / ${CHECKS.length}`;
  document.getElementById('progressBar').style.width=(done/CHECKS.length*100)+'%';
- document.getElementById('scoreText').textContent=state.score+' 分';
+ document.getElementById('scoreText').textContent=state.score+' 分'; const bonus=(state.practice.bonusCtoF?5:0)+(state.practice.bonusFtoC?5:0); const bt=document.getElementById('bonusText'); if(bt)bt.textContent=bonus+' / 10';
  document.getElementById('practiceText').textContent=`${Object.keys(state.practice).length} / 8`;
  document.getElementById('quizText').textContent=`${state.quiz.score||0} / 5`;
  document.getElementById('quizBar').style.width=((state.quiz.score||0)/5*100)+'%';
@@ -735,10 +846,10 @@ function showOpPanel(kind,btn){
  string:`<h3>⑤ 字串運算｜P15</h3><p class="small">字串可以用 + 串接，也可以用 * 複製。</p><div class="string-demo"><div class="string-box"><b>＋ 串接</b><div class="code-lines">"55" + "66"</div><div class="string-result">5566</div></div><div class="string-box"><b>＊ 複製</b><div class="code-lines">"太" * 3 + "讚了!"</div><div class="string-result">太太太讚了!</div></div></div>`,
  cast:`<h3>⑥ 手動轉換資料型態｜P15</h3><p class="small">不同型態直接運算可能出現 TypeError，可以使用 <b>int()</b>、<b>float()</b>、<b>bool()</b>、<b>str()</b>，分別將資料轉換成整數、浮點數、布林、字串。</p><div class="cast-flow"><div class="cast-node">"55"<br><span class="small">str</span></div><div class="arrow">→</div><div class="cast-node">int("55")<br><span class="small">轉成 int</span></div><div class="arrow">→</div><div class="cast-node">+ 66<br><span class="small">可以運算</span></div><div class="arrow">→</div><div class="cast-node">121</div></div>`};
  panel.innerHTML=panels[kind]||'';
- const ex={arith:{q:'請填入 <code>10 % 3 + 5 * 2 - (4 + 3)</code> 的答案。',answer:'4',hint:'提示：先算括號，再算乘除類，最後算加減。'},compare:{q:'請判斷 <code>(4 + 1) * 2 = 2 + 4 * 2</code> 是否成立，請填入 <b>True</b> 或 <b>False</b>。',answer:'True',hint:'提示：左右兩邊都等於 10，所以結果是 True。'},logic:{q:'<b>學生練習：</b>請填入 <code>3!=8 and not 8+9>16 or 5==4</code> 的結果。',answer:'false',hint:'提示：先計算數值，再比較關係，最後再做邏輯運算（先 not，再 and，最後 or）。'},priority:{q:'請填入 <code>6 * 2 - (10 % 4)</code> 的結果。',answer:'10',hint:'提示：先處理括號與 %，再乘法，最後減法。'},string:{q:'請填入 <code>"Hi"*2 + "Python"</code> 的結果。',answer:'HiHiPython',hint:'提示：* 可以重複字串，+ 可以串接字串。'},cast:{q:'請填入 <code>int("66") + 77</code> 的結果。',answer:'143',hint:'提示：int("66") 會把字串 66 轉成整數。'}}[kind];
+ const ex={arith:{q:'請填入 <code>10 % 3 + 5 * 2 - (4 + 3)</code> 的答案。',answer:'4',hint:'提示：先算括號，再算乘除類，最後算加減。'},compare:{q:'請判斷 <code>(4 + 1) * 2 == 2 + 4 * 2</code> 是否成立，請填入 <b>True</b> 或 <b>False</b>。',answer:'True',hint:'提示：請先完成計算，再比較 == 是否成立。'},logic:{q:'<b>學生練習：</b>請填入 <code>3!=8 and not 8+9>16 or 5==4</code> 的結果。',answer:'false',hint:'提示：先計算數值，再比較關係，最後再做邏輯運算（先 not，再 and，最後 or）。'},priority:{q:'請填入 <code>6 * 2 - (10 % 4)</code> 的結果。',answer:'10',hint:'提示：先處理括號與 %，再乘法，最後減法。'},string:{q:'請填入 <code>"Hi"*2 + "Python"</code> 的結果。',answer:'HiHiPython',hint:'提示：* 可以重複字串，+ 可以串接字串。'},cast:{q:'請填入 <code>int("66") + 77</code> 的結果。',answer:'143',hint:'提示：int("66") 會把字串 66 轉成整數。'}}[kind];
  document.getElementById('opPractice').innerHTML=`${ex.q}<div class="practice-row"><input id="opTopicAns" placeholder="請輸入答案"><button class="btn greenbtn" onclick="checkOpTopic('${kind}')">檢查</button></div><div class="op-practice-note">${ex.hint}</div><div id="opFb" class="feedback"></div>`;
 }
-function checkOpTopic(kind){const rules={arith:['4','4'],compare:['True','True'],logic:['false','False'],priority:['10','10'],string:['HiHiPython','HiHiPython'],cast:['143','143']};const v=document.getElementById('opTopicAns').value.trim();const ok=rules[kind][0].toLowerCase()===v.toLowerCase();const fb=document.getElementById('opFb');const hints={logic:'提示：先計算數值，再比較關係，最後再做邏輯運算（先 not，再 and，最後 or）。',priority:'提示：6 * 2 - (10 % 4) = 6 * 2 - 2 =',};fb.textContent=ok?'✓ 正確！':(hints[kind]||'再依照本主題的運算規則逐步計算一次。');fb.className='feedback '+(ok?'ok':'bad');if(ok)addScore('op_'+kind,2)}
+function checkOpTopic(kind){const rules={arith:['4','4'],compare:['True','True'],logic:['false','False'],priority:['10','10'],string:['HiHiPython','HiHiPython'],cast:['143','143']};const v=document.getElementById('opTopicAns').value.trim();const ok=rules[kind][0].toLowerCase()===v.toLowerCase();const fb=document.getElementById('opFb');const hints={logic:'提示：先計算數值，再比較關係，最後再做邏輯運算（先 not，再 and，最後 or）。',compare:'提示：請先完成計算，再比較 == 是否成立。',priority:'提示：6 * 2 - (10 % 4) = 6 * 2 - 2 =',};fb.textContent=ok?'✓ 正確！':(hints[kind]||'再依照本主題的運算規則逐步計算一次。');fb.className='feedback '+(ok?'ok':'bad');if(ok)addScore('op_'+kind,2)}
 
 // ===== 1-2.3 變數：記憶體位置動畫 =====
 let varMemoryI=0;
@@ -813,16 +924,80 @@ function changeStepNext(){
 }
 function changeStepReset(){changeStep=0;changeInputs={quantity:null,dollar:null};changeStepRender()}
 
-// ===== P.23 攝氏轉華氏：程式填空 =====
-function tempValues(){return {b1:document.getElementById('tempB1').value.trim().toLowerCase(),b2:document.getElementById('tempB2').value.trim(),b3:document.getElementById('tempB3').value.trim(),b4:document.getElementById('tempB4').value.trim(),c:Number(document.getElementById('tempInput').value)||0}}
-function tempCorrect(v){return v.b1==='float'&&v.b2==='9'&&v.b3==='5'&&v.b4==='華氏'}
-function tempSourceText(v){return `C = ${v.b1||'____'}(input("輸入攝氏溫度: "))\nF = ${v.b2||'____'} * C / ${v.b3||'____'} + 32\nprint("${v.b4||'____'}", F, "度")`}
-function checkTempFill(){const v=tempValues();document.getElementById('tempSource').textContent=tempSourceText(v);const fb=document.getElementById('tempFb');const ok=tempCorrect(v);fb.textContent=ok?'✓ 程式填空正確！可以執行看看 37.6°C 會得到多少華氏溫度。':'再檢查四個重點：float()、公式中的 9、5，以及輸出的文字要填「華氏」。';fb.className='feedback '+(ok?'ok':'bad');if(ok)addScore('tempFill',4)}
-function runTempFill(){const v=tempValues();document.getElementById('tempSource').textContent=tempSourceText(v);if(!tempCorrect(v)){document.getElementById('tempOutput').textContent='請先完成正確的程式填空。';document.getElementById('tempFb').textContent='尚未完成，請先檢查程式。';document.getElementById('tempFb').className='feedback bad';return}const f=9*v.c/5+32;document.getElementById('tempMemory').textContent=`C = ${v.c}\nF = ${f}`;document.getElementById('tempOutput').textContent=`輸入攝氏溫度: ${v.c}\n華氏 ${f} 度`;document.getElementById('tempFb').textContent='✓ 執行成功！';document.getElementById('tempFb').className='feedback ok';addScore('tempRun',3)}
-function resetTempFill(){['tempB1','tempB2','tempB3','tempB4'].forEach(id=>document.getElementById(id).value='');document.getElementById('tempB3').value='';document.getElementById('tempSource').textContent='尚未完成';document.getElementById('tempMemory').textContent='C = ?\nF = ?';document.getElementById('tempOutput').textContent='等待執行……';document.getElementById('tempFb').textContent=''}
+function checkTempFill(){}
+function runTempFill(){}
+function resetTempFill(){}
 
 function checkCast(){const v=document.querySelector('input[name=cast]:checked')?.value;markPractice('cast','castFb',v==='int',v==='int'?'正確：先把 "55" 轉成整數，再與 66 相加。':'"55" 是字串，直接與整數相加會產生型態錯誤；請思考如何先轉換。')}
 function checkComprehensive(){const ans=[document.getElementById('p1').value.trim(),document.getElementById('p2').value.trim(),document.getElementById('p3').value.trim(),document.getElementById('p4').value.trim().toLowerCase()];const ok=ans[0]==='程式語言'&&ans[1].includes('指令')&&ans[2]==='函式'&&ans[3]==='float';document.getElementById('compFb').textContent=ok?'✓ 四題全部正確！':'請再檢查：Python 是程式語言；程式是指令集合；print 是函式；3.0 是 float。';document.getElementById('compFb').className='feedback '+(ok?'ok':'bad');if(ok)addScore('comprehensive',10)}
+
+// ===== V13 程式挑戰：加分題（不提供標準程式碼，以規則＋結果檢核） =====
+function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function setChallengeChecks(id,items){document.getElementById(id).innerHTML=items.map(x=>`<div class="check-item ${x.ok?'ok':'bad'}">${x.ok?'✔':'✘'} ${escHtml(x.text)}</div>`).join('')}
+function checkTempChallengeCF(){
+ const code=document.getElementById('cfCode').value.trim(), c=Number(document.getElementById('cfInput').value); const compact=code.replace(/\s+/g,'').toLowerCase();
+ const hasInput=/input\(/i.test(code), hasFloat=/float\(/i.test(code), hasPrint=/print\(/i.test(code), hasC=/\b(c|celsius)\b/i.test(code);
+ const hasFormula=/9.*\*.*(c|celsius).*\/.*5|5.*\/.*9.*\*.*(c|celsius)|\b1\.8\s*\*\s*(c|celsius)/i.test(code.replace(/\n/g,' '));
+ const has32=/\+\s*32|32\s*\+/i.test(code); const noDirect=!/print\(\s*98\.?6?\s*\)/i.test(code);
+ const f=9*c/5+32; const ok=hasInput&&hasFloat&&hasPrint&&hasFormula&&has32&&noDirect;
+ setChallengeChecks('cfChecks',[
+  {ok:hasInput,text:'有使用 input() 取得攝氏溫度'},
+  {ok:hasFloat,text:'有使用 float() 進行數值轉換'},
+  {ok:hasPrint,text:'有使用 print() 輸出結果'},
+  {ok:hasFormula,text:'有依公式進行 9 × 攝氏 / 5 的計算'},
+  {ok:has32,text:'有加入 + 32'},
+  {ok:noDirect,text:'沒有直接把答案寫進 print()'}]);
+ document.getElementById('cfOutput').textContent=ok?`模擬執行成功\n輸入：${c} °C\n華氏溫度：${Number.isInteger(f)?f:f.toFixed(1)} °F\n\n✓ 這份程式符合本題規則，獲得 +5 分。`:'尚未通過：請根據右側檢核結果修改程式。';
+ document.getElementById('cfFb').textContent=ok?'✓ 加分挑戰完成！+5 分':'請依檢核結果修改你的程式，再檢查一次。'; document.getElementById('cfFb').className='feedback '+(ok?'ok':'bad');
+ if(ok){state.practice.bonusCtoFCode=code;addScore('bonusCtoF',5);}
+}
+function resetTempChallengeCF(){document.getElementById('cfCode').value='';document.getElementById('cfChecks').innerHTML='<div class="check-item">尚未檢查</div>';document.getElementById('cfOutput').textContent='等待檢核……';document.getElementById('cfFb').textContent=''}
+function checkTempChallengeFC(){
+ const code=document.getElementById('fcCode').value.trim(), f=Number(document.getElementById('fcInput').value); const hasInput=/input\(/i.test(code), hasFloat=/float\(/i.test(code), hasPrint=/print\(/i.test(code), hasMinus32=/32\s*-/i.test(code)||/-\s*32/i.test(code); const has5=/\*\s*5|5\s*\*/.test(code), has9=/\/\s*9|9\s*\//.test(code); const noDirect=!/print\(\s*37\.?7?8?\s*\)/i.test(code); const c=(f-32)*5/9; const ok=hasInput&&hasFloat&&hasPrint&&hasMinus32&&has5&&has9&&noDirect;
+ setChallengeChecks('fcChecks',[
+  {ok:hasInput,text:'有使用 input() 取得華氏溫度'},
+  {ok:hasFloat,text:'有使用 float() 進行數值轉換'},
+  {ok:hasPrint,text:'有使用 print() 輸出結果'},
+  {ok:hasMinus32,text:'有先減去 32'},
+  {ok:has5,text:'有乘以 5'},
+  {ok:has9,text:'有除以 9'},
+  {ok:noDirect,text:'沒有直接把答案寫進 print()'}]);
+ document.getElementById('fcOutput').textContent=ok?`模擬執行成功\n輸入：${f} °F\n攝氏溫度：${c.toFixed(2)} °C\n\n✓ 這份程式符合本題規則，獲得 +5 分。`:'尚未通過：請根據右側檢核結果修改程式。'; document.getElementById('fcFb').textContent=ok?'✓ 加分挑戰完成！+5 分':'請依檢核結果修改你的程式，再檢查一次。'; document.getElementById('fcFb').className='feedback '+(ok?'ok':'bad'); if(ok){state.practice.bonusFtoCCode=code;addScore('bonusFtoC',5);}
+}
+function resetTempChallengeFC(){document.getElementById('fcCode').value='';document.getElementById('fcChecks').innerHTML='<div class="check-item">尚未檢查</div>';document.getElementById('fcOutput').textContent='等待檢核……';document.getElementById('fcFb').textContent=''}
+// ===== 章後程式挑戰（結果＋規則檢核，不提供標準答案） =====
+function getPrintExpr(code){const m=code.match(/^\s*print\s*\((.*)\)\s*$/s);return m?m[1].trim():null;}
+function safeEvalRestricted(expr,mode){
+  if(!expr) throw new Error('沒有找到有效的 print()。');
+  if(mode==='arith' && !/^[0-9+\-*/().\s]+$/.test(expr)) throw new Error('運算式包含不允許的字元。');
+  if(mode==='str' && !/^(?:\s*(?:"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|\d+)\s*(?:\+|\*)\s*)*(?:"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')\s*$/.test(expr)) throw new Error('字串運算式格式不符合題目規則。');
+  if(mode==='logic' && !/^[0-9+\-*/().\s><=!andornotTrueFals]+$/.test(expr)) throw new Error('邏輯運算式包含不允許的字元。');
+  let js=expr.replace(/\band\b/g,'&&').replace(/\bor\b/g,'||').replace(/\bnot\b/g,'!').replace(/\bTrue\b/g,'true').replace(/\bFalse\b/g,'false');
+  return Function('"use strict"; return ('+js+');')();
+}
+function challengeStatus(id,text,ok){return `<div class="check-item ${ok?'ok':'bad'}">${ok?'✔':'✘'} ${text}</div>`}
+function storeProgramChallenge(key,code,result,passed){state.practice[key]={code,result,passed,time:new Date().toISOString()};save()}
+function checkProgChallenge1(){
+ const code=document.getElementById('progCh1Code').value.trim(), resultEl=document.getElementById('progCh1Result'), fb=document.getElementById('progCh1Fb');
+ const prints=(code.match(/\bprint\s*\(/g)||[]).length; const expr=getPrintExpr(code); const has=[/\+/.test(expr||''),/-/.test(expr||''),/\*/.test(expr||''),/\//.test(expr||'')]; let value=null,error=''; try{value=safeEvalRestricted(expr,'arith')}catch(e){error=e.message}
+ const direct=/print\s*\(\s*8\s*\)/s.test(code); const checks=[has[0],has[1],has[2],has[3],!direct,prints===1,expr!==null,value===8]; setChallengeChecksText('progCh1Checks',[...checks.map((ok,i)=>challengeStatus('', ['使用 +','使用 -','使用 *','使用 /','不是直接 print(8)','只有一個 print()','使用有效的 print()','執行結果為 8'][i],ok))]);
+ const ok=checks.every(Boolean); if(ok){resultEl.insertAdjacentHTML('beforeend',`<div class="challenge-result" style="margin-top:8px">執行輸出：<b>8</b></div>`);storeProgramChallenge('programChallenge1',code,'8',true)}
+ fb.textContent=ok?'✓ 挑戰完成！':'請依右側檢核結果修改程式。'; fb.className='feedback '+(ok?'ok':'bad');
+}
+function checkProgChallenge2(){
+ const code=document.getElementById('progCh2Code').value.trim(), resultEl=document.getElementById('progCh2Result'), fb=document.getElementById('progCh2Fb'); const expr=getPrintExpr(code); const literals=(expr||'').match(/"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'/g)||[]; let value='',error=''; try{value=safeEvalRestricted(expr,'str')}catch(e){error=e.message}
+ const compact=(expr||'').replace(/\s+/g,''); const checks=[/\+/.test(expr||''),/\*/.test(expr||''),literals.length===2,!/^\s*["'].*["']\s*$/.test(expr||''),(code.match(/\bprint\s*\(/g)||[]).length===1,typeof value==='string',[...value].length===30];
+ setChallengeChecksText('progCh2Checks',checks.map((ok,i)=>challengeStatus('', ['使用 +','使用 *','剛好兩段字串','不是直接把完整答案放在一組引號中','只有一個 print()','可以得到字串結果','輸出剛好 30 個字'][i],ok)));
+ const ok=checks.every(Boolean); if(ok){resultEl.insertAdjacentHTML('beforeend',`<div class="challenge-result" style="margin-top:8px;white-space:pre-wrap">執行輸出：<b>${escHtml(value)}</b></div>`);storeProgramChallenge('programChallenge2',code,value,true)} fb.textContent=ok?'✓ 挑戰完成！':'請依右側檢核結果修改程式。'; fb.className='feedback '+(ok?'ok':'bad');
+}
+function checkProgChallenge3(){
+ const code=document.getElementById('progCh3Code').value.trim(), resultEl=document.getElementById('progCh3Result'), fb=document.getElementById('progCh3Fb'); const expr=getPrintExpr(code); const comps=expr?(expr.match(/(?:==|!=|>=|<=|>|<)/g)||[]):[]; const logs=expr?(expr.match(/\b(?:and|or|not)\b/g)||[]):[]; let value=null; try{value=safeEvalRestricted(expr,'logic')}catch(e){}
+ const uniqueComp=new Set(comps.map(x=>x)); const uniqueLog=new Set(logs.map(x=>x)); const direct=/print\s*\(\s*True\s*\)/s.test(code); const checks=[uniqueComp.size>=2,uniqueLog.size>=2,!direct,(code.match(/\bprint\s*\(/g)||[]).length===1,expr!==null,value===true];
+ setChallengeChecksText('progCh3Checks',checks.map((ok,i)=>challengeStatus('', ['至少使用 2 種比較運算子','至少使用 2 種邏輯運算子','不是直接 print(True)','只有一個 print()','使用有效的 print()','執行結果為 True'][i],ok)));
+ const ok=checks.every(Boolean); if(ok){resultEl.insertAdjacentHTML('beforeend',`<div class="challenge-result" style="margin-top:8px">執行輸出：<b>True</b></div>`);storeProgramChallenge('programChallenge3',code,'True',true)} fb.textContent=ok?'✓ 挑戰完成！':'請依右側檢核結果修改程式。'; fb.className='feedback '+(ok?'ok':'bad');
+}
+function setChallengeChecksText(id,items){const box=document.getElementById(id);if(!box)return;const labels=[...box.querySelectorAll('.task-check')];items.forEach((item,i)=>{if(!labels[i])return;const ok=!!item.ok;labels[i].classList.toggle('ok',ok);labels[i].classList.toggle('bad',!ok);const cb=labels[i].querySelector('input');if(cb)cb.checked=ok;});}
+function resetProgChallenge(n){const id='progCh'+n;document.getElementById(id+'Code').value='';document.getElementById(id+'Result').textContent='尚未執行……';document.getElementById(id+'Fb').textContent='';const box=document.getElementById(id+'Checks');if(box){box.querySelectorAll('.task-check').forEach(el=>{el.classList.remove('ok','bad');const cb=el.querySelector('input');if(cb)cb.checked=false;});}}
 const quizData=[
  {q:'在本章定義中，程式是什麼？',options:['一種電腦硬體','一組指揮電腦工作的指令集合','一種高階語言','一種IDE'],answer:['B'],multi:false},
  {q:'Python 在課本的分類中屬於哪一種翻譯方式？',options:['直譯式','編譯式','組譯式','人工翻譯式'],answer:['A'],multi:false},
