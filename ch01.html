@@ -979,22 +979,28 @@ function challengeStatus(id,text,ok){return `<div class="check-item ${ok?'ok':'b
 function storeProgramChallenge(key,code,result,passed){state.practice[key]={code,result,passed,time:new Date().toISOString()};save()}
 function checkProgChallenge1(){
  const code=document.getElementById('progCh1Code').value.trim(), resultEl=document.getElementById('progCh1Result'), fb=document.getElementById('progCh1Fb');
- const prints=(code.match(/\bprint\s*\(/g)||[]).length; const expr=getPrintExpr(code); const has=[/\+/.test(expr||''),/-/.test(expr||''),/\*/.test(expr||''),/\//.test(expr||'')]; let value=null,error=''; try{value=safeEvalRestricted(expr,'arith')}catch(e){error=e.message}
- const direct=/print\s*\(\s*8\s*\)/s.test(code); const checks=[has[0],has[1],has[2],has[3],!direct,prints===1,expr!==null,value===8]; setChallengeChecksText('progCh1Checks',[...checks.map((ok,i)=>challengeStatus('', ['使用 +','使用 -','使用 *','使用 /','不是直接 print(8)','只有一個 print()','使用有效的 print()','執行結果為 8'][i],ok))]);
- const ok=checks.every(Boolean); if(ok){resultEl.insertAdjacentHTML('beforeend',`<div class="challenge-result" style="margin-top:8px">執行輸出：<b>8</b></div>`);storeProgramChallenge('programChallenge1',code,'8',true)}
- fb.textContent=ok?'✓ 挑戰完成！':'請依右側檢核結果修改程式。'; fb.className='feedback '+(ok?'ok':'bad');
+ const expr=getPrintExpr(code); const prints=(code.match(/\bprint\s*\(/g)||[]).length; const has=[/\+/.test(expr||''),/-/.test(expr||''),/\*/.test(expr||''),/\//.test(expr||'')]; let value=null,error='';
+ try{value=runRestrictedPrint(code,'arith').value}catch(e){error=e.message}
+ const direct=/^\s*print\s*\(\s*8\s*\)\s*$/s.test(code);
+ const checks=[has[0],has[1],has[2],has[3],!direct,prints===1,expr!==null,value===8];
+ setChallengeChecksText('progCh1Checks',checks);
+ resultEl.textContent=error?`執行結果：\n❌ ${error}`:`執行結果：\n${value}`;
+ const ok=checks.every(Boolean); if(ok){resultEl.textContent='執行結果：\n8\n\n✓ 符合全部規則！';storeProgramChallenge('programChallenge1',code,'8',true)}
+ fb.textContent=ok?'✓ 挑戰完成！':'請依左側檢核結果修改程式。'; fb.className='feedback '+(ok?'ok':'bad');
 }
 function checkProgChallenge2(){
- const code=document.getElementById('progCh2Code').value.trim(), resultEl=document.getElementById('progCh2Result'), fb=document.getElementById('progCh2Fb'); const expr=getPrintExpr(code); const literals=(expr||'').match(/"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'/g)||[]; let value='',error=''; try{value=safeEvalRestricted(expr,'str')}catch(e){error=e.message}
- const compact=(expr||'').replace(/\s+/g,''); const checks=[/\+/.test(expr||''),/\*/.test(expr||''),literals.length===2,!/^\s*["'].*["']\s*$/.test(expr||''),(code.match(/\bprint\s*\(/g)||[]).length===1,typeof value==='string',[...value].length===30];
- setChallengeChecksText('progCh2Checks',checks.map((ok,i)=>challengeStatus('', ['使用 +','使用 *','剛好兩段字串','不是直接把完整答案放在一組引號中','只有一個 print()','可以得到字串結果','輸出剛好 30 個字'][i],ok)));
- const ok=checks.every(Boolean); if(ok){resultEl.insertAdjacentHTML('beforeend',`<div class="challenge-result" style="margin-top:8px;white-space:pre-wrap">執行輸出：<b>${escHtml(value)}</b></div>`);storeProgramChallenge('programChallenge2',code,value,true)} fb.textContent=ok?'✓ 挑戰完成！':'請依右側檢核結果修改程式。'; fb.className='feedback '+(ok?'ok':'bad');
+ const code=document.getElementById('progCh2Code').value.trim(), resultEl=document.getElementById('progCh2Result'), fb=document.getElementById('progCh2Fb'); const expr=getPrintExpr(code); const literals=(expr||'').match(/"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'/g)||[]; let value='',error='';
+ try{value=runRestrictedPrint(code,'str').value}catch(e){error=e.message}
+ const compact=(expr||'').replace(/\s+/g,''); const checks=[/\+/.test(expr||''),/\*/.test(expr||''),literals.length===2,!/^\s*["'].*["']\s*$/.test(expr||''),(code.match(/\bprint\s*\(/g)||[]).length===1,typeof value==='string',[...String(value)].length===30];
+ setChallengeChecksText('progCh2Checks',checks); resultEl.textContent=error?`執行結果：\n❌ ${error}`:`執行結果：\n${String(value)}`;
+ const ok=checks.every(Boolean); if(ok){resultEl.textContent=`執行結果：\n${String(value)}\n\n✓ 符合全部規則！`;storeProgramChallenge('programChallenge2',code,String(value),true)} fb.textContent=ok?'✓ 挑戰完成！':'請依左側檢核結果修改程式。'; fb.className='feedback '+(ok?'ok':'bad');
 }
 function checkProgChallenge3(){
- const code=document.getElementById('progCh3Code').value.trim(), resultEl=document.getElementById('progCh3Result'), fb=document.getElementById('progCh3Fb'); const expr=getPrintExpr(code); const comps=expr?(expr.match(/(?:==|!=|>=|<=|>|<)/g)||[]):[]; const logs=expr?(expr.match(/\b(?:and|or|not)\b/g)||[]):[]; let value=null; try{value=safeEvalRestricted(expr,'logic')}catch(e){}
- const uniqueComp=new Set(comps.map(x=>x)); const uniqueLog=new Set(logs.map(x=>x)); const direct=/print\s*\(\s*True\s*\)/s.test(code); const checks=[uniqueComp.size>=2,uniqueLog.size>=2,!direct,(code.match(/\bprint\s*\(/g)||[]).length===1,expr!==null,value===true];
- setChallengeChecksText('progCh3Checks',checks.map((ok,i)=>challengeStatus('', ['至少使用 2 種比較運算子','至少使用 2 種邏輯運算子','不是直接 print(True)','只有一個 print()','使用有效的 print()','執行結果為 True'][i],ok)));
- const ok=checks.every(Boolean); if(ok){resultEl.insertAdjacentHTML('beforeend',`<div class="challenge-result" style="margin-top:8px">執行輸出：<b>True</b></div>`);storeProgramChallenge('programChallenge3',code,'True',true)} fb.textContent=ok?'✓ 挑戰完成！':'請依右側檢核結果修改程式。'; fb.className='feedback '+(ok?'ok':'bad');
+const code=document.getElementById('progCh3Code').value.trim(), resultEl=document.getElementById('progCh3Result'), fb=document.getElementById('progCh3Fb'); const expr=getPrintExpr(code); const comps=expr?(expr.match(/(?:==|!=|>=|<=|>|<)/g)||[]):[]; const logs=expr?(expr.match(/\b(?:and|or|not)\b/g)||[]):[]; let value=null,error='';
+ try{value=runRestrictedPrint(code,'logic').value}catch(e){error=e.message}
+ const uniqueComp=new Set(comps.map(x=>x)), uniqueLog=new Set(logs.map(x=>x)); const direct=/^\s*print\s*\(\s*True\s*\)\s*$/s.test(code); const checks=[uniqueComp.size>=2,uniqueLog.size>=2,!direct,(code.match(/\bprint\s*\(/g)||[]).length===1,expr!==null,value===true];
+ setChallengeChecksText('progCh3Checks',checks); resultEl.textContent=error?`執行結果：\n❌ ${error}`:`執行結果：\n${String(value)}`;
+ const ok=checks.every(Boolean); if(ok){resultEl.textContent='執行結果：\nTrue\n\n✓ 符合全部規則！';storeProgramChallenge('programChallenge3',code,'True',true)} fb.textContent=ok?'✓ 挑戰完成！':'請依左側檢核結果修改程式。'; fb.className='feedback '+(ok?'ok':'bad');
 }
 function setChallengeChecksText(id,items){const box=document.getElementById(id);if(!box)return;const labels=[...box.querySelectorAll('.task-check')];items.forEach((item,i)=>{if(!labels[i])return;const ok=!!item.ok;labels[i].classList.toggle('ok',ok);labels[i].classList.toggle('bad',!ok);const cb=labels[i].querySelector('input');if(cb)cb.checked=ok;});}
 function resetProgChallenge(n){const id='progCh'+n;document.getElementById(id+'Code').value='';document.getElementById(id+'Result').textContent='尚未執行……';document.getElementById(id+'Fb').textContent='';const box=document.getElementById(id+'Checks');if(box){box.querySelectorAll('.task-check').forEach(el=>{el.classList.remove('ok','bad');const cb=el.querySelector('input');if(cb)cb.checked=false;});}}
