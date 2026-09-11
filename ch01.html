@@ -1,4 +1,9 @@
 
+
+function checkStringPracticeCaseSensitive(value){
+  return String(value).trim() === "HiHiPython";
+}
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -157,13 +162,21 @@ button,input,textarea{font:inherit} button{cursor:pointer}
 </section>
 
 <section class="dashboard">
-  <div class="dash progress"><div class="dt">學習進度</div><div class="big" id="progressText">0 / 11</div><div class="progressbar"><i id="progressBar"></i></div></div>
-  <div class="dash score"><div class="dt">學習總分</div><div class="big" id="scoreText">0 分</div></div>
-  <div class="dash practice"><div class="dt">互動／練習</div><div class="big" id="practiceText">0 / 8</div></div>
-  <div class="dash quiz"><div class="dt">測驗</div><div class="big" id="quizText">0 / 5</div><div class="progressbar"><i id="quizBar"></i></div></div><div class="dash" style="grid-column:span 4;background:#fffdf0;border-color:#ead987"><div class="dt" style="color:#9a7410">🌟 加分挑戰</div><div class="big" id="bonusText">0 / 10</div></div>
+  <div class="dash progress"><div class="dt">📚 學習進度</div><div class="big" id="progressText">0 / 11</div><div class="progressbar"><i id="progressBar"></i></div></div>
+  <div class="dash score"><div class="dt">🏆 學習總分（基本 100 分）</div><div class="big" id="scoreText">0 / 100</div><div class="small" id="scoreBreakdown">概念 0／60・測驗 0／20・程式挑戰 0／20</div></div>
+  <div class="dash practice"><div class="dt">🧩 互動／練習紀錄</div><div class="big" id="practiceText">0 項</div></div>
+  <div class="dash quiz"><div class="dt">📝 章末測驗</div><div class="big" id="quizText">0 / 20</div><div class="progressbar"><i id="quizBar"></i></div></div>
+  <div class="dash" style="grid-column:span 4;background:#fffdf0;border-color:#ead987"><div class="dt" style="color:#9a7410">🌟 加分挑戰</div><div class="big" id="bonusText">+0 / 10</div></div>
 </section>
-
-
+<div class="card" style="margin-top:12px;background:#f8fbff;border-color:#c8d8ee">
+ <div class="card-title blue">📊 本章 100 分計分方式</div>
+ <div class="small" style="line-height:1.9">
+  <b>基本分 100 分：</b>1-1 程式設計基本概念 25 分＋1-2 Python 程式語言 35 分＋章末測驗 20 分＋章後程式挑戰 20 分。
+  <br><b>依難度配分：</b>邏輯運算、變數、輸入／輸出與程式挑戰占較高比重。
+  <br><b>🌟 加分：</b>攝氏→華氏 +5、華氏→攝氏 +5，最高 110 分。
+  <br><b>提醒：</b>「我了解」是學習完成檢核；互動操作會留下學習紀錄，但不會重複計分。
+ </div>
+</div>
 <section class="card">
 <div class="card-title blue">💻 章前導入｜電腦是怎麼處理問題的？</div>
 <div class="card-body">
@@ -563,9 +576,13 @@ print( "   " , F )   #請修改，有雷</textarea>
       <div class="challenge-title">📋 任務說明</div>
       <p>請使用 Python 的 <code>+</code>、<code>-</code>、<code>*</code>、<code>/</code> 四種算術運算子，設計一個運算式，輸出 <b>8</b>。</p>
       <div class="check-list" id="progCh1Checks">
-        <label class="task-check"><input type="checkbox" disabled> <span>必須使用 +、-、*、/</span></label>
+        <label class="task-check"><input type="checkbox" disabled> <span>使用 +</span></label>
+        <label class="task-check"><input type="checkbox" disabled> <span>使用 -</span></label>
+        <label class="task-check"><input type="checkbox" disabled> <span>使用 *</span></label>
+        <label class="task-check"><input type="checkbox" disabled> <span>使用 /</span></label>
         <label class="task-check"><input type="checkbox" disabled> <span>不可以直接寫 print(8)</span></label>
         <label class="task-check"><input type="checkbox" disabled> <span>只能使用一個 print()</span></label>
+        <label class="task-check"><input type="checkbox" disabled> <span>使用有效的 print() 程式</span></label>
         <label class="task-check"><input type="checkbox" disabled> <span>執行結果為 8</span></label>
       </div>
     </div>
@@ -587,11 +604,12 @@ print( "   " , F )   #請修改，有雷</textarea>
       <p>請利用<strong>字串</strong>、<code>+</code> 與 <code>*</code>，讓螢幕輸出 <b>30 個字</b>，而且是有意義的一段話。</p>
       <p class="small">例如：<code>print("耶"*3+"我要學Python"*3)</code></p>
       <div class="check-list" id="progCh2Checks">
-        <label class="task-check"><input type="checkbox" disabled> <span>必須使用 +</span></label>
-        <label class="task-check"><input type="checkbox" disabled> <span>必須使用 *</span></label>
-        <label class="task-check"><input type="checkbox" disabled> <span>必須有兩段字串</span></label>
+        <label class="task-check"><input type="checkbox" disabled> <span>使用 +</span></label>
+        <label class="task-check"><input type="checkbox" disabled> <span>使用 *</span></label>
+        <label class="task-check"><input type="checkbox" disabled> <span>剛好兩段字串</span></label>
         <label class="task-check"><input type="checkbox" disabled> <span>不可以直接把完整答案寫在一組引號裡</span></label>
         <label class="task-check"><input type="checkbox" disabled> <span>只能使用一個 print()</span></label>
+        <label class="task-check"><input type="checkbox" disabled> <span>可以得到字串結果</span></label>
         <label class="task-check"><input type="checkbox" disabled> <span>輸出剛好 30 個字</span></label>
       </div>
     </div>
@@ -612,10 +630,11 @@ print( "   " , F )   #請修改，有雷</textarea>
       <div class="challenge-title">📋 任務說明</div>
       <p>請依照以下限制規則寫一個<strong>程式</strong>，讓最後結果是 <code>True</code>。</p>
       <div class="check-list" id="progCh3Checks">
-        <label class="task-check"><input type="checkbox" disabled> <span>必須使用 &gt;、&lt;、==、!=、&gt;=、&lt;= 其中 2 個</span></label>
-        <label class="task-check"><input type="checkbox" disabled> <span>必須使用 and、or、not 其中 2 個</span></label>
+        <label class="task-check"><input type="checkbox" disabled> <span>使用比較運算子其中 2 個</span></label>
+        <label class="task-check"><input type="checkbox" disabled> <span>使用 and、or、not 其中 2 個</span></label>
         <label class="task-check"><input type="checkbox" disabled> <span>不可以直接寫 print(True)</span></label>
         <label class="task-check"><input type="checkbox" disabled> <span>只能使用一個 print()</span></label>
+        <label class="task-check"><input type="checkbox" disabled> <span>使用有效的 print() 程式</span></label>
         <label class="task-check"><input type="checkbox" disabled> <span>執行結果為 True</span></label>
       </div>
     </div>
@@ -644,38 +663,77 @@ print( "   " , F )   #請修改，有雷</textarea>
 </div>
 
 <script>
-const GAS_URL='https://script.google.com/macros/s/AKfycbyUP55dZktxCrD0AwntJJyZ5egs9SBsBdMksnmt_XUfbvKiH2wZEQN-26emyR-Yo2auQg/exec';
+const GAS_URL='https://script.google.com/macros/s/AKfcybyUP55dZktxCrD0AwntJJyZ5egs9SBsBdMksnmt_XUfbvKiH2wZEQN2-26emyR-Yo2auQg/exec';
 const CHECKS=['hardware','password','lang','translate','error','ide','type','operator','variable','io','quiz'];
-const KEY='ch01_programming_interactive_v1';
+const KEY='ch01_programming_interactive_v2_100';
+const CHECK_POINTS={hardware:3,password:4,lang:4,translate:5,error:4,ide:5,type:5,operator:12,variable:5,io:13,quiz:0};
+const PROGRAM_POINTS={programChallenge1:5,programChallenge2:7,programChallenge3:8};
 let state=JSON.parse(localStorage.getItem(KEY)||'{}');
-state.complete=state.complete||{}; state.score=state.score||0; state.practice=state.practice||{}; state.quiz=state.quiz||{score:0,answers:[]}; state.reflection=state.reflection||'';
-function save(){localStorage.setItem(KEY,JSON.stringify(state)); updateDashboard()}
-function addScore(key,pts=5){if(!state.practice[key]){state.practice[key]=true;state.score+=pts;save()}else updateDashboard()}
-function saveStudent(){save(); alert('學生資料已儲存於本機瀏覽器。')}
+state.complete=state.complete||{}; state.practice=state.practice||{}; state.quiz=state.quiz||{score:0,answers:[]};
+state.reflection=state.reflection||''; state.interactionLog=Array.isArray(state.interactionLog)?state.interactionLog:[];
+state.scoreBreakdown=state.scoreBreakdown||{concept:0,quiz:0,program:0,bonus:0,total:0};
+function recordInteraction(action,detail=''){state.interactionLog.push({time:new Date().toISOString(),action:String(action),detail:String(detail||'')});if(state.interactionLog.length>500)state.interactionLog=state.interactionLog.slice(-500)}
+
+function collectDeviceInfo(){
+ const nav=navigator;
+ const ua=nav.userAgent||'';
+ const platform=nav.platform||'';
+ const language=nav.language||'';
+ const screenInfo=(screen?`${screen.width}x${screen.height}@${window.devicePixelRatio||1}`:'');
+ const tz=(Intl.DateTimeFormat().resolvedOptions().timeZone||'');
+ return {
+   userAgent:ua,
+   platform,
+   language,
+   screen:screenInfo,
+   timezone:tz,
+   online:nav.onLine!==false
+ };
+}
+
+function recalcScore(){
+ const concept=CHECKS.filter(k=>k!=='quiz'&&state.complete[k]).reduce((s,k)=>s+(CHECK_POINTS[k]||0),0);
+ const quiz=Math.min(20,Math.max(0,Number(state.quiz.score||0)*4));
+ const program=Object.keys(PROGRAM_POINTS).reduce((s,k)=>s+(state.practice[k]?.passed?PROGRAM_POINTS[k]:0),0);
+ const bonus=(state.practice.bonusCtoF?5:0)+(state.practice.bonusFtoC?5:0);
+ state.scoreBreakdown={concept,quiz,program,bonus,total:concept+quiz+program+bonus};state.score=state.scoreBreakdown.total;return state.scoreBreakdown;
+}
+function save(){recalcScore();localStorage.setItem(KEY,JSON.stringify(state));updateDashboard()}
+function addScore(key,pts=0){if(!state.practice[key]){state.practice[key]=true;recordInteraction('完成練習',key);save()}else updateDashboard()}
+function saveStudent(){save();alert('學生資料已儲存於本機瀏覽器。')}
 function updateDashboard(){
- const done=CHECKS.filter(k=>state.complete[k]).length;
+ const b=recalcScore(),done=CHECKS.filter(k=>state.complete[k]).length;
  document.getElementById('progressText').textContent=`${done} / ${CHECKS.length}`;
  document.getElementById('progressBar').style.width=(done/CHECKS.length*100)+'%';
- document.getElementById('scoreText').textContent=state.score+' 分'; const bonus=(state.practice.bonusCtoF?5:0)+(state.practice.bonusFtoC?5:0); const bt=document.getElementById('bonusText'); if(bt)bt.textContent=bonus+' / 10';
- document.getElementById('practiceText').textContent=`${Object.keys(state.practice).length} / 8`;
- document.getElementById('quizText').textContent=`${state.quiz.score||0} / 5`;
- document.getElementById('quizBar').style.width=((state.quiz.score||0)/5*100)+'%';
+ document.getElementById('scoreText').textContent=`${b.total} / 100`;
+ const sb=document.getElementById('scoreBreakdown');if(sb)sb.textContent=`概念 ${b.concept}／60・測驗 ${b.quiz}／20・程式挑戰 ${b.program}／20`;
+ const bonus=(state.practice.bonusCtoF?5:0)+(state.practice.bonusFtoC?5:0);
+ const bt=document.getElementById('bonusText');if(bt)bt.textContent=`+${bonus} / 10`;
+ const practiceKeys=Object.keys(state.practice).filter(k=>!k.endsWith('Code'));document.getElementById('practiceText').textContent=`${practiceKeys.length} 項`;
+ document.getElementById('quizText').textContent=`${Number(state.quiz.score||0)*4} / 20`;
+ document.getElementById('quizBar').style.width=((Number(state.quiz.score||0)/5)*100)+'%';
  document.querySelectorAll('[data-check]').forEach(c=>c.checked=!!state.complete[c.dataset.check]);
 }
-document.querySelectorAll('[data-check]').forEach(c=>c.addEventListener('change',e=>{state.complete[e.target.dataset.check]=e.target.checked;save()}));
+document.querySelectorAll('[data-check]').forEach(c=>c.addEventListener('change',e=>{state.complete[e.target.dataset.check]=e.target.checked;recordInteraction(e.target.checked?'完成單元檢核':'取消單元檢核',e.target.dataset.check);save()}));
 ['classNo','seatNo','studentName'].forEach(id=>{const el=document.getElementById(id);el.value=localStorage.getItem('ch01_'+id)||'';el.addEventListener('input',()=>localStorage.setItem('ch01_'+id,el.value))});
 const refl=document.getElementById('reflection'); refl.value=state.reflection; refl.addEventListener('input',()=>{state.reflection=refl.value;save();updateReflection()});
 function updateReflection(){const n=[...refl.value.trim()].length;document.getElementById('reflectionCount').textContent=`${n} / 1000 字`;document.getElementById('reflectionStatus').textContent=n>=50?'✓ 已達到 50 字，可以上傳':'尚未完成（至少 50 字）';document.getElementById('reflectionStatus').className=n>=50?'ok':'bad'}
 function exportRecord(){const d=buildRecord();const blob=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`第1章_${d.student.name||'學生'}_學習紀錄.json`;a.click();URL.revokeObjectURL(a.href)}
 function buildRecord(){
- return {chapter:'ch01',time:new Date().toISOString(),student:{class:document.getElementById('classNo').value,seat:document.getElementById('seatNo').value,name:document.getElementById('studentName').value},complete:state.complete,score:state.score,progress:CHECKS.filter(k=>state.complete[k]).length+'/'+CHECKS.length,reflection:state.reflection,reflectionLength:[...state.reflection].length,learningReflection:state.reflection,心得:state.reflection,quiz:state.quiz,practice:state.practice,quickSort:{},bestHanoi:{},hanoiMoves:{}};
+ const b=recalcScore();
+ return {chapter:'ch01',time:new Date().toISOString(),
+ student:{class:document.getElementById('classNo').value,seat:document.getElementById('seatNo').value,name:document.getElementById('studentName').value},
+ complete:state.complete,score:b.total,scoreBreakdown:b,scoreRules:{concept:60,quiz:20,program:20,bonus:10},
+ progress:CHECKS.filter(k=>state.complete[k]).length+'/'+CHECKS.length,
+ reflection:state.reflection,reflectionLength:[...state.reflection].length,learningReflection:state.reflection,心得:state.reflection,
+ quiz:state.quiz,practice:state.practice,interactionLog:state.interactionLog,device:collectDeviceInfo(),quickSort:{},bestHanoi:{},hanoiMoves:{}};
 }
 function uploadToGAS(){
  const status=document.getElementById('gasStatus'),r=refl.value.trim();
  if([...r].length<50){status.textContent='請先完成至少 50 字的學習心得';refl.focus();return}
  state.reflection=r;save();status.textContent='上傳中…';
  fetch(GAS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(buildRecord())})
- .then(()=>status.textContent='✓ 已送出（學習心得已一併上傳，請至 ch01 試算表確認）')
+ .then(()=>status.textContent='✓ 已送出：100分制成績、各項互動紀錄、測驗、程式挑戰與學習心得已一併上傳，請至 ch01 試算表確認')
  .catch(()=>status.textContent='✕ 上傳失敗，請檢查 GAS 部署權限')
 }
 
@@ -693,7 +751,7 @@ function renderInfoProcess(){
  box.innerHTML=infoProcessSteps.map((s,i)=>`<div class="info-card ${i===infoProcessI?'active':''}"><span class="ico">${s[0]}</span><div class="title">${s[1]}</div><div class="desc">${s[2]}</div></div>${i<infoProcessSteps.length-1?'<div class="info-arrow">→</div>':''}`).join('');
  document.getElementById('infoProcessText').textContent=`第 ${infoProcessI+1} 步：${infoProcessSteps[infoProcessI][3]}｜${infoProcessSteps[infoProcessI][2]}`;
 }
-function infoProcessNext(){infoProcessI=Math.min(infoProcessSteps.length-1,infoProcessI+1);renderInfoProcess()}
+function infoProcessNext(){recordInteraction('動畫操作','資訊處理動畫 下一步');infoProcessI=Math.min(infoProcessSteps.length-1,infoProcessI+1);renderInfoProcess()}
 function infoProcessReset(){infoProcessI=0;renderInfoProcess()}
 
 // ===== 密碼鍵盤：螢幕 # 與記憶體真正數字同步 =====
@@ -715,7 +773,7 @@ function renderPassword(){
  document.getElementById('passwordSync').className='result';
  if(passwordValue.length===4){
    document.getElementById('passwordSync').textContent='✓ 已輸入 4 位數密碼！螢幕顯示 ####，記憶體仍保存剛剛輸入的 4 個數字。';
-   addScore('passwordInput',5);
+   addScore('passwordInput',0);
    state.complete.password=true; save();
  } else if(passwordValue.length>4){
    passwordValue=passwordValue.slice(0,4); renderPassword();
@@ -769,7 +827,7 @@ function drawPotion(){
    potionDrawing=false;
    btn.disabled=false;
    btn.textContent='🎲 再抽一次';
-   addScore('potionDraw',5);
+   addScore('potionDraw',0);
    state.complete.random=true; save();
  },2300);
 }
@@ -823,11 +881,11 @@ const interpLines=[
  ['대만 팬 여러분, 안녕하세요!','台灣的粉絲大家好！']
 ];
 function interpSpeak(){const x=interpLines[interpI%interpLines.length];document.getElementById('koLine').textContent=x[0];document.getElementById('zhLine').textContent=x[1];document.getElementById('interpText').textContent=`✓ 口譯員即時翻譯：「${x[1]}」`}
-function interpNext(){interpI=Math.min(1,interpI+1);document.getElementById('koLine').textContent=interpLines[interpI][0];document.getElementById('zhLine').textContent='按一下口譯員';document.getElementById('interpText').textContent='歐巴再說一句，請按一下口譯員圖像。'}
+function interpNext(){recordInteraction('動畫操作','直譯動畫 下一步');interpI=Math.min(1,interpI+1);document.getElementById('koLine').textContent=interpLines[interpI][0];document.getElementById('zhLine').textContent='按一下口譯員';document.getElementById('interpText').textContent='歐巴再說一句，請按一下口譯員圖像。'}
 let compI=0;
 const compSteps=[['📖 原文小說','先閱讀整篇原文'],['📝 整篇翻譯','翻譯整篇文章'],['📕 中譯本小說','得到完整的中文版本']];
 function compRender(){const x=compSteps[compI];document.getElementById('compText').textContent=`第 ${compI+1} 步：${x[1]}`;const zh=document.getElementById('compZhBook');if(zh){zh.style.visibility=compI>=2?'visible':'hidden';zh.style.opacity=compI>=2?'1':'0';}}
-function compNext(){compI=Math.min(compSteps.length-1,compI+1);compRender()}
+function compNext(){recordInteraction('動畫操作','編譯動畫 下一步');compI=Math.min(compSteps.length-1,compI+1);compRender()}
 function compReset(){compI=0;compRender()}
 
 function checkHigh(){const v=document.querySelector('input[name=high]:checked')?.value;markPractice('high','highFb',v==='python',v==='python'?'正確：Python 是高階語言。':'再想想：課本將 machine language、assembly language 歸為低階語言。')}
@@ -835,7 +893,11 @@ function checkFlow(){const items=[...document.querySelectorAll('#sortFlow .flow-
 function checkErr(){const v=document.querySelector('input[name=err]:checked')?.value;markPractice('err','errFb',v==='syntax',v==='syntax'?'正確：括號未完整符合語法規則，屬語法錯誤。':'這題不是計算結果錯誤，而是程式寫法本身不符合語法規則。')}
 function checkIDE(){const v=document.querySelector('input[name=ide]:checked')?.value;markPractice('idep','ideFb',v==='idle',v==='idle'?'正確：Python IDLE 是課本列出的 Python 開發環境。':'請回想課本列出的 Python 開發環境。')}
 function checkType(){const v=document.getElementById('typeAns').value.trim().toLowerCase();markPractice('typep','typePracticeFb',v==='str',v==='str'?'正確：引號括起來的是字串。':'提示：課本示例 type("你好") 的結果是 str。')}
+let opAnswerHistory={arith:'',compare:'',logic:'',priority:'',string:'',cast:''};
+let opFeedbackHistory={arith:'',compare:'',logic:'',priority:'',string:'',cast:''};
+function rememberCurrentOpPanel(){const input=document.getElementById('opTopicAns'); if(input){const active=document.querySelector('.op-tab.active'); const kinds=['arith','compare','logic','priority','string','cast']; if(active){const idx=[...document.querySelectorAll('.op-tab')].indexOf(active); if(kinds[idx]) opAnswerHistory[kinds[idx]]=input.value;}} const fb=document.getElementById('opFb'); if(fb){const active=document.querySelector('.op-tab.active'); if(active){const kinds=['arith','compare','logic','priority','string','cast']; const idx=[...document.querySelectorAll('.op-tab')].indexOf(active); if(kinds[idx]) opFeedbackHistory[kinds[idx]]=fb.textContent;}}}
 function showOpPanel(kind,btn){
+ rememberCurrentOpPanel();
  document.querySelectorAll('.op-tab').forEach(x=>x.classList.remove('active')); if(btn)btn.classList.add('active');
  const panel=document.getElementById('opPanel');
  const panels={
@@ -847,9 +909,9 @@ function showOpPanel(kind,btn){
  cast:`<h3>⑥ 手動轉換資料型態｜P15</h3><p class="small">不同型態直接運算可能出現 TypeError，可以使用 <b>int()</b>、<b>float()</b>、<b>bool()</b>、<b>str()</b>，分別將資料轉換成整數、浮點數、布林、字串。</p><div class="cast-flow"><div class="cast-node">"55"<br><span class="small">str</span></div><div class="arrow">→</div><div class="cast-node">int("55")<br><span class="small">轉成 int</span></div><div class="arrow">→</div><div class="cast-node">+ 66<br><span class="small">可以運算</span></div><div class="arrow">→</div><div class="cast-node">121</div></div>`};
  panel.innerHTML=panels[kind]||'';
  const ex={arith:{q:'請填入 <code>10 % 3 + 5 * 2 - (4 + 3)</code> 的答案。',answer:'4',hint:'提示：先算括號，再算乘除類，最後算加減。'},compare:{q:'請判斷 <code>(4 + 1) * 2 == 2 + 4 * 2</code> 是否成立，請填入 <b>True</b> 或 <b>False</b>。',answer:'True',hint:'提示：請先完成計算，再比較 == 是否成立。'},logic:{q:'<b>學生練習：</b>請填入 <code>3!=8 and not 8+9>16 or 5==4</code> 的結果。',answer:'false',hint:'提示：先計算數值，再比較關係，最後再做邏輯運算（先 not，再 and，最後 or）。'},priority:{q:'請填入 <code>6 * 2 - (10 % 4)</code> 的結果。',answer:'10',hint:'提示：先處理括號與 %，再乘法，最後減法。'},string:{q:'請填入 <code>"Hi"*2 + "Python"</code> 的結果。',answer:'HiHiPython',hint:'提示：* 可以重複字串，+ 可以串接字串。'},cast:{q:'請填入 <code>int("66") + 77</code> 的結果。',answer:'143',hint:'提示：int("66") 會把字串 66 轉成整數。'}}[kind];
- document.getElementById('opPractice').innerHTML=`${ex.q}<div class="practice-row"><input id="opTopicAns" placeholder="請輸入答案"><button class="btn greenbtn" onclick="checkOpTopic('${kind}')">檢查</button></div><div class="op-practice-note">${ex.hint}</div><div id="opFb" class="feedback"></div>`;
+ document.getElementById('opPractice').innerHTML=`${ex.q}<div class="practice-row"><input id="opTopicAns" placeholder="請輸入答案" value="${escHtml(opAnswerHistory[kind]||'')}"><button class="btn greenbtn" onclick="checkOpTopic('${kind}')">檢查</button></div><div class="op-practice-note">${ex.hint}</div><div id="opFb" class="feedback"></div>`; const restoredFb=opFeedbackHistory[kind]||''; if(restoredFb){const fb=document.getElementById('opFb'); fb.textContent=restoredFb; fb.className='feedback '+(restoredFb.startsWith('✓')?'ok':'bad');}
 }
-function checkOpTopic(kind){const rules={arith:['4','4'],compare:['True','True'],logic:['false','False'],priority:['10','10'],string:['HiHiPython','HiHiPython'],cast:['143','143']};const v=document.getElementById('opTopicAns').value.trim();const ok=rules[kind][0].toLowerCase()===v.toLowerCase();const fb=document.getElementById('opFb');const hints={logic:'提示：先計算數值，再比較關係，最後再做邏輯運算（先 not，再 and，最後 or）。',compare:'提示：請先完成計算，再比較 == 是否成立。',priority:'提示：6 * 2 - (10 % 4) = 6 * 2 - 2 =',};fb.textContent=ok?'✓ 正確！':(hints[kind]||'再依照本主題的運算規則逐步計算一次。');fb.className='feedback '+(ok?'ok':'bad');if(ok)addScore('op_'+kind,2)}
+function checkOpTopic(kind){const rules={arith:'4',compare:'True',logic:'false',priority:'10',string:'HiHiPython',cast:'143'};const input=document.getElementById('opTopicAns');const v=input.value.trim();opAnswerHistory[kind]=input.value;const ok=String(rules[kind])===v.toLowerCase();const fb=document.getElementById('opFb');const hints={logic:'提示：先計算數值，再比較關係，最後再做邏輯運算（先 not，再 and，最後 or）。',compare:'提示：請先完成計算，再比較 == 是否成立。',priority:'提示：6 * 2 - (10 % 4) = 6 * 2 - 2 ='};fb.textContent=ok?'✓ 正確！':(hints[kind]||'再依照本主題的運算規則逐步計算一次。');fb.className='feedback '+(ok?'ok':'bad');opFeedbackHistory[kind]=fb.textContent;if(ok)addScore('op_'+kind,0)}
 
 // ===== 1-2.3 變數：記憶體位置動畫 =====
 let varMemoryI=0;
@@ -865,7 +927,7 @@ function varMemoryRender(){
  document.getElementById('varMemoryText').textContent=`第 ${varMemoryI+1} 步：${x[1]}`;
  const cell99=document.getElementById('memoryCell99'); if(cell99) cell99.classList.toggle('active',varMemoryI>=1);
 }
-function varMemoryNext(){varMemoryI=Math.min(varMemorySteps.length-1,varMemoryI+1);varMemoryRender()}
+function varMemoryNext(){recordInteraction('動畫操作','變數記憶體動畫 下一步');varMemoryI=Math.min(varMemorySteps.length-1,varMemoryI+1);varMemoryRender()}
 function varMemoryReset(){varMemoryI=0;varMemoryRender()}
 
 function checkVar(){const v=document.querySelector('input[name=var]:checked')?.value;markPractice('varp','varFb',v==='2days',v==='2days'?'正確：變數名稱開頭的第1個字不可為數字。':'課本規則指出，變數名稱開頭不可使用數字。')}
@@ -907,7 +969,7 @@ function changeStepRender(){
  document.getElementById('traceStep').textContent=`第 ${Math.min(changeStep+1,changeMax)} / ${changeMax} 步：${st.title}`;
  ['traceExplain','traceSource','traceMemory','traceInput','traceOutput'].forEach(id=>document.getElementById(id).classList.toggle('active',id===st.active));
 }
-function changeStepNext(){
+function changeStepNext(){recordInteraction('逐步執行','找零程式 下一步');
  if(changeStep===1 && changeInputs.quantity===null){
    const el=document.getElementById('traceQtyInput');
    if(!el || el.value.trim()===''){ document.getElementById('traceInputContent').insertAdjacentHTML('beforeend','<div class="feedback bad" style="margin-top:8px">請先輸入購買數量。</div>'); el?.focus(); return; }
@@ -920,7 +982,7 @@ function changeStepNext(){
  }
  if(changeStep<changeMax-1)changeStep++;
  changeStepRender();
- if(changeStep===changeMax-1)addScore('changeTrace',3);
+ if(changeStep===changeMax-1)addScore('changeTrace',0);
 }
 function changeStepReset(){changeStep=0;changeInputs={quantity:null,dollar:null};changeStepRender()}
 
@@ -929,7 +991,7 @@ function runTempFill(){}
 function resetTempFill(){}
 
 function checkCast(){const v=document.querySelector('input[name=cast]:checked')?.value;markPractice('cast','castFb',v==='int',v==='int'?'正確：先把 "55" 轉成整數，再與 66 相加。':'"55" 是字串，直接與整數相加會產生型態錯誤；請思考如何先轉換。')}
-function checkComprehensive(){const ans=[document.getElementById('p1').value.trim(),document.getElementById('p2').value.trim(),document.getElementById('p3').value.trim(),document.getElementById('p4').value.trim().toLowerCase()];const ok=ans[0]==='程式語言'&&ans[1].includes('指令')&&ans[2]==='函式'&&ans[3]==='float';document.getElementById('compFb').textContent=ok?'✓ 四題全部正確！':'請再檢查：Python 是程式語言；程式是指令集合；print 是函式；3.0 是 float。';document.getElementById('compFb').className='feedback '+(ok?'ok':'bad');if(ok)addScore('comprehensive',10)}
+function checkComprehensive(){const ans=[document.getElementById('p1').value.trim(),document.getElementById('p2').value.trim(),document.getElementById('p3').value.trim(),document.getElementById('p4').value.trim().toLowerCase()];const ok=ans[0]==='程式語言'&&ans[1].includes('指令')&&ans[2]==='函式'&&ans[3]==='float';document.getElementById('compFb').textContent=ok?'✓ 四題全部正確！':'請再檢查：Python 是程式語言；程式是指令集合；print 是函式；3.0 是 float。';document.getElementById('compFb').className='feedback '+(ok?'ok':'bad');if(ok)addScore('comprehensive',0)}
 
 // ===== V13 程式挑戰：加分題（不提供標準程式碼，以規則＋結果檢核） =====
 function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
@@ -951,7 +1013,9 @@ function checkTempChallengeCF(){
  document.getElementById('cfFb').textContent=ok?'✓ 加分挑戰完成！+5 分':'請依檢核結果修改你的程式，再檢查一次。'; document.getElementById('cfFb').className='feedback '+(ok?'ok':'bad');
  if(ok){state.practice.bonusCtoFCode=code;addScore('bonusCtoF',5);}
 }
-function resetTempChallengeCF(){document.getElementById('cfCode').value='';document.getElementById('cfChecks').innerHTML='<div class="check-item">尚未檢查</div>';document.getElementById('cfOutput').textContent='等待檢核……';document.getElementById('cfFb').textContent=''}
+function resetTempChallengeCF(){document.getElementById('cfCode').value=`F=   input("請輸入攝氏溫度")  # 請補上型態轉換
+C=                            #請輸入計算式
+print( "   " , F )   #請修改，有雷`;document.getElementById('cfChecks').innerHTML='<div class="check-item">尚未檢查</div>';document.getElementById('cfOutput').textContent='等待檢核……';document.getElementById('cfFb').textContent=''}
 function checkTempChallengeFC(){
  const code=document.getElementById('fcCode').value.trim(), f=Number(document.getElementById('fcInput').value); const hasInput=/input\(/i.test(code), hasFloat=/float\(/i.test(code), hasPrint=/print\(/i.test(code), hasMinus32=/32\s*-/i.test(code)||/-\s*32/i.test(code); const has5=/\*\s*5|5\s*\*/.test(code), has9=/\/\s*9|9\s*\//.test(code); const noDirect=!/print\(\s*37\.?7?8?\s*\)/i.test(code); const c=(f-32)*5/9; const ok=hasInput&&hasFloat&&hasPrint&&hasMinus32&&has5&&has9&&noDirect;
  setChallengeChecks('fcChecks',[
@@ -964,7 +1028,9 @@ function checkTempChallengeFC(){
   {ok:noDirect,text:'沒有直接把答案寫進 print()'}]);
  document.getElementById('fcOutput').textContent=ok?`模擬執行成功\n輸入：${f} °F\n攝氏溫度：${c.toFixed(2)} °C\n\n✓ 這份程式符合本題規則，獲得 +5 分。`:'尚未通過：請根據右側檢核結果修改程式。'; document.getElementById('fcFb').textContent=ok?'✓ 加分挑戰完成！+5 分':'請依檢核結果修改你的程式，再檢查一次。'; document.getElementById('fcFb').className='feedback '+(ok?'ok':'bad'); if(ok){state.practice.bonusFtoCCode=code;addScore('bonusFtoC',5);}
 }
-function resetTempChallengeFC(){document.getElementById('fcCode').value='';document.getElementById('fcChecks').innerHTML='<div class="check-item">尚未檢查</div>';document.getElementById('fcOutput').textContent='等待檢核……';document.getElementById('fcFb').textContent=''}
+function resetTempChallengeFC(){document.getElementById('fcCode').value=`C=   input("請輸入華氏溫度")  # 請補上型態轉換
+F=                            #請輸入計算式
+print( "   " , C )   #請修改，有雷`;document.getElementById('fcChecks').innerHTML='<div class="check-item">尚未檢查</div>';document.getElementById('fcOutput').textContent='等待檢核……';document.getElementById('fcFb').textContent=''}
 // ===== 章後程式挑戰（結果＋規則檢核，不提供標準答案） =====
 function getPrintExpr(code){const m=code.match(/^\s*print\s*\((.*)\)\s*$/s);return m?m[1].trim():null;}
 function safeEvalRestricted(expr,mode){
@@ -976,7 +1042,17 @@ function safeEvalRestricted(expr,mode){
   return Function('"use strict"; return ('+js+');')();
 }
 function challengeStatus(id,text,ok){return `<div class="check-item ${ok?'ok':'bad'}">${ok?'✔':'✘'} ${text}</div>`}
-function storeProgramChallenge(key,code,result,passed){state.practice[key]={code,result,passed,time:new Date().toISOString()};save()}
+function storeProgramChallenge(key,code,result,passed){
+ const pts=PROGRAM_POINTS[key]||0;state.practice[key]={code,result,passed,time:new Date().toISOString(),points:passed?pts:0};
+ recordInteraction(passed?'完成程式挑戰':'程式挑戰檢查',`${key}${passed?'：+'+pts+'分':''}`);save();
+}
+function runRestrictedPrint(code,mode){
+ const lines=code.split(/\r?\n/).map(x=>x.trim()).filter(Boolean).filter(x=>!x.startsWith('#'));
+ if(lines.length!==1) throw new Error('目前題目請先使用一行 print() 程式。');
+ const expr=getPrintExpr(lines[0]);
+ if(expr===null) throw new Error('請使用一個 print() 輸出結果。');
+ return {expr,value:safeEvalRestricted(expr,mode)};
+}
 function checkProgChallenge1(){
  const code=document.getElementById('progCh1Code').value.trim(), resultEl=document.getElementById('progCh1Result'), fb=document.getElementById('progCh1Fb');
  const expr=getPrintExpr(code); const prints=(code.match(/\bprint\s*\(/g)||[]).length; const has=[/\+/.test(expr||''),/-/.test(expr||''),/\*/.test(expr||''),/\//.test(expr||'')]; let value=null,error='';
@@ -996,13 +1072,13 @@ function checkProgChallenge2(){
  const ok=checks.every(Boolean); if(ok){resultEl.textContent=`執行結果：\n${String(value)}\n\n✓ 符合全部規則！`;storeProgramChallenge('programChallenge2',code,String(value),true)} fb.textContent=ok?'✓ 挑戰完成！':'請依左側檢核結果修改程式。'; fb.className='feedback '+(ok?'ok':'bad');
 }
 function checkProgChallenge3(){
-const code=document.getElementById('progCh3Code').value.trim(), resultEl=document.getElementById('progCh3Result'), fb=document.getElementById('progCh3Fb'); const expr=getPrintExpr(code); const comps=expr?(expr.match(/(?:==|!=|>=|<=|>|<)/g)||[]):[]; const logs=expr?(expr.match(/\b(?:and|or|not)\b/g)||[]):[]; let value=null,error='';
+ const code=document.getElementById('progCh3Code').value.trim(), resultEl=document.getElementById('progCh3Result'), fb=document.getElementById('progCh3Fb'); const expr=getPrintExpr(code); const comps=expr?(expr.match(/(?:==|!=|>=|<=|>|<)/g)||[]):[]; const logs=expr?(expr.match(/\b(?:and|or|not)\b/g)||[]):[]; let value=null,error='';
  try{value=runRestrictedPrint(code,'logic').value}catch(e){error=e.message}
  const uniqueComp=new Set(comps.map(x=>x)), uniqueLog=new Set(logs.map(x=>x)); const direct=/^\s*print\s*\(\s*True\s*\)\s*$/s.test(code); const checks=[uniqueComp.size>=2,uniqueLog.size>=2,!direct,(code.match(/\bprint\s*\(/g)||[]).length===1,expr!==null,value===true];
  setChallengeChecksText('progCh3Checks',checks); resultEl.textContent=error?`執行結果：\n❌ ${error}`:`執行結果：\n${String(value)}`;
  const ok=checks.every(Boolean); if(ok){resultEl.textContent='執行結果：\nTrue\n\n✓ 符合全部規則！';storeProgramChallenge('programChallenge3',code,'True',true)} fb.textContent=ok?'✓ 挑戰完成！':'請依左側檢核結果修改程式。'; fb.className='feedback '+(ok?'ok':'bad');
 }
-function setChallengeChecksText(id,items){const box=document.getElementById(id);if(!box)return;const labels=[...box.querySelectorAll('.task-check')];items.forEach((item,i)=>{if(!labels[i])return;const ok=!!item.ok;labels[i].classList.toggle('ok',ok);labels[i].classList.toggle('bad',!ok);const cb=labels[i].querySelector('input');if(cb)cb.checked=ok;});}
+function setChallengeChecksText(id,checks){const box=document.getElementById(id);if(!box)return;const labels=[...box.querySelectorAll('.task-check')];labels.forEach((el,i)=>{const ok=!!checks[i];el.classList.toggle('ok',ok);el.classList.toggle('bad',!ok);const cb=el.querySelector('input');if(cb)cb.checked=ok;});}
 function resetProgChallenge(n){const id='progCh'+n;document.getElementById(id+'Code').value='';document.getElementById(id+'Result').textContent='尚未執行……';document.getElementById(id+'Fb').textContent='';const box=document.getElementById(id+'Checks');if(box){box.querySelectorAll('.task-check').forEach(el=>{el.classList.remove('ok','bad');const cb=el.querySelector('input');if(cb)cb.checked=false;});}}
 const quizData=[
  {q:'在本章定義中，程式是什麼？',options:['一種電腦硬體','一組指揮電腦工作的指令集合','一種高階語言','一種IDE'],answer:['B'],multi:false},
@@ -1012,16 +1088,23 @@ const quizData=[
  {q:'下列哪些寫法可以正確完成「55 與 66 相加」？（可複選）',options:['<code>55 + int("66")</code>','<code>int("66") + 55</code>','<code>"55" + 66</code>','<code>55 + "66"</code>'],answer:['A','B'],multi:true}
 ];
 function renderQuiz(){document.getElementById('quizArea').innerHTML=quizData.map((q,i)=>`<div class="quizq"><b>${i+1}. ${q.q}</b>${q.options.map((o,j)=>{const letter=String.fromCharCode(65+j);const type=q.multi?'checkbox':'radio';return `<label class="opt"><input type="${type}" name="q${i}" value="${letter}"> ${letter}. ${o}</label>`}).join('')}</div>`).join('')}
-function submitQuiz(){let score=0,answers=[];quizData.forEach((q,i)=>{const selected=[...document.querySelectorAll(`input[name=q${i}]:checked`)].map(x=>x.value).sort();const expected=[...q.answer].sort();answers.push(q.multi?selected.join(''):selected[0]||'');if(selected.length===expected.length&&selected.every((v,idx)=>v===expected[idx]))score++});state.quiz={score,answers};state.score=Math.max(state.score,score*5);state.complete.quiz=score===5;save();document.getElementById('quizFb').textContent=`本次測驗：${score} / 5 題。${score===5?'全部正確，章末測驗完成！':'可以重新作答，找出不熟悉的觀念。'}`;document.getElementById('quizFb').className=score===5?'ok':'bad'}
+function submitQuiz(){
+ let score=0,answers=[];
+ quizData.forEach((q,i)=>{const selected=[...document.querySelectorAll(`input[name=q${i}]:checked`)].map(x=>x.value).sort();const expected=[...q.answer].sort();answers.push(q.multi?selected.join(''):selected[0]||'');if(selected.length===expected.length&&selected.every((v,idx)=>v===expected[idx]))score++});
+ state.quiz={score,answers,time:new Date().toISOString()};state.complete.quiz=score===5;recordInteraction('完成章末測驗',`${score}/5 題`);save();
+ const pts=score*4;document.getElementById('quizFb').textContent=`本次測驗：${score} / 5 題，計 ${pts} / 20 分。${score===5?'全部正確，章末測驗完成！':'可以重新作答，找出不熟悉的觀念。'}`;document.getElementById('quizFb').className=score===5?'ok':'bad';
+}
 function resetQuiz(){document.querySelectorAll('#quizArea input').forEach(x=>x.checked=false);document.getElementById('quizFb').textContent='已清除答案。'}
 document.querySelectorAll('.drag-item').forEach(makeDrag);
 function makeDrag(el){el.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain','drag');window.dragEl=el});}
 document.querySelectorAll('.dropzone').forEach(z=>z.addEventListener('dragover',e=>e.preventDefault()));
-document.querySelectorAll('.dropzone').forEach(z=>z.addEventListener('drop',e=>{e.preventDefault();const el=window.dragEl;if(!el)return;z.appendChild(el);const kind=el.dataset.kind,zone=z.dataset.zone;if(kind&&zone){const fb=document.getElementById('dragFeedback');if(fb){fb.textContent=kind===zone?'✓ 分類正確':'再想想：Python、Java 是語言；print(...) 等是使用語言寫出的程式。';fb.className='feedback '+(kind===zone?'ok':'bad')}}if(z.classList.contains('typezone')){const fb=document.getElementById('typeFb');const ok=kind===zone;fb.textContent=ok?'✓ 這筆資料型態分類正確。':'再觀察：引號、是否有小數點，以及 True/False。';fb.className='feedback '+(ok?'ok':'bad');if(ok)addScore('typedrag',3)}}));
+document.querySelectorAll('.dropzone').forEach(z=>z.addEventListener('drop',e=>{e.preventDefault();const el=window.dragEl;if(!el)return;z.appendChild(el);const kind=el.dataset.kind,zone=z.dataset.zone;if(kind&&zone){const fb=document.getElementById('dragFeedback');if(fb){fb.textContent=kind===zone?'✓ 分類正確':'再想想：Python、Java 是語言；print(...) 等是使用語言寫出的程式。';fb.className='feedback '+(kind===zone?'ok':'bad')}}if(z.classList.contains('typezone')){const fb=document.getElementById('typeFb');const ok=kind===zone;fb.textContent=ok?'✓ 這筆資料型態分類正確。':'再觀察：引號、是否有小數點，以及 True/False。';fb.className='feedback '+(ok?'ok':'bad');if(ok)addScore('typedrag',0)}}));
 document.getElementById('sortFlow').addEventListener('dragover',e=>e.preventDefault());
 document.getElementById('sortFlow').addEventListener('drop',e=>{e.preventDefault();if(window.dragEl&&window.dragEl.classList.contains('flow-step'))document.getElementById('sortFlow').appendChild(window.dragEl)});
 let dragged=null;
-document.querySelectorAll('.drag-item').forEach(el=>el.addEventListener('dragstart',()=>dragged=el));
+document.querySelectorAll('.drag-item').forEach(el=>el.addEventListener('dragstart',()=>{dragged=el;recordInteraction('開始拖曳',el.textContent.trim())}));
+document.addEventListener('drop',e=>{const el=window.dragEl||dragged;if(el)recordInteraction('拖曳操作',el.textContent.trim())});
+document.addEventListener('click',e=>{const btn=e.target.closest('button');if(btn&&!btn.disabled){const label=(btn.textContent||'').trim().replace(/\s+/g,' ').slice(0,80);if(label)recordInteraction('按鈕操作',label)}});
 function safeInit(fn){try{fn()}catch(e){console.error('初始化失敗：',e)}}
 safeInit(renderInfoProcess);
 safeInit(renderKeyboard);
@@ -1034,7 +1117,7 @@ safeInit(changeStepRender);
 safeInit(resetTempFill);
 safeInit(renderQuiz);
 safeInit(updateReflection);
-safeInit(updateDashboard);
+safeInit(recalcScore); safeInit(updateDashboard);
 // 確保章末測驗一定完成初始渲染
 setTimeout(()=>{try{renderQuiz()}catch(e){console.error('測驗渲染失敗：',e)}},0);
 </script>
