@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>第二章 2-1 循序結構｜互動學習網站</title>
+<style>
+:root{--blue:#426fd1;--blue2:#edf4ff;--purple:#7563c8;--green:#3da56a;--green2:#eefaf3;--orange:#e58b1b;--red:#d95762;--ink:#24334d;--muted:#68778e;--line:#d9e2ef;--bg:#f4f7fb;--white:#fff;--shadow:0 5px 18px rgba(46,66,103,.09)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans TC","Microsoft JhengHei",Arial,sans-serif;font-size:14px}
+button,input,textarea{font:inherit}button{cursor:pointer}.topbar{position:sticky;top:0;z-index:20;background:linear-gradient(90deg,#416fd0,#635fc0);color:#fff;padding:10px 20px;display:flex;align-items:center;gap:15px;min-height:62px;box-shadow:0 3px 12px rgba(34,62,120,.2)}.topbar h1{margin:0;font-size:19px;white-space:nowrap}.student{margin-left:auto;display:flex;align-items:center;gap:6px;flex-wrap:wrap}.student input{border:0;border-radius:6px;padding:7px 8px;width:70px}.student .name{width:115px}.btn{border:0;border-radius:7px;padding:8px 12px;font-weight:900;color:#fff}.greenbtn{background:#41a968}.bluebtn{background:#4c88d9}.orangebtn{background:#ed9b25}.redbtn{background:#d65a64}.graybtn{background:#8a97a8}.purplebtn{background:#7563c8}
+.layout{display:grid;grid-template-columns:230px 1fr;gap:14px;max-width:1900px;margin:auto;padding:12px 14px}.sidebar{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;height:calc(100vh - 86px);position:sticky;top:74px;overflow:auto}.side-title{font-weight:900;color:#4268b5;font-size:16px;padding:6px 8px 10px}.menu-group{border:1px solid #d7e2f6;border-radius:9px;margin-bottom:8px;overflow:hidden}.menu-head{background:#f0f5ff;color:#38599a;padding:9px;font-weight:900}.menu-item{display:flex;gap:6px;align-items:center;padding:8px;border-top:1px solid #edf1f7;font-size:12px}.menu-item .label{flex:1}.tip{margin-top:10px;border:1px solid #abdcb9;background:#f4fff7;border-radius:8px;padding:10px;font-size:12px;line-height:1.6}
+.main{min-width:0}.hero,.card{background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:10px}.hero{padding:16px}.hero h2{margin:0 0 6px;color:#315cae;font-size:23px}.hero p{margin:5px 0;color:var(--muted);line-height:1.7}.dashboard{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:10px}.dash{background:#fff;border:1px solid var(--line);border-radius:9px;padding:10px;min-height:74px;text-align:center}.dash .dt{font-weight:900;font-size:12px}.dash .big{font-size:20px;font-weight:900;margin-top:5px}.dash.score .dt{color:#3b8b52}.dash.quiz .dt{color:#cf4f59}.dash.practice .dt{color:#416ec5}.dash.bonus .dt{color:#a06e11}.progressbar{height:8px;background:#e9edf4;border-radius:20px;overflow:hidden;margin-top:6px}.progressbar i{display:block;height:100%;width:0;background:var(--blue)}
+.card-title{padding:11px 13px;color:#fff;font-size:15px;font-weight:900}.blue{background:linear-gradient(90deg,#506fc8,#5f62bc)}.purple{background:linear-gradient(90deg,#7262c5,#6a5ab2)}.orange{background:linear-gradient(90deg,#e38318,#d97212)}.red{background:linear-gradient(90deg,#d85561,#ca4d58)}.green{background:linear-gradient(90deg,#48a76d,#3b9860)}.card-body{padding:12px}.small{font-size:12px;color:var(--muted);line-height:1.65}.flow{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin:12px 0}.flowbox{padding:11px 15px;border:2px solid #8ca9df;border-radius:10px;background:#f5f8ff;font-weight:900;text-align:center}.arrow{font-size:22px;color:#7182a2}.stage{border:1px solid #d8e0eb;border-radius:9px;padding:11px;background:#fbfcff;margin-top:9px}.steptext{font-weight:900;color:#4a5d7d;margin-bottom:6px}.result{font-weight:900;text-align:center;padding:8px;border-radius:7px;margin-top:8px;background:#eefaf3;color:#2f7d50}.lesson-check{display:flex;gap:7px;align-items:center;border-top:1px solid #edf0f5;margin-top:10px;padding-top:9px;font-weight:900}.btns{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}.code{background:#172033;color:#eef5ff;border-radius:8px;padding:11px;font-family:Consolas,monospace;white-space:pre-wrap;line-height:1.65}
+.review{border:2px solid #8db2ed;background:#f7faff}.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.q{border:1px solid #dce3ef;border-radius:8px;padding:10px;background:#fff;margin:7px 0}.q b{display:block;margin-bottom:7px}.opt{display:block;padding:6px;border:1px solid #e0e5ee;border-radius:6px;margin:4px 0;background:#fbfcff}.blank{width:150px;border:1px solid #9db3d2;border-radius:6px;padding:7px}.review-score{font-size:20px;font-weight:900;text-align:center;padding:12px;background:#fff;border-radius:9px;border:1px solid #dbe4f1;margin-top:10px}.notice{background:#fff8df;border:1px solid #ead27b;padding:9px;border-radius:8px;color:#735d18;font-size:12px;line-height:1.6}
+.ide{display:grid;grid-template-columns:1.3fr .8fr .8fr .9fr;gap:8px;margin-top:10px}.ide-panel{border:1px solid #d4deeb;border-radius:8px;background:#fff;padding:8px;min-width:0}.ide-panel h4{margin:0 0 7px;color:#4d6489;font-size:12px}.editor{width:100%;height:270px;resize:vertical;border:2px solid #c6d3e4;border-radius:7px;padding:9px;font:15px/1.65 Consolas,monospace;background:#172033;color:#eef5ff}.keyboard{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.key{border:1px solid #b9c6d8;background:#f8fafc;border-radius:6px;padding:7px;text-align:center;font-weight:900}.key:hover{background:#edf4ff}.inputbox{width:100%;padding:8px;border:2px solid #198754;border-radius:7px;margin:5px 0}.memory{background:#f6fcf8;border:1px solid #b9ddc7;border-radius:7px;padding:9px;font:12px/1.65 Consolas,monospace;white-space:pre-wrap;min-height:160px}.screen{background:#172033;color:#eef5ff;border-radius:7px;padding:10px;min-height:160px;font:13px/1.65 Consolas,monospace;white-space:pre-wrap}.checklist{display:grid;gap:5px;margin-top:8px}.checkitem{padding:6px 8px;border-radius:6px;border:1px solid #dce3ef;background:#fff;font-size:12px}.checkitem.ok{background:#f3fbf6;border-color:#bfe2cc;color:#2e8754}.checkitem.bad{background:#fff6f7;border-color:#f0c5cb;color:#c44c59}.feedback{font-weight:900;margin-top:7px}.ok{color:#2e8754}.bad{color:#c44c59}.scoretag{float:right;background:#fff;color:#a35e00;border-radius:99px;padding:3px 8px;font-size:11px}
+.fill-code{background:#172033;color:#eef5ff;border-radius:8px;padding:12px;font:14px/1.8 Consolas,monospace}.fill-code input{width:95px;padding:3px;border-radius:5px;border:2px solid #7fa5dd;font-family:Consolas,monospace}.reflection textarea{width:100%;min-height:150px;border:1px solid #bcc9dc;border-radius:8px;padding:10px;resize:vertical}.footer{text-align:center;color:#7a879a;font-size:12px;padding:8px 0 20px}
+@media(max-width:1150px){.layout{grid-template-columns:1fr}.sidebar{position:relative;top:0;height:auto}.dashboard{grid-template-columns:1fr 1fr}.ide,.review-grid{grid-template-columns:1fr 1fr}}@media(max-width:700px){.dashboard{grid-template-columns:1fr}.ide,.review-grid{grid-template-columns:1fr}.topbar{align-items:flex-start;flex-direction:column}.student{margin-left:0}}
+</style>
+</head>
+<body>
+<header class="topbar">
+<h1>第2章 結構化程式實作｜2-1 循序結構</h1>
+<div class="student"><b>班級</b><input id="classNo" placeholder="101"><b>座號</b><input id="seatNo" placeholder="01"><b>姓名</b><input id="studentName" class="name" placeholder="請輸入姓名"><button class="btn graybtn" onclick="saveStudent()">儲存資料</button></div>
+</header>
+
+<div class="layout">
+<aside class="sidebar">
+<div class="side-title">📚 第二章學習目錄</div>
+<div class="menu-group">
+<div class="menu-head">2-1 循序結構</div>
+<label class="menu-item"><span class="label">複習闖關</span><input type="checkbox" data-check="review"></label>
+<label class="menu-item"><span class="label">優惠價格範例</span><input type="checkbox" data-check="discount"></label>
+<label class="menu-item"><span class="label">BMI 程式填空</span><input type="checkbox" data-check="bmi"></label>
+<label class="menu-item"><span class="label">Pybot 聊天機器人</span><input type="checkbox" data-check="pybot"></label>
+<label class="menu-item"><span class="label">攝氏→華氏</span><input type="checkbox" data-check="ctof"></label>
+<label class="menu-item"><span class="label">程式填空加強題</span><input type="checkbox" data-check="fill5"></label>
+<label class="menu-item"><span class="label">邏輯運算題①</span><input type="checkbox" data-check="logic1"></label>
+<label class="menu-item"><span class="label">邏輯運算題②</span><input type="checkbox" data-check="logic2"></label>
+<label class="menu-item"><span class="label">字串運算題</span><input type="checkbox" data-check="string15"></label>
+<label class="menu-item"><span class="label">學習心得</span><input type="checkbox" data-check="reflection"></label>
+</div>
+<div class="tip">💡 學習流程：先玩複習闖關 → 看課本 P.26 循序結構 → 操作 4 題 IDE 程式 → 完成 2 題選擇題、程式填空與心得。<br><br>本節正式成績為 <b>100 分</b>；前面的 100 分複習闖關是診斷活動，不重複計入正式成績。</div>
+</aside>
+
+<main class="main">
+<section class="hero">
+<h2>Chapter 02｜2-1 循序結構</h2>
+<p>課本 P.26 將循序結構定義為「由上而下，依序執行指令」的控制結構，也是最基本的控制結構。P.26 的優惠價格活動依序設定原價、計算促銷價，再以促銷價計算惜食價；P.27 接著以 BMI 練習讓學生輸入身高、體重、轉換單位並計算 BMI。</p>
+<div class="flow"><div class="flowbox">① 輸入／設定資料</div><div class="arrow">→</div><div class="flowbox">② 依序計算</div><div class="arrow">→</div><div class="flowbox">③ 輸出結果</div></div>
+</section>
+
+<section class="dashboard">
+<div class="dash"><div class="dt">📚 完成進度</div><div class="big" id="progressText">0 / 7</div><div class="progressbar"><i id="progressBar"></i></div></div>
+<div class="dash score"><div class="dt">🏆 正式成績</div><div class="big" id="scoreText">0 / 85</div><div class="small">4程式60＋選擇10＋填空5＋心得10</div></div>
+<div class="dash practice"><div class="dt">💻 程式過關</div><div class="big" id="progText">0 / 4</div></div>
+<div class="dash quiz"><div class="dt">🎮 複習闖關</div><div class="big" id="reviewText">尚未作答</div><div class="small">100 分・最多作答 2 次</div></div>
+<div class="dash bonus"><div class="dt">🌟 溫度轉換練習</div><div class="big" id="bonusText">已完成 0 / 1</div></div>
+</section>
+
+<section class="card review">
+<div class="card-title blue">🎮 進入闖關｜第一章概念快速複習 <span class="scoretag">100 分・最多作答 2 次</span></div>
+<div class="card-body">
+<div class="notice">本闖關先複習：變數、資料型態、字串轉換、數值運算、字串運算與輸出。共 10 題，每題 10 分；選擇題與填空題混合。第一次提交後可再作答一次，系統取較高分。</div>
+<div id="reviewArea"></div>
+<div class="btns"><button class="btn bluebtn" onclick="submitReview()">提交本次闖關</button><button class="btn graybtn" onclick="resetReview()">重新作答</button></div>
+<div id="reviewFb" class="feedback"></div><div id="reviewScore" class="review-score">尚未作答</div>
+</div>
+</section>
+
+<section class="card">
+<div class="card-title purple">📘 2-1 核心概念｜循序結構</div>
+<div class="card-body">
+<p>課本指出，循序結構會按照程式敘述的順序，由上而下執行。P.26 的流程為：設定食品原價 → 計算並輸出促銷優惠價格 → 再計算並輸出惜食優惠價格。</p>
+<div class="stage">
+<div class="steptext">課本 P.26 優惠價格：一步一步看程式怎麼走</div>
+<div class="flow"><div class="flowbox">price = 80</div><div class="arrow">→</div><div class="flowbox">sum = price × 0.95</div><div class="arrow">→</div><div class="flowbox">輸出促銷價</div><div class="arrow">→</div><div class="flowbox">sum = sum × 0.5</div><div class="arrow">→</div><div class="flowbox">輸出惜食價</div></div>
+<div class="result">課本執行結果：促銷價 76.0、惜食價 38.0。</div>
+</div>
+<div class="lesson-check"><input type="checkbox" data-check="concept"> 我了解「由上而下、依序執行」就是循序結構</div>
+</div>
+</section>
+
+<!-- five scored programs -->
+<section class="card">
+<div class="card-title orange">💻 程式實作 ①｜課本 P.26 優惠價格計算 <span class="scoretag">15 分</span></div>
+<div class="card-body">
+<p class="small">這一題直接採用課本 P.26～P.27 的「優惠價格的計算」作為範例。請先觀察，再按「執行／檢核」確認程式可以正確執行。課本程式使用 <code>price = 80</code>、95 折後再打 5 折。</p>
+<div id="ide1"></div><div id="fb1" class="feedback"></div>
+<div class="lesson-check"><input type="checkbox" data-check="discount"> 我完成優惠價格範例</div>
+</div></section>
+
+<section class="card">
+<div class="card-title green">💻 程式實作 ②｜BMI 程式填空 <span class="scoretag">15 分</span></div>
+<div class="card-body">
+<p class="small">課本 P.27：輸入身高（公分）、體重（公斤），將身高轉成公尺，再依 BMI＝體重／身高²計算。使用者輸入的資料原本是字串，需用 <code>float()</code> 轉成浮點數。</p>
+<div id="ide2"></div><div id="fb2" class="feedback"></div>
+<div class="lesson-check"><input type="checkbox" data-check="bmi"> 我完成 BMI 程式填空</div>
+</div></section>
+
+<section class="card">
+<div class="card-title blue">💻 程式實作 ③｜課本 P.28 Pybot 聊天機器人 <span class="scoretag">15 分</span></div>
+<div class="card-body">
+<p class="small">延伸使用本節的循序結構：輸出招呼語 → 輸入姓名 → 輸出姓名 → 輸入年齡 → 將年齡轉成整數 → 計算出生年份 → 輸出結果。課本 P.28 明確列出 <code>input()</code>、變數、<code>int()</code>、指定與算術運算。</p>
+<div id="ide3"></div><div id="fb3" class="feedback"></div>
+<div class="lesson-check"><input type="checkbox" data-check="pybot"> 我完成 Pybot 聊天機器人</div>
+</div></section>
+
+<section class="card">
+<div class="card-title purple">💻 程式實作 ④｜第一章加分題複製：攝氏 → 華氏 <span class="scoretag">15 分</span></div>
+<div class="card-body">
+<p class="small">原第一章的加分挑戰 ①：請使用 <code>input()</code>、數值型態轉換與 <code>print()</code>，公式為華氏＝9×攝氏／5＋32；不可直接寫出答案。這裡改成 2-1 的正式練習題。</p>
+<div id="ide4"></div><div id="fb4" class="feedback"></div>
+<div class="lesson-check"><input type="checkbox" data-check="ctof"> 我完成攝氏轉華氏</div>
+</div></section>
+
+
+
+<section class="card">
+<div class="card-title red">🧩 程式填空加強題 <span class="scoretag">5 分</span></div>
+<div class="card-body">
+<p class="small">完成下面的循序結構程式，使它依序輸入兩個數字、相加並輸出結果。</p>
+<div class="fill-code">
+a = <input id="f1" placeholder="輸入"> (input("第一個數字："))<br>
+b = <input id="f2" placeholder="輸入"> (input("第二個數字："))<br>
+sum = a <input id="f3" placeholder="運算子"> b<br>
+print("總和：", <input id="f4" placeholder="變數">
+)
+</div>
+<div class="btns"><button class="btn redbtn" onclick="checkFill()">檢查填空</button></div><div id="fillFb" class="feedback"></div>
+<div class="lesson-check"><input type="checkbox" data-check="fill5"> 我完成程式填空加強題</div>
+</div></section>
+
+<section class="card">
+<div class="card-title blue">📝 2-1 線上評量｜2 題選擇題 <span class="scoretag">10 分</span></div>
+<div class="card-body" id="mcArea"></div>
+<div class="card-body"><button class="btn bluebtn" onclick="submitMC()">提交選擇題</button><span id="mcFb" class="feedback"></span></div>
+</section>
+
+<section class="card">
+<div class="card-title purple">🧠 運算加強題｜邏輯運算 2 題＋字串運算 1 題 <span class="scoretag">15 分</span></div>
+<div class="card-body">
+<p class="notice">這 3 題共 15 分，每題 5 分。請先思考運算結果，再輸入答案並按「檢核」。答對才取得該題分數；答錯會提示你重新思考。</p>
+
+<div class="q">
+<b>邏輯運算①｜5 分</b>
+<p class="small">請判斷下列 Python 運算結果，將答案填入（只需填 <b>True</b> 或 <b>False</b>）。</p>
+<div class="code">x = 8
+y = 12
+print(x &lt; 10 and y &gt; 10)</div>
+<p>答案：<input id="logic1Input" class="blank" placeholder="True / False"></p>
+<button class="btn purplebtn" onclick="checkLogic1()">檢核邏輯運算①</button>
+<div id="logic1Fb" class="feedback"></div>
+</div>
+
+<div class="q">
+<b>邏輯運算②｜5 分</b>
+<p class="small">請判斷下列 Python 運算結果，將答案填入（只需填 <b>True</b> 或 <b>False</b>）。</p>
+<div class="code">age = 16
+print(age &gt;= 18 or age == 16)</div>
+<p>答案：<input id="logic2Input" class="blank" placeholder="True / False"></p>
+<button class="btn purplebtn" onclick="checkLogic2()">檢核邏輯運算②</button>
+<div id="logic2Fb" class="feedback"></div>
+</div>
+
+<div class="q">
+<b>字串運算｜5 分</b>
+<p class="small">請判斷字串相加後的結果。注意：字串使用 <code>+</code> 時，是把文字接在一起。</p>
+<div class="code">a = "Python"
+b = "123"
+print(a + b)</div>
+<p>答案：<input id="string15Input" class="blank" placeholder="輸入輸出結果"></p>
+<button class="btn purplebtn" onclick="checkString15()">檢核字串運算</button>
+<div id="string15Fb" class="feedback"></div>
+</div>
+
+<div class="lesson-check"><input type="checkbox" data-check="logic1"> 我完成邏輯運算①</div>
+<div class="lesson-check"><input type="checkbox" data-check="logic2"> 我完成邏輯運算②</div>
+<div class="lesson-check"><input type="checkbox" data-check="string15"> 我完成字串運算</div>
+</div></section>
+
+<section class="card reflection">
+<div class="card-title green">📝 我的學習心得 <span class="scoretag">10 分</span></div>
+<div class="card-body">
+<p class="small">請用自己的話回答：<b>什麼是循序結構？在今天的 4 個程式中，你最容易出錯的是哪一個步驟？為什麼？</b> 建議至少 50 字。</p>
+<textarea id="reflection" maxlength="1000" placeholder="請輸入至少 50 字的學習心得……"></textarea>
+<div class="btns"><button class="btn greenbtn" onclick="saveReflection()">儲存心得</button></div><div id="reflectionFb" class="feedback"></div>
+</div></section>
+
+<section class="card">
+<div class="card-title orange">📊 本節計分方式</div>
+<div class="card-body">
+<table style="width:100%;border-collapse:collapse">
+<tr><th style="text-align:left;border-bottom:1px solid #ddd;padding:8px">項目</th><th style="text-align:right;border-bottom:1px solid #ddd;padding:8px">分數</th></tr>
+<tr><td style="padding:8px">4 題程式實作 × 15 分</td><td style="text-align:right">60</td></tr>
+<tr><td style="padding:8px">2 題選擇題 × 5 分</td><td style="text-align:right">10</td></tr>
+<tr><td style="padding:8px">程式填空</td><td style="text-align:right">5</td></tr>
+<tr><td style="padding:8px">邏輯運算 2 題＋字串運算 1 題</td><td style="text-align:right">15</td></tr>
+<tr><td style="padding:8px">學習心得</td><td style="text-align:right">10</td></tr>
+<tr><td style="padding:8px;font-weight:900">正式成績合計</td><td style="text-align:right;font-weight:900">100</td></tr>
+</table>
+<p class="small">第一章的「攝氏 → 華氏」加分題已移入本節，改為 15 分正式程式實作；「華氏 → 攝氏」已移除。最後 15 分改為 2 題邏輯運算與 1 題字串運算。</p>
+</div></section>
+
+<section class="card">
+<div class="card-title red">☁️ 上傳學習成果</div>
+<div class="card-body">
+<p class="small">請先填寫班級、座號、姓名，再按下按鈕。系統會把本節的闖關最高分、4 題程式完成狀態、程式填空、選擇題與心得，以及正式成績上傳到 Google 試算表。</p>
+<div class="btns"><button class="btn redbtn" onclick="uploadResults()">☁️ 上傳學習成果</button></div>
+<div id="uploadFb" class="feedback"></div>
+</div></section>
+
+<div class="footer">第二章 2-1 循序結構｜依《C247C1_ch02》P.26～P.28 與第一章兩題溫度轉換加分題設計。學習進度保存在本機瀏覽器；本版本可再接續共用 GAS 上傳。</div>
+</main></div>
+
+<script>
+const KEY='ch02_2_1_sequence_v1';
+let state=JSON.parse(localStorage.getItem(KEY)||'{}');
+state.complete=state.complete||{};state.programs=state.programs||{};state.mc=state.mc||{score:0,submitted:false};state.review=state.review||{attempts:0,best:0};state.reflection=state.reflection||'';
+
+function save(){localStorage.setItem(KEY,JSON.stringify(state));updateDash()}
+function saveStudent(){save();alert('學生資料已儲存於本機瀏覽器。')}
+document.querySelectorAll('[data-check]').forEach(x=>x.addEventListener('change',e=>{state.complete[e.target.dataset.check]=e.target.checked;save()}));
+
+const reviewQs=[
+{q:'1. 變數主要用來做什麼？',o:['儲存與取用資料','只能顯示文字','只能做加法','只能控制迴圈'],c:0},
+{q:'2. 911 在 Python 中屬於哪一種基本資料型態？',o:['str','float','int','bool'],c:2},
+{q:'3. "55" 是哪一種資料型態？',o:['int','str','float','bool'],c:1},
+{q:'4. 若要把字串 "55" 轉成整數，應使用哪個函式？',o:['str()','float()','int()','print()'],c:2},
+{q:'5. Python 中 7 * 3 的結果為？',o:['10','21','73','4'],c:1},
+{q:'6. 下列哪一個是字串運算？',o:['"Hi" + "Python"','8 / 2','9 - 3','5 > 2'],c:0},
+{q:'7. print() 的主要功能是什麼？',o:['取得鍵盤輸入','建立變數','顯示輸出結果','把字串轉成整數'],c:2},
+{q:'8. 填空：input() 取得的資料預設是 ______ 型態。',blank:true,ans:['字串']},
+{q:'9. 填空：把字串 "66" 轉成浮點數，應使用 ______。',blank:true,ans:['float()']},
+{q:'10. 填空：print("A" + "B") 最後會輸出 ______。',blank:true,ans:['AB']}
+];
+function renderReview(){
+document.getElementById('reviewArea').innerHTML=reviewQs.map((x,i)=>`<div class="q"><b>${x.q}</b>${x.blank?`<input class="blank" id="rq${i}" placeholder="填入答案">`:x.o.map((a,j)=>`<label class="opt"><input type="radio" name="rq${i}" value="${j}"> ${String.fromCharCode(65+j)}. ${a}</label>`).join('')}</div>`).join('');
+}
+function submitReview(){
+if(state.review.attempts>=2){document.getElementById('reviewFb').textContent='已完成最多 2 次作答，系統保留最高分。';return}
+let score=0;
+reviewQs.forEach((x,i)=>{if(x.blank){let v=document.getElementById('rq'+i).value.trim().toLowerCase();if(x.ans.some(a=>v===a.toLowerCase()))score+=10}else{let r=document.querySelector(`input[name="rq${i}"]:checked`);if(r&&Number(r.value)===x.c)score+=10}});
+state.review.attempts++;state.review.best=Math.max(state.review.best,score);state.complete.review=state.review.attempts>0;save();
+document.getElementById('reviewFb').textContent=`第 ${state.review.attempts} 次完成：${score} 分。${state.review.attempts<2?'還可以再挑戰一次。':'已達最多 2 次作答。'}`;
+document.getElementById('reviewScore').textContent=`目前最高分：${state.review.best} / 100`;
+}
+function resetReview(){if(state.review.attempts>=2){alert('已經使用 2 次作答，不能再重置重考。');return}renderReview()}
+
+const mcQs=[
+{q:'課本 P.26 的優惠價格程式，第二次計算惜食價時，是以什麼作為基礎？',o:['原價 price','促銷優惠價格 sum','固定 80 元','輸入的字串'],c:1},
+{q:'課本 P.27 的 BMI 練習中，為了讓身高與體重可以進行數值計算，需要先做什麼？',o:['使用 print()','轉成 float','轉成 str','刪除變數'],c:1}
+];
+function renderMC(){document.getElementById('mcArea').innerHTML=mcQs.map((x,i)=>`<div class="q"><b>${x.q}</b>${x.o.map((a,j)=>`<label class="opt"><input type="radio" name="mc${i}" value="${j}">${String.fromCharCode(65+j)}. ${a}</label>`).join('')}</div>`).join('')}
+function submitMC(){let s=0;mcQs.forEach((x,i)=>{let r=document.querySelector(`input[name="mc${i}"]:checked`);if(r&&Number(r.value)===x.c)s+=5});state.mc.score=Math.max(state.mc.score,s);state.mc.submitted=true;state.complete.mc=s===10;save();document.getElementById('mcFb').textContent=`本次 ${s} 分；最高紀錄 ${state.mc.score} / 10。`}
+
+function ideHTML(n,code,inputHTML){
+return `<div class="ide">
+<div class="ide-panel"><h4>💻 程式編輯區</h4><textarea id="code${n}" class="editor">${code}</textarea><div class="btns"><button class="btn greenbtn" onclick="runProgram(${n})">▶ 執行／檢核</button><button class="btn graybtn" onclick="resetProgram(${n})">重設</button></div></div>
+<div class="ide-panel"><h4>⌨️ 鍵盤輸入方塊</h4>${inputHTML}<div class="keyboard">${['1','2','3','4','5','6','7','8','9','0','⌫','清除'].map(k=>`<button class="key" onclick="keyInput(${n},'${k}')">${k}</button>`).join('')}</div></div>
+<div class="ide-panel"><h4>💾 記憶體配置</h4><div id="mem${n}" class="memory">尚未執行</div></div>
+<div class="ide-panel"><h4>🖥️ 螢幕輸出</h4><div id="out${n}" class="screen">等待執行……</div></div>
+</div><div class="stage"><div class="steptext">📋 程式檢核</div><div id="checks${n}" class="checklist"><div class="checkitem">尚未執行</div></div></div>`;
+}
+
+const initialCodes={
+1:`price = 80
+sum = price * ____
+print("促銷價:", sum)
+sum = sum * ____
+print("惜食價:", sum)`,
+2:`weight = float(input("體重(公斤): "))
+height = float(input("身高(公分): "))
+height = height / ____
+bmi = weight / (height ** ____)
+print(bmi)`,
+3:`print("哈囉! 我是Pybot聊天機器人")
+print("我喜歡和朋友聊天")
+name = input("你叫什麼名字呢? ")
+print(name, "很高興認識你!")
+age = input("今年幾歲呢? ")
+year = 2027 - ____(age)
+print("原來你是西元", year, "年出生的哦!")
+print("我和你同年耶!")`,
+4:`C = float(input("請輸入攝氏溫度: "))
+F = C * 9 / 5 + ____
+print("華氏溫度:", F)`
+};
+function initIDEs(){
+document.getElementById('ide1').innerHTML=ideHTML(1,initialCodes[1],`<label class="small">本題無需鍵盤輸入。<br>課本原價：<b>80</b></label>`);
+document.getElementById('ide2').innerHTML=ideHTML(2,initialCodes[2],`<label class="small">體重（公斤）</label><input id="in2a" class="inputbox" value="45"><label class="small">身高（公分）</label><input id="in2b" class="inputbox" value="152">`);
+document.getElementById('ide3').innerHTML=ideHTML(3,initialCodes[3],`<label class="small">姓名</label><input id="in3a" class="inputbox" value="Jan"><label class="small">年齡</label><input id="in3b" class="inputbox" value="16">`);
+document.getElementById('ide4').innerHTML=ideHTML(4,initialCodes[4],`<label class="small">攝氏溫度</label><input id="in4a" class="inputbox" value="37.6" type="number">`);
+}
+function keyInput(n,k){
+let el=document.getElementById('in'+n+'a');if(!el)return;
+if(k==='⌫')el.value=el.value.slice(0,-1);else if(k==='清除')el.value='';else if(k==='.')el.value+=k;else el.value+=k;
+}
+function checkList(n,items){
+document.getElementById('checks'+n).innerHTML=items.map(x=>`<div class="checkitem ${x.ok?'ok':'bad'}">${x.ok?'✓':'✗'} ${x.t}</div>`).join('');
+}
+function runProgram(n){
+let code=document.getElementById('code'+n).value,ok=false,items=[],mem='',out='',err='';
+const hasBlank=code.includes('____');
+try{
+if(n===1){
+let a=/price\s*=\s*80/.test(code),b=/price\s*\*\s*0\.95/.test(code),c=/sum\s*=\s*sum\s*\*\s*0\.5/.test(code),d=/print\s*\(/.test(code);
+ok=a&&b&&c&&d&&!hasBlank;
+items=[['price = 80',a],['促銷價使用 0.95',b],['惜食價使用 sum × 0.5',c],['使用 print() 輸出',d],['沒有未完成的挖空',!hasBlank]];
+mem=`price = 80
+sum = 76.0
+sum = 38.0`;
+out=`促銷價: 76.0
+惜食價: 38.0`;
+if(hasBlank)err='第 1 題仍有 ____ 尚未填寫。';
+}
+if(n===2){
+let w=Number(document.getElementById('in2a').value),h=Number(document.getElementById('in2b').value);
+let a=/float\s*\(\s*input/i.test(code),b=/\/\s*100/.test(code),c=/\*\*\s*2/.test(code),d=/print\s*\(/.test(code);
+ok=a&&b&&c&&d&&!hasBlank;
+items=[['使用 float(input())',a],['身高公分 ÷ 100 轉公尺',b],['BMI 使用身高平方',c],['使用 print() 輸出',d],['沒有未完成的挖空',!hasBlank]];
+let hm=h/100,bmi=w/(hm*hm);
+mem=`weight = ${w}
+height = ${hm}
+bmi = ${bmi.toFixed(2)}`;
+out=`體重(公斤): ${w}
+身高(公分): ${h}
+BMI: ${bmi.toFixed(2)}`;
+if(hasBlank)err='第 2 題仍有 ____ 尚未填寫。';
+}
+if(n===3){
+let name=document.getElementById('in3a').value,age=Number(document.getElementById('in3b').value);
+let a=/name\s*=\s*input/i.test(code),b=/age\s*=\s*input/i.test(code),c=/int\s*\(\s*age\s*\)/.test(code),d=/2027\s*-\s*int\s*\(\s*age\s*\)/.test(code),e=/print\s*\(/.test(code);
+ok=a&&b&&c&&d&&e&&!hasBlank;
+items=[['使用 input() 輸入姓名',a],['使用 input() 輸入年齡',b],['使用 int(age) 轉整數',c],['計算 2027 - int(age)',d],['使用 print() 輸出',e],['沒有未完成的挖空',!hasBlank]];
+let y=2027-age;
+mem=`name = "${name}"
+age = "${age}" → int(age) = ${age}
+year = ${y}`;
+out=`哈囉! 我是Pybot聊天機器人
+我喜歡和朋友聊天
+你叫什麼名字呢? ${name}
+${name} 很高興認識你!
+今年幾歲呢? ${age}
+原來你是西元 ${y} 年出生的哦!
+我和你同年耶!`;
+if(hasBlank)err='第 3 題仍有 ____ 尚未填寫。';
+}
+if(n===4){
+let c=Number(document.getElementById('in4a').value),f=c*9/5+32;
+let a=/input\s*\(/i.test(code),b=/float\s*\(/i.test(code),c1=/\*\s*9/.test(code)&&/\/\s*5/.test(code)&&/\+\s*32/.test(code),d=/print\s*\(/.test(code);
+ok=a&&b&&c1&&d&&!hasBlank;
+items=[['使用 input()',a],['使用 float()',b],['公式為 C × 9 ÷ 5 + 32',c1],['使用 print() 輸出',d],['沒有未完成的挖空',!hasBlank]];
+mem=`C = ${c}
+F = ${f.toFixed(2)}`;
+out=`輸入：${c} °C
+華氏溫度：${f.toFixed(2)} °F`;
+if(hasBlank)err='第 4 題仍有 ____ 尚未填寫。';
+}
+checkList(n,items.map(x=>({t:x[0],ok:x[1]})));
+document.getElementById('mem'+n).textContent=mem||'尚未建立記憶體資料';
+document.getElementById('out'+n).textContent=ok?out:('❌ 程式尚未正確執行\n'+(err||'請依右側檢核結果修改程式。'));
+state.programs[n]=ok;
+state.complete[['','discount','bmi','pybot','ctof'][n]]=ok;
+save();
+document.getElementById('fb'+n).textContent=ok?'🎉 執行正確，程式過關！獲得 15 分。':('⚠️ '+(err||'程式執行結果不符合要求，請修改後再檢核。'));
+document.getElementById('fb'+n).className='feedback '+(ok?'ok':'bad');
+}catch(e){
+document.getElementById('out'+n).textContent='❌ 執行錯誤：'+e.message;
+document.getElementById('fb'+n).textContent='請檢查程式語法、括號、型態轉換與運算式。';
+document.getElementById('fb'+n).className='feedback bad';
+}
+}
+function resetProgram(n){
+document.getElementById('code'+n).value=initialCodes[n];
+document.getElementById('mem'+n).textContent='尚未執行';
+document.getElementById('out'+n).textContent='等待執行……';
+document.getElementById('checks'+n).innerHTML='<div class="checkitem">已重設為預設挖空程式碼，請完成後再執行。</div>';
+document.getElementById('fb'+n).textContent='';
+state.programs[n]=false;
+save();
+}
+function checkFill(){
+let a=document.getElementById('f1').value.trim(),b=document.getElementById('f2').value.trim(),c=document.getElementById('f3').value.trim(),d=document.getElementById('f4').value.trim();
+let ok=(a==='int'&&b==='int'&&c==='+'&&d==='sum');
+document.getElementById('fillFb').textContent=ok?'🎉 填空全部正確！獲得 5 分。':'⚠️ 有空格填錯，請再檢查：input() 後要轉成 int、兩數相加、最後輸出 sum。';
+document.getElementById('fillFb').className='feedback '+(ok?'ok':'bad');state.complete.fill5=ok;save()
+}
+function saveReflection(){
+let v=document.getElementById('reflection').value.trim();state.reflection=v;let ok=v.length>=50;state.complete.reflection=ok;save();document.getElementById('reflectionFb').textContent=ok?'✓ 心得已儲存，獲得 10 分。':'請至少輸入 50 字後再儲存。';document.getElementById('reflectionFb').className='feedback '+(ok?'ok':'bad')
+}
+function checkLogic1(){
+let v=document.getElementById('logic1Input').value.trim().toLowerCase();
+let ok=(v==='true');
+state.complete.logic1=ok;save();
+let fb=document.getElementById('logic1Fb');fb.textContent=ok?'🎉 正確！8 < 10 是 True，而且 12 > 10 也是 True，True and True = True。獲得 5 分。':'⚠️ 再想想：先分別判斷 8 < 10 與 12 > 10，再使用 and。';
+fb.className='feedback '+(ok?'ok':'bad');
+}
+function checkLogic2(){
+let v=document.getElementById('logic2Input').value.trim().toLowerCase();
+let ok=(v==='true');
+state.complete.logic2=ok;save();
+let fb=document.getElementById('logic2Fb');fb.textContent=ok?'🎉 正確！age >= 18 是 False，但 age == 16 是 True；False or True = True。獲得 5 分。':'⚠️ 再想想：先判斷兩個條件，再使用 or。';
+fb.className='feedback '+(ok?'ok':'bad');
+}
+function checkString15(){
+let v=document.getElementById('string15Input').value.trim();
+let ok=(v==='Python123');
+state.complete.string15=ok;save();
+let fb=document.getElementById('string15Fb');fb.textContent=ok?'🎉 正確！兩個字串用 + 會串接成 Python123。獲得 5 分。':'⚠️ 再想想：字串使用 + 是「連接」，不是數值相加。';
+fb.className='feedback '+(ok?'ok':'bad');
+}
+function recalc(){let p=['discount','bmi','pybot','ctof'].filter(k=>state.complete[k]).length*15;let mc=state.mc.score||0;let fill=state.complete.fill5?5:0;let extra=['logic1','logic2','string15'].filter(k=>state.complete[k]).length*5;let refl=state.complete.reflection?10:0;return p+mc+fill+extra+refl}
+function updateDash(){
+let keys=['review','discount','bmi','pybot','ctof','fill5','logic1','logic2','string15','reflection'];let done=keys.filter(k=>state.complete[k]).length;document.getElementById('progressText').textContent=`${done} / ${keys.length}`;document.getElementById('progressBar').style.width=(done/keys.length*100)+'%';document.getElementById('scoreText').textContent=`${recalc()} / 100`;let pc=['discount','bmi','pybot','ctof'].filter(k=>state.complete[k]).length;document.getElementById('progText').textContent=`${pc} / 4`;document.getElementById('reviewText').textContent=state.review.attempts?`${state.review.best} / 100`:'尚未作答';let ex=['logic1','logic2','string15'].filter(k=>state.complete[k]).length*5;document.getElementById('bonusText').textContent=`${ex} / 15`;document.querySelectorAll('[data-check]').forEach(x=>x.checked=!!state.complete[x.dataset.check])
+}
+
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbwrkpuDd1WaHE2ilaiYwZMxfDx0DW10PSeWrSH4gkj8-gFmjzPyUjymJJQsz2iELka0eg/exec';
+function uploadResults(){
+const cls=document.getElementById('classNo').value.trim(),seat=document.getElementById('seatNo').value.trim(),name=document.getElementById('studentName').value.trim();
+if(!cls||!seat||!name){document.getElementById('uploadFb').textContent='⚠️ 請先填寫班級、座號、姓名。';document.getElementById('uploadFb').className='feedback bad';return;}
+if(GAS_URL.includes('請貼上')){document.getElementById('uploadFb').textContent='⚠️ 尚未設定 GAS Web App /exec 網址，請在程式碼中的 GAS_URL 貼上部署網址。';document.getElementById('uploadFb').className='feedback bad';return;}
+const data={
+action:'saveCh02_2_1',
+classNo:cls,seatNo:seat,studentName:name,
+reviewBest:state.review.best||0,reviewAttempts:state.review.attempts||0,
+program1:!!state.complete.discount,program2:!!state.complete.bmi,program3:!!state.complete.pybot,program4:!!state.complete.ctof,
+fill5:!!state.complete.fill5,logic1:!!state.complete.logic1,logic2:!!state.complete.logic2,string15:!!state.complete.string15,
+mcScore:state.mc.score||0,reflection:state.reflection||'',
+formalScore:recalc(),progress:Object.values(state.complete).filter(Boolean).length
+};
+document.getElementById('uploadFb').textContent='⏳ 上傳中……';
+fetch(GAS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data)})
+.then(()=>{document.getElementById('uploadFb').textContent='✅ 已送出學習成果。請至 Google 試算表確認資料。';document.getElementById('uploadFb').className='feedback ok';})
+.catch(e=>{document.getElementById('uploadFb').textContent='❌ 上傳失敗：'+e.message;document.getElementById('uploadFb').className='feedback bad';});
+}
+document.getElementById('reflection').value=state.reflection||'';
+renderReview();renderMC();initIDEs();updateDash();
+</script>
+</body>
+</html>
