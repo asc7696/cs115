@@ -357,7 +357,7 @@ function ideHTML(id){
   <div class="panel"><div class="panel-title">🧠 記憶體</div><div id="${id}memory" class="panel-body">{ }</div></div>
   <div class="panel"><div class="panel-title">🖥 螢幕輸出</div><div id="${id}output" class="panel-body">等待執行……</div></div>
  </div></div>
- <div class="note">逐步執行會依序模擬常見的 Python：變數、print、input、if/elif/else、while、for。<b>if / else 只會執行其中一條分支</b>；本例 stu=True，因此只會執行 <code>print("可以")</code>，<code>print("不可以")</code> 不會執行。此頁以教學模擬器為主，不是完整 Python 編譯器。</div>
+ <div class="note">按「逐步執行」會重新開始本例的執行流程：<b>① stu=True → ② if 判斷為 True → ③ 只執行 print("可以")</b>。<b>else 分支不會執行</b>。若剛按過「執行程式」，再次按「逐步執行」會自動重新開始動畫。</div>
  </div>`;
 }
 
@@ -635,6 +635,7 @@ function updateProgress(){
 function resetIDE(id){
  document.getElementById(id+"editor").value=practice[id].starter;
  state[id].stepIndex=0;
+ state[id].simMode="";
  state[id].simMemory={};
  state[id].simOutput=[];
  state[id].simInput=[];
@@ -647,81 +648,91 @@ function resetIDE(id){
 }
 function runIDE(id,step){
  const code=document.getElementById(id+"editor").value;
- const lines=code.split(/\n/);
  const status=document.getElementById(id+"stepStatus");
  const memory=document.getElementById(id+"memory");
  const output=document.getElementById(id+"output");
  const input=document.getElementById(id+"input");
  const st=state[id];
 
- if(step && id==="s22"){
-   st.simMemory=st.simMemory||{};
-   st.simOutput=Array.isArray(st.simOutput)?st.simOutput:[];
-   st.simInput=Array.isArray(st.simInput)?st.simInput:[];
-   st.stepIndex=Number.isInteger(st.stepIndex)?st.stepIndex:0;
-
-   // 若程式內容改變，重新建立逐步執行路徑，避免卡在舊的 stepIndex。
-   const signature=code;
-   if(st.simSignature!==signature || !Array.isArray(st.simTrace)){
-     st.simSignature=signature;
-     st.simTrace=buildS22Trace(lines);
-     st.stepIndex=0;
-     st.simMemory={}; st.simOutput=[]; st.simInput=[];
+ if(id!=="s22"){
+   if(step){
+     status.textContent="本節逐步執行目前僅示範 2-2 選擇結構。";
+     return;
    }
-
-   if(st.stepIndex>=st.simTrace.length){
-     status.textContent="✓ 逐步執行完成。請按「↺ 還原範例」重新開始。";
-     memory.textContent=JSON.stringify(st.simMemory,null,2);
-     output.textContent=st.simOutput.join("\n")||"（目前尚無螢幕輸出）";
-     input.textContent=st.simInput.join("\n")||"本範例沒有鍵盤輸入";
-     st.ide=20; save(); return;
-   }
-
-   const stepInfo=st.simTrace[st.stepIndex++];
-   if(stepInfo.kind==="assign") st.simMemory[stepInfo.name]=stepInfo.value;
-   if(stepInfo.kind==="print") st.simOutput.push(evalPrint(stepInfo.expr,st.simMemory));
-   if(stepInfo.kind==="input") st.simInput.push(stepInfo.prompt||"請輸入資料");
-
-   status.textContent=`▶ 第 ${stepInfo.lineNo} 行：${stepInfo.line}`;
-   input.textContent=st.simInput.join("\n")||"本範例沒有鍵盤輸入";
-   memory.textContent=JSON.stringify(st.simMemory,null,2);
-   output.textContent=st.simOutput.join("\n")||"（目前尚無螢幕輸出）";
-   save(); return;
- }
-
- if(step){
-   st.stepIndex=Number.isInteger(st.stepIndex)?st.stepIndex:0;
-   while(st.stepIndex<lines.length && (!lines[st.stepIndex].trim()||lines[st.stepIndex].trim().startsWith("#")))st.stepIndex++;
-   if(st.stepIndex>=lines.length){status.textContent="✓ 已逐步走完程式。請按「↺ 還原範例」重新開始。";st.stepIndex=0;save();return;}
-   const n=st.stepIndex+1; status.textContent=`逐步執行｜目前執行第 ${n} 行：${lines[st.stepIndex].trim()}`;st.stepIndex++;st.ide=20;save();return;
- }
-
- let mem={},out=[],inputs=[];
- // 2-2 的 if / else 一般執行也必須遵守真正的分支流程：
- // 條件成立只執行 if，不得把 else 裡的 print 一起印出。
- if(id==="s22"){
-   const trace=buildS22Trace(lines);
-   for(const t of trace){
-     if(t.kind==="assign") mem[t.name]=t.value;
-     else if(t.kind==="input"){ mem[t.name]=0; inputs.push(t.prompt||("請輸入 "+t.name)); }
-     else if(t.kind==="print") out.push(evalPrint(t.expr,mem));
-     // branch / other 只是控制流程資訊，不會產生螢幕輸出。
-   }
- }else{
+   let mem={},out=[],inputs=[];
+   const lines=code.split(/\n/);
    for(let i=0;i<lines.length;i++){
-     let line=lines[i].trim();if(!line||line.startsWith("#"))continue;
-     let m=line.match(/^(\w+)\s*=\s*(?:int|float)\(input\(".*?"\)\)$/);
-     if(m){mem[m[1]]=0;inputs.push("請輸入 "+m[1]);continue;}
+     const line=lines[i].trim();
+     if(!line||line.startsWith("#"))continue;
+     let m=line.match(/^(\w+)\s*=\s*(?:int|float)\(input\((['\"])(.*?)\2\)\)$/);
+     if(m){mem[m[1]]=0;inputs.push(m[3]||("請輸入 "+m[1]));continue;}
      m=line.match(/^(\w+)\s*=\s*(.+)$/);
-     if(m&&!line.includes("==")){let rhs=m[2];try{mem[m[1]]=evalExpr(rhs,mem)}catch{mem[m[1]]=rhs.replace(/^["']|["']$/g,"")};continue;}
+     if(m&&!line.includes("==")){try{mem[m[1]]=evalExpr(m[2],mem)}catch{mem[m[1]]=m[2].replace(/^["']|["']$/g,"")};continue;}
      m=line.match(/^print\((.*)\)$/);if(m)out.push(evalPrint(m[1],mem));
    }
+   input.textContent=inputs.length?inputs.join("\n"):"此程式沒有等待輸入。";
+   memory.textContent=JSON.stringify(mem,null,2);
+   output.textContent=out.length?out.join("\n"):"已完成模擬；目前沒有螢幕輸出。";
+   status.textContent="▶ 已完成一般執行";st.ide=20;save();return;
  }
- input.textContent=inputs.length?inputs.join("\n"):"此程式沒有等待輸入。";
- memory.textContent=JSON.stringify(mem,null,2);
- output.textContent=out.length?out.join("\n"):"已完成模擬；目前沒有螢幕輸出。";
- status.textContent="▶ 已完成一般執行：依條件選擇正確分支";st.ide=20;st.stepIndex=0;save();
+
+ // 2-2：專用「逐步動畫」模式。
+ // 每次按下「逐步執行」都從頭開始一個真正的執行流程：
+ // ① 設定 stu=True → ② 判斷 if=True → ③ 執行 print("可以")。
+ // else 永遠不加入執行路徑。
+ st.simMemory=st.simMemory||{};
+ st.simOutput=Array.isArray(st.simOutput)?st.simOutput:[];
+ st.simInput=Array.isArray(st.simInput)?st.simInput:[];
+ st.stepIndex=Number.isInteger(st.stepIndex)?st.stepIndex:0;
+ const signature=code;
+ // 從「執行程式」切換到「逐步執行」時，重新建立動畫；避免停在完成狀態。
+ if(st.simMode!=="step" || st.simSignature!==signature || !Array.isArray(st.simTrace)){
+   st.simMode="step";
+   st.simSignature=signature;
+   st.simTrace=buildS22Trace(linesFromCode(code));
+   st.stepIndex=0;
+   st.simMemory={};
+   st.simOutput=[];
+   st.simInput=[];
+ }
+ if(!step){
+   st.simMode="run";
+   st.simTrace=buildS22Trace(linesFromCode(code));
+   st.simMemory={};st.simOutput=[];st.simInput=[];
+   for(const x of st.simTrace){
+     if(x.kind==="assign") st.simMemory[x.name]=x.value;
+     else if(x.kind==="input"){st.simMemory[x.name]=0;st.simInput.push(x.prompt||"請輸入資料");}
+     else if(x.kind==="print") st.simOutput.push(evalPrint(x.expr,st.simMemory));
+   }
+   st.stepIndex=st.simTrace.length;
+   memory.textContent=JSON.stringify(st.simMemory,null,2);
+   output.textContent=st.simOutput.join("\n")||"已完成模擬；目前沒有螢幕輸出。";
+   input.textContent=st.simInput.join("\n")||"此程式沒有等待輸入。";
+   status.textContent="✓ 一般執行完成：條件成立，只執行 if，輸出「可以」；else 已跳過。";
+   st.ide=20;save();return;
+ }
+ if(st.stepIndex>=st.simTrace.length){
+   status.textContent="✓ 逐步執行完成：只執行 if 分支，else 已跳過。請再按「逐步執行」可重新開始。";
+   memory.textContent=JSON.stringify(st.simMemory,null,2);
+   output.textContent=st.simOutput.join("\n")||"（目前尚無螢幕輸出）";
+   input.textContent=st.simInput.join("\n")||"此程式沒有等待輸入。";
+   st.ide=20;save();return;
+ }
+ const x=st.simTrace[st.stepIndex++];
+ if(x.kind==="assign") st.simMemory[x.name]=x.value;
+ else if(x.kind==="branch") {/* 判斷步驟只顯示條件結果，不產生輸出。 */}
+ else if(x.kind==="print") st.simOutput.push(evalPrint(x.expr,st.simMemory));
+ else if(x.kind==="input"){st.simMemory[x.name]=0;st.simInput.push(x.prompt||"請輸入資料");}
+ memory.textContent=JSON.stringify(st.simMemory,null,2);
+ output.textContent=st.simOutput.join("\n")||"（目前尚無螢幕輸出）";
+ input.textContent=st.simInput.join("\n")||"此程式沒有等待輸入。";
+ if(x.kind==="branch") status.textContent=`▶ 第 ${x.lineNo} 行：${x.line} → 判斷結果：${x.result ? "True，執行 if" : "False，才會進入其他分支"}`;
+ else status.textContent=`▶ 第 ${x.lineNo} 行：${x.line}`;
+ if(st.stepIndex>=st.simTrace.length) status.textContent+="｜本例 else 未執行";
+ save();
 }
+
+function linesFromCode(code){return code.split(/\n/);}
 
 function buildS22Trace(lines){
  const trace=[]; const mem={};
@@ -729,7 +740,14 @@ function buildS22Trace(lines){
  const indentOf=i=>(lines[i].match(/^\s*/)||[""])[0].length;
  const parseValue=v=>{v=v.trim();if(v==="True")return true;if(v==="False")return false;if(/^-?\d+(\.\d+)?$/.test(v))return Number(v);if((v.startsWith('"')&&v.endsWith('"'))||(v.startsWith("'")&&v.endsWith("'")))return v.slice(1,-1);return v;};
  const blockEnd=(start,baseIndent)=>{let j=start;while(j<lines.length){if(meaningful(j)&&indentOf(j)<=baseIndent)break;j++;}return j;};
- const addSimpleLine=(k)=>{const line=lines[k].trim();let m=line.match(/^(\w+)\s*=\s*(True|False|-?\d+(?:\.\d+)?|["'].*["'])$/);if(m){const v=parseValue(m[2]);mem[m[1]]=v;trace.push({kind:"assign",name:m[1],value:v,lineNo:k+1,line});return;}m=line.match(/^print\((.*)\)$/);if(m){trace.push({kind:"print",expr:m[1],lineNo:k+1,line});return;}m=line.match(/^(\w+)\s*=\s*(?:int|float)\(input\((['"])(.*?)\2\)\)$/);if(m){mem[m[1]]=0;trace.push({kind:"input",name:m[1],prompt:m[3],lineNo:k+1,line});return;}trace.push({kind:"other",lineNo:k+1,line});};
+ const addSimpleLine=(k)=>{
+   const line=lines[k].trim();
+   let m=line.match(/^(\w+)\s*=\s*(True|False|-?\d+(?:\.\d+)?|["'].*["'])$/);
+   if(m){const v=parseValue(m[2]);mem[m[1]]=v;trace.push({kind:"assign",name:m[1],value:v,lineNo:k+1,line});return;}
+   m=line.match(/^print\((.*)\)$/);if(m){trace.push({kind:"print",expr:m[1],lineNo:k+1,line});return;}
+   m=line.match(/^(\w+)\s*=\s*(?:int|float)\(input\((['"])(.*?)\2\)\)$/);if(m){mem[m[1]]=0;trace.push({kind:"input",name:m[1],prompt:m[3],lineNo:k+1,line});return;}
+   // 不把 else / elif / branch 本身加入可執行步驟，避免學生誤以為兩個分支都會執行。
+ };
  let i=0;
  while(i<lines.length){
    if(!meaningful(i)){i++;continue;}
@@ -739,33 +757,39 @@ function buildS22Trace(lines){
    m=line.match(/^(\w+)\s*=\s*(?:int|float)\(input\((['"])(.*?)\2\)\)$/);
    if(m){mem[m[1]]=0;trace.push({kind:"input",name:m[1],prompt:m[3],lineNo:i+1,line});i++;continue;}
    if(/^if\s+.+:$/.test(line)){
-     const chainStart=i; const ifEnd=blockEnd(i+1,indent); trace.push({kind:"branch",lineNo:i+1,line});
-     let chosenStart=-1,chosenEnd=-1; let next=ifEnd;
+     const ifEnd=blockEnd(i+1,indent);
      const cond=line.replace(/^if\s+/,'').replace(/:$/,'');
-     if(!!evalCondition(cond,mem)){chosenStart=i+1;chosenEnd=ifEnd;}
-     else{
-       let j=ifEnd;
-       while(j<lines.length&&!meaningful(j))j++;
-       let found=false;
-       while(j<lines.length && indentOf(j)===indent){
-         const l=lines[j].trim();
-         if(/^elif\s+.+:$/.test(l)){
-           trace.push({kind:"branch",lineNo:j+1,line:l});
-           const e=blockEnd(j+1,indent); const c=l.replace(/^elif\s+/,'').replace(/:$/,'');
-           if(!found && !!evalCondition(c,mem)){chosenStart=j+1;chosenEnd=e;found=true;next=e;break;}
-           j=e; while(j<lines.length&&!meaningful(j))j++; continue;
-         }
-         if(l==="else:"){
-           trace.push({kind:"branch",lineNo:j+1,line:l});
-           const e=blockEnd(j+1,indent); if(!found){chosenStart=j+1;chosenEnd=e;} next=e; break;
-         }
-         break;
+     const condResult=!!evalCondition(cond,mem);
+     trace.push({kind:"branch",lineNo:i+1,line,result:condResult,condition:cond});
+     if(condResult){
+       for(let k=i+1;k<ifEnd;k++){if(meaningful(k))addSimpleLine(k);}
+       // 條件成立：直接跳過整個 else / elif 鏈。
+       i=ifEnd;
+       while(i<lines.length&&!meaningful(i))i++;
+       while(i<lines.length&&indentOf(i)===indent&&(lines[i].trim()==="else:"||/^elif\s+.+:$/.test(lines[i].trim()))){
+         i=blockEnd(i+1,indent);while(i<lines.length&&!meaningful(i))i++;
        }
+       continue;
      }
-     if(chosenStart>=0){for(let k=chosenStart;k<chosenEnd;k++){if(meaningful(k))addSimpleLine(k);}}
-     i=chosenEnd>=0?chosenEnd:next; continue;
+     // 條件不成立時才尋找 elif / else 的實際分支。
+     let j=ifEnd,chosen=false;
+     while(j<lines.length&&!meaningful(j))j++;
+     while(j<lines.length&&indentOf(j)===indent){
+       const l=lines[j].trim();
+       if(/^elif\s+.+:$/.test(l)){
+         const e=blockEnd(j+1,indent),c=l.replace(/^elif\s+/,'').replace(/:$/,'');
+         if(!chosen&&evalCondition(c,mem)){for(let k=j+1;k<e;k++){if(meaningful(k))addSimpleLine(k);}chosen=true;}
+         j=e;while(j<lines.length&&!meaningful(j))j++;continue;
+       }
+       if(l==="else:"){
+         const e=blockEnd(j+1,indent);if(!chosen){for(let k=j+1;k<e;k++){if(meaningful(k))addSimpleLine(k);}chosen=true;}j=e;break;
+       }
+       break;
+     }
+     i=j;continue;
    }
-   addSimpleLine(i); i++;
+   if(line==="else:"||/^elif\s+.+:$/.test(line)){i=blockEnd(i+1,indent);continue;}
+   addSimpleLine(i);i++;
  }
  return trace;
 }
@@ -783,26 +807,51 @@ function evalExpr(x,mem){
 }
 function evalPrint(x,mem){
  x=x.replace(/\s+/g," ").trim();
- if(x.includes(",")){return x.split(",").map(v=>evalExpr(v,mem)).join(" ");}
+ if(x.includes(","))return x.split(",").map(v=>evalExpr(v,mem)).join(" ");
  return String(evalExpr(x,mem));
 }
+
 async function uploadSection(id){
  const box=document.getElementById(id+"upload");
  if(!state.student?.className || !state.student?.seat || !state.student?.name){
   box.className="feedback wrong";box.textContent="請先填寫班級、座號與姓名。";return;
-}
- const total=score(id);
- const sd=state[id]||{};
+ }
+ const total=score(id), sd=state[id]||{};
  const practice=(sd.practice?Object.values(sd.practice).filter(Boolean).length*5:0);
  const fills=(sd.fills?Object.values(sd.fills).reduce((sum,v)=>sum+(v===true?5:(Number(v)||0)),0):0);
  const scoreBreakdown={notes:Number(sd.notes||0),syntax:Number(sd.syntax||0),ide:Number(sd.ide||0),context:Math.min(20,practice+fills),challenge:Number(sd.challengeScore||0),hw:Number(sd.hw||0),reflection:Number(sd.reflectionScore||0),quiz:Number(sd.quiz||0),total:total};
- const payload={type:"chapter2",section:sections[id].code,student:state.student,score:total,progress:total+" / 100",completed:total>=100,scoreBreakdown,detail:sd,timestamp:new Date().toISOString()};
- if(!GAS_URL || GAS_URL.startsWith("請貼上")){box.className="feedback";box.textContent="網站已將資料保存在本機 localStorage。若要寫入 Google Sheet，請在程式最上方填入老師的 GAS /exec 網址。";return;}
+ const uploadId="2-2_"+Date.now()+"_"+Math.random().toString(36).slice(2,9);
+ const payload={type:"chapter2",section:sections[id].code,student:state.student,score:total,progress:total+" / 100",completed:total>=100,scoreBreakdown,detail:sd,uploadId,timestamp:new Date().toISOString()};
+ if(!GAS_URL || GAS_URL.startsWith("請貼上")){box.className="feedback wrong";box.textContent="✗ 尚未設定 GAS /exec 網址。";return;}
+ box.className="feedback";box.textContent="☁ 正在上傳到 Google 試算表……";
  try{
-  await fetch(GAS_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
-  box.className="feedback correct";box.textContent="✓ 已送出上傳要求。";
- }catch(e){box.className="feedback wrong";box.textContent="✗ 上傳失敗，請確認 GAS /exec 網址與部署權限。";}
+   // 使用 no-cors POST 送出；真正是否寫入由 GAS 回傳的 JSONP check 再確認。
+   await fetch(GAS_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
+   await new Promise(r=>setTimeout(r,1200));
+   await confirmGASUpload(uploadId,box);
+ }catch(e){
+   box.className="feedback wrong";box.textContent="✗ 上傳要求送出失敗："+(e?.message||"請確認 GAS 部署權限");
+ }
 }
+
+function confirmGASUpload(uploadId,box){
+ return new Promise((resolve,reject)=>{
+   const cb="gasConfirm_"+Date.now()+"_"+Math.random().toString(36).slice(2,7);
+   const timer=setTimeout(()=>{cleanup();reject(new Error("GAS 尚未回報寫入結果。請重新部署共用 GAS V35 後再測試。"));},8000);
+   window[cb]=function(result){
+     clearTimeout(timer);cleanup();
+     if(result&&result.ok){
+       box.className="feedback correct";box.textContent=`✓ GAS 已確認寫入 ch02_2_2｜第 ${result.row||"?"} 列｜${result.student||state.student.name}`;resolve(result);
+     }else reject(new Error(result?.error||"GAS 未確認寫入"));
+   };
+   const script=document.createElement("script");
+   script.src=GAS_URL+"?action=check&uploadId="+encodeURIComponent(uploadId)+"&callback="+encodeURIComponent(cb);
+   script.onerror=()=>{clearTimeout(timer);cleanup();reject(new Error("無法連線到 GAS /exec。"));};
+   document.body.appendChild(script);
+   function cleanup(){delete window[cb];if(script.parentNode)script.parentNode.removeChild(script);}
+ });
+}
+
 </script>
 </body>
 </html>
