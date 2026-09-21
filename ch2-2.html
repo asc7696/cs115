@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>育成高中｜資訊科技學習管理平台｜2-2 選擇結構</title>
+<style>
+:root{
+  --bg:#f5f7fb;--card:#fff;--text:#1f2937;--muted:#64748b;--primary:#315efb;
+  --primary2:#eaf0ff;--line:#e5e7eb;--ok:#15803d;--okbg:#ecfdf3;
+  --bad:#b91c1c;--badbg:#fef2f2;--warn:#a16207;--warnbg:#fffbeb;
+  --shadow:0 8px 24px rgba(15,23,42,.07);--radius:18px;
+}
+*{box-sizing:border-box}body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.65}
+header{background:linear-gradient(135deg,#182848,#315efb);color:white;padding:24px 18px 20px;position:sticky;top:0;z-index:20;box-shadow:0 4px 18px #0002}
+.header-inner{max-width:1180px;margin:auto}.school{font-size:14px;opacity:.85}.title{font-size:27px;font-weight:800;margin:2px 0}.subtitle{font-size:14px;opacity:.9}
+.container{max-width:1180px;margin:22px auto;padding:0 14px}
+.studentbar,.section-tabs,.progress-card,.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.studentbar{padding:14px;display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;margin-bottom:14px}
+input,textarea,select{font:inherit;border:1px solid #cbd5e1;border-radius:10px;padding:9px 11px;width:100%;background:white}
+textarea{min-height:90px;resize:vertical}
+button{font:inherit;border:0;border-radius:10px;padding:9px 14px;cursor:pointer;background:#e2e8f0;color:#172033;font-weight:700}
+button.primary{background:var(--primary);color:white}button.ok{background:#16a34a;color:white}button.dark{background:#0f172a;color:white}
+button:disabled{opacity:.55;cursor:not-allowed}
+.section-tabs{display:flex;gap:8px;padding:8px;margin-bottom:14px;position:sticky;top:104px;z-index:10}
+.tab{flex:1;background:transparent}.tab.active{background:var(--primary);color:white}
+.progress-card{padding:14px;margin-bottom:16px}
+.progress-row{display:flex;justify-content:space-between;gap:10px;align-items:center}.bar{height:12px;background:#e2e8f0;border-radius:20px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#315efb,#7c3aed);width:0%;transition:.3s}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.full{grid-column:1/-1}
+.card{padding:18px;margin-bottom:16px}.card h2{font-size:20px;margin:0 0 8px}.card h3{font-size:16px;margin:14px 0 7px}
+.badge{display:inline-block;border-radius:999px;padding:3px 9px;background:var(--primary2);color:#2446c5;font-size:12px;font-weight:800}
+.note{background:#f8fafc;border-left:4px solid var(--primary);padding:12px 14px;border-radius:10px;margin:10px 0}
+.flow{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:14px 0}.flow span{padding:10px 14px;border:1px solid #cbd5e1;border-radius:12px;background:#fff;font-weight:700}.arrow{font-size:20px;color:var(--primary)}
+pre{background:#0f172a;color:#e5e7eb;border-radius:12px;padding:14px;overflow:auto;font-family:Consolas,monospace;font-size:14px}
+.quiz-item,.practice,.challenge{border:1px solid var(--line);padding:13px;border-radius:12px;margin:10px 0}.quiz-item p{margin:0 0 8px;font-weight:700}
+.option{display:block;margin:6px 0;padding:8px 10px;background:#f8fafc;border-radius:9px;cursor:pointer}.option:hover{background:#eef2ff}
+.feedback{font-size:13px;margin-top:7px}.correct{color:var(--ok)}.wrong{color:var(--bad)}
+.scoreline{display:flex;justify-content:space-between;align-items:center;background:#f8fafc;border-radius:10px;padding:10px;margin-top:10px;font-weight:800}
+.ide{display:grid;grid-template-columns:1.25fr .75fr;gap:12px}.editor{min-height:260px;font-family:Consolas,monospace;background:#0b1220;color:#e5e7eb;border-color:#243047;border-radius:12px;padding:14px;line-height:1.6;tab-size:4}
+.ide-side{display:grid;grid-template-rows:auto auto 1fr;gap:10px}.panel{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:white}.panel-title{padding:8px 10px;background:#f1f5f9;font-weight:800;font-size:13px}.panel-body{padding:10px;min-height:70px;font-family:Consolas,monospace;white-space:pre-wrap}
+.ide-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.line-highlight{background:#fef08a;color:#111827;padding:0 4px;border-radius:3px}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{border-bottom:1px solid var(--line);padding:8px;text-align:left}th{background:#f8fafc}
+.center{text-align:center}.hidden{display:none!important}.small{font-size:13px;color:var(--muted)}.big-score{font-size:30px;font-weight:900;color:var(--primary)}
+.lock{padding:12px;background:var(--warnbg);border:1px solid #fde68a;border-radius:12px}
+.chip{display:inline-block;padding:4px 8px;border-radius:8px;background:#eef2ff;margin:2px;font-family:Consolas,monospace}
+@media(max-width:800px){
+ .studentbar{grid-template-columns:1fr 1fr}.grid,.ide{grid-template-columns:1fr}.section-tabs{top:99px}.title{font-size:22px}
+}
+@media(max-width:520px){.studentbar{grid-template-columns:1fr}.section-tabs{overflow:auto}.tab{min-width:105px}.container{padding:0 9px}}
+
+/* ===== 2-2 選擇結構新版視覺元件 ===== */
+.flow-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0}
+.flow-card{border:1px solid var(--line);border-radius:16px;background:#fff;overflow:hidden;box-shadow:0 5px 16px rgba(15,23,42,.06)}
+.flow-card .flow-head{padding:12px 14px;background:#f8fafc;font-weight:900}
+.flow-card .flow-body{padding:12px}
+.flow-svg{width:100%;height:150px;display:block;background:linear-gradient(180deg,#f8fbff,#eef4ff);border-radius:12px}
+.flow-path{stroke-dasharray:7 7;animation:dashFlow 1.2s linear infinite}
+@keyframes dashFlow{to{stroke-dashoffset:-28}}
+.decision-pulse{animation:decisionPulse 1.4s ease-in-out infinite}
+@keyframes decisionPulse{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.08);opacity:1}}
+.flow-dot{animation:dotMove 2.8s ease-in-out infinite}
+@keyframes dotMove{0%{transform:translate(0,0)}45%{transform:translate(95px,0)}75%{transform:translate(95px,45px)}100%{transform:translate(0,0)}}
+.scenario-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.scenario-card{border:1px solid var(--line);border-radius:16px;padding:14px;background:#fff}
+.scenario-img{height:135px;border-radius:12px;background:#f8fafc;display:flex;align-items:center;justify-content:center;font-size:56px;margin-bottom:10px}
+.scenario-card h3{margin:4px 0}
+.scenario-card .explain{font-size:14px;color:#475569}
+.inline-answer{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:10px}
+.challenge-code{min-height:190px}
+.restore-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.step-line{padding:2px 6px;border-radius:5px}
+.step-current{background:#fef08a;color:#111827;font-weight:800}
+.step-status{margin:10px 0;padding:10px 12px;border-radius:10px;background:#eef2ff;color:#3730a3;font-weight:700}
+
+</style>
+</head>
+<body>
+<header>
+<div class="header-inner">
+<div class="school">臺北市立育成高中｜資訊科技</div>
+<div class="title">資訊科技學習管理平台</div>
+<div class="subtitle">第二章｜2-2 選擇結構</div>
+</div>
+</header>
+
+<div class="container">
+<div class="note"><b><b>共用 GAS：</b>2-2 選擇結構｜本節滿分100分。學生資料：班級、座號、姓名。</div>
+<div class="studentbar">
+  <select id="className">
+    <option value="">班級</option>
+    <option>201</option><option>203</option><option>305</option><option>207</option>
+    <option>209</option><option>211</option><option>213</option><option>215</option>
+  </select>
+  <input id="studentSeat" placeholder="座號" inputmode="numeric">
+  <input id="studentName" placeholder="姓名">
+  <button class="primary" onclick="saveStudent()">儲存身分</button>
+</div>
+
+<div id="s22" class="section"></div>
+</div>
+
+<script>
+const GAS_URL = "https://script.google.com/macros/s/AKfycbwrkpuDd1WaHE2ilaiYwZMxfDx0DW10PSeWrSH4gkj8-gFmjzPyUjymJJQsz2iELka0eg/exec";
+const sections = {
+ s21:{code:"2-1",title:"循序結構",desc:"程式按照由上到下的順序，一行一行執行。"},
+ s22:{code:"2-2",title:"選擇結構",desc:"利用 if、if else、if elif，讓程式依條件選擇不同路徑。"},
+ s23:{code:"2-3",title:"重複結構",desc:"利用 while、for，讓程式重複執行相同工作，減少重複撰寫。"}
+};
+const state=JSON.parse(localStorage.getItem("yucheng_ch02_2_2")||"{}");
+state.s21 ||= {}; state.s22 ||= {}; state.s23 ||= {};
+let current="s21";
+
+function save(){localStorage.setItem("yucheng_ch02_2_2",JSON.stringify(state));updateProgress();}
+function saveStudent(){
+ state.student={className:className.value,seat:studentSeat.value.trim(),name:studentName.value.trim()};
+ save(); alert("身分資料已儲存。");
+}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));}
+
+const q21=[
+ ["下列程式會先執行哪一行？",["第一行","最後一行","隨機一行","看電腦心情"],0],
+ ["print(3 + 2) 的輸出為？",["32","5","3+2","True"],1],
+ ["Python 程式通常以什麼方式表達執行順序？",["由上而下","由下而上","隨機","只執行最後一行"],0],
+ ["x=5；x=x+2；最後 x 為？",["5","2","7","52"],2],
+ ["input() 取得的資料預設是哪一種型態？",["int","float","str","bool"],2]
+];
+const q22=[
+ ["if 的主要用途是？",["重複程式","依條件判斷","建立圖片","關閉程式"],1],
+ ["if 條件成立時會執行哪一區？",["if 區塊","else 區塊","兩者都執行","都不執行"],0],
+ ["else 代表？",["如果成立","如果前面條件不成立","重複","輸入"],1],
+ ["== 的用途是？",["指定值","比較是否相等","加法","字串連接"],1],
+ ["elif 可以做什麼？",["增加另一個條件","一定執行","刪除 if","輸入資料"],0],
+ ["下列哪一個是正確的條件判斷？",["if age >= 18:","if age >= 18","if age = 18:","if age => 18:"],0],
+ ["if stu == True: 的意思是？",["stu 是 False","stu 等於 True 時執行","把 stu 設成 True","重複執行 stu"],1],
+ ["若要判斷血量是否小於等於 0，哪一個正確？",["if hp <= 0:","if hp =< 0:","if hp <=> 0:","if hp => 0:"],0],
+ ["TOEIC 分數 600 以上才顯示『達標』，條件應為？",["score > 600","score >= 600","score == 600:","score < 600"],1],
+ ["需要依序判斷多種分數區間時，適合使用？",["只有 print","if / elif / else","只有 input","只有 for"],1]
+];
+const q23=[
+ ["while 最常用來做什麼？",["條件成立時重複","只執行一次","輸入姓名","印出圖片"],0],
+ ["for i in range(5) 通常會重複幾次？",["4","5","6","不一定"],1],
+ ["range(3) 產生哪些數字？",["1,2,3","0,1,2","0,1,2,3","3"],1],
+ ["while 迴圈最重要的是避免什麼問題？",["變數","無限迴圈","print","字串"],1],
+ ["for 迴圈適合哪一種情境？",["已知重複次數","永遠不知道何時停止","只判斷一次","只輸入資料"],0]
+];
+
+function quizHTML(id,qs){
+ let h=`<div class="card"><h2>① 前節複習｜${qs.length}題 <span class="badge">10分</span></h2><div class="small">每題1分，完成後按「檢查${qs.length}題」。</div>`;
+ qs.forEach((q,i)=>{
+  h+=`<div class="quiz-item"><p>${i+1}. ${q[0]}</p>`;
+  q[1].forEach((o,j)=>h+=`<label class="option"><input type="radio" name="${id}q${i}" value="${j}"> ${esc(o)}</label>`);
+  h+=`<div id="${id}qf${i}" class="feedback"></div></div>`;
+ });
+ h+=`<button class="primary" onclick="checkQuiz('${id}')">檢查${qs.length}題</button><div id="${id}qscore" class="scoreline">本區得分：0 / 10</div></div>`;
+ return h;
+}
+
+const notes={
+s21:[
+ ["圖文筆記｜循序結構","程式像走樓梯：第一行 → 第二行 → 第三行，按照順序執行。"],
+ ["重點一句話","先做A，再做B，最後做C；如果沒有條件判斷或迴圈，程式就會依序往下執行。"]
+],
+s22:[
+ ["圖文筆記｜選擇結構","程式遇到條件時會「做決定」：成立走一條路，不成立走另一條路。"],
+ ["重點一句話","if 是一個條件；if else 是兩種結果；if elif 可以處理多種情況。"]
+],
+s23:[
+ ["圖文筆記｜重複結構","相同的工作需要做很多次時，不必一直複製程式，可以交給迴圈。"],
+ ["重點一句話","while 以「條件」控制重複；for 常用來控制「重複次數」或逐一處理資料。"]
+]
+};
+
+function noteHTML(id){
+ if(id!=="s22"){
+   return `<div class="card"><h2>① 圖文筆記｜本節摘要 <span class="badge">10分</span></h2>
+   ${notes[id].map((n,i)=>`<div class="note"><b>${n[0]}</b><br>${n[1]}</div>`).join("")}
+   <label><input type="checkbox" onchange="mark('${id}','notes',this.checked)"> 我已閱讀並整理本節重點（10分）</label></div>`;
+ }
+ return `<div class="card full">
+ <h2>① 圖文筆記｜選擇結構的三種流程控制 <span class="badge">10分</span></h2>
+ <p>程式遇到「條件」時，不一定只有一條路。請觀察下面三種流程：<b>單向 if、雙向 if else、多向 if elif else</b>。</p>
+
+ <div class="flow-gallery">
+  <div class="flow-card">
+   <div class="flow-head">① 單向 if｜符合才做</div>
+   <div class="flow-body">
+    <svg class="flow-svg" viewBox="0 0 300 150" aria-label="單向if流程">
+      <rect x="20" y="55" width="62" height="34" rx="10" fill="#dbeafe"/><text x="51" y="77" text-anchor="middle" font-size="14">開始</text>
+      <path d="M82 72 H125" stroke="#315efb" stroke-width="3" fill="none" class="flow-path"/>
+      <polygon points="125,55 165,72 125,89" fill="#fde68a" class="decision-pulse"/><text x="145" y="76" text-anchor="middle" font-size="11">條件？</text>
+      <path d="M165 72 H220" stroke="#315efb" stroke-width="3" fill="none" class="flow-path"/>
+      <rect x="220" y="55" width="60" height="34" rx="10" fill="#dcfce7"/><text x="250" y="77" text-anchor="middle" font-size="13">執行</text>
+      <text x="190" y="49" font-size="11" fill="#15803d">True</text>
+      <text x="145" y="116" text-anchor="middle" font-size="11" fill="#64748b">False → 不做，往下</text>
+      <circle cx="105" cy="72" r="5" fill="#315efb" class="flow-dot"/>
+    </svg>
+    <p class="small"><b>意思：</b>條件成立才執行；不成立就跳過 if 區塊。</p>
+   </div>
+  </div>
+
+  <div class="flow-card">
+   <div class="flow-head">② 雙向 if else｜二選一</div>
+   <div class="flow-body">
+    <svg class="flow-svg" viewBox="0 0 300 150" aria-label="雙向if else流程">
+      <rect x="18" y="57" width="55" height="32" rx="9" fill="#dbeafe"/><text x="45" y="78" text-anchor="middle" font-size="13">開始</text>
+      <polygon points="132,45 174,73 132,101 90,73" fill="#fde68a" class="decision-pulse"/><text x="132" y="77" text-anchor="middle" font-size="11">條件</text>
+      <path d="M73 73 H91" stroke="#315efb" stroke-width="3"/>
+      <path d="M174 60 H220" stroke="#16a34a" stroke-width="3"/><text x="190" y="52" font-size="11">True</text>
+      <path d="M174 86 H220" stroke="#dc2626" stroke-width="3"/><text x="190" y="105" font-size="11">False</text>
+      <rect x="220" y="44" width="62" height="30" rx="9" fill="#dcfce7"/><text x="251" y="63" text-anchor="middle" font-size="12">做A</text>
+      <rect x="220" y="78" width="62" height="30" rx="9" fill="#fee2e2"/><text x="251" y="97" text-anchor="middle" font-size="12">做B</text>
+    </svg>
+    <p class="small"><b>意思：</b>條件成立做 A；不成立做 B，兩條路擇一。</p>
+   </div>
+  </div>
+
+  <div class="flow-card">
+   <div class="flow-head">③ 多向 if elif else｜多種選擇</div>
+   <div class="flow-body">
+    <svg class="flow-svg" viewBox="0 0 300 150" aria-label="多向if elif else流程">
+      <rect x="12" y="60" width="50" height="30" rx="9" fill="#dbeafe"/><text x="37" y="79" text-anchor="middle" font-size="12">開始</text>
+      <path d="M62 75 H84" stroke="#315efb" stroke-width="3"/>
+      <polygon points="112,48 145,68 112,88 79,68" fill="#fde68a" class="decision-pulse"/><text x="112" y="71" text-anchor="middle" font-size="9">條件1</text>
+      <path d="M145 60 H180" stroke="#16a34a" stroke-width="3"/><text x="156" y="52" font-size="9">是</text>
+      <rect x="180" y="48" width="48" height="25" rx="7" fill="#dcfce7"/><text x="204" y="65" text-anchor="middle" font-size="10">結果A</text>
+      <path d="M112 88 V112 H150" stroke="#dc2626" stroke-width="3"/><text x="117" y="103" font-size="9">否</text>
+      <polygon points="177,94 205,111 177,128 149,111" fill="#fde68a" class="decision-pulse"/><text x="177" y="114" text-anchor="middle" font-size="8">條件2</text>
+      <path d="M205 103 H250" stroke="#16a34a" stroke-width="3"/><text x="218" y="96" font-size="9">是</text>
+      <rect x="250" y="91" width="42" height="25" rx="7" fill="#dcfce7"/><text x="271" y="108" text-anchor="middle" font-size="9">結果B</text>
+      <path d="M177 128 V140 H250" stroke="#dc2626" stroke-width="3"/><text x="205" y="137" font-size="9">否</text><rect x="250" y="125" width="42" height="22" rx="7" fill="#fee2e2"/><text x="271" y="140" text-anchor="middle" font-size="9">結果C</text>
+    </svg>
+    <p class="small"><b>意思：</b>依序檢查多個條件，找到第一個 True 就執行；全部不成立才進 else。</p>
+   </div>
+  </div>
+ </div>
+
+ <div class="note"><b>生活化口訣：</b>單向＝「有就做」；雙向＝「不是A就是B」；多向＝「很多種情況，依序選一種」。</div>
+ <label><input type="checkbox" onchange="mark('s22','notes',this.checked)"> 我已閱讀並整理本節重點（10分）</label>
+ </div>`;
+}
+function syntaxHTML(id){
+ if(id==="s22") return `<div class="card full">
+ <h2>② 語法介紹與情境</h2>
+ <p>先看生活情境，再看 Python 怎麼把「做決定」寫出來。</p>
+
+ <div class="scenario-grid">
+  <div class="scenario-card">
+   <div class="scenario-img">🛵</div>
+   <h3>情境一｜年齡是否符合資格</h3>
+   <p class="explain">例如：報考機車駕照。只有當年齡符合規定時，才顯示「可以報考」。如果不符合，就不執行這一段。</p>
+   <pre>age = 18
+if age >= 18:
+    print("可以報考")</pre>
+   <div class="note">這是<b>單向 if</b>：只有 True 時才做事情。</div>
+  </div>
+
+  <div class="scenario-card">
+   <div class="scenario-img">🎬</div>
+   <h3>情境二｜學生電影票</h3>
+   <p class="explain">例如：先判斷是不是學生。本例 <code>stu = True</code>，所以 <code>stu == True</code> 判斷結果為 True，只執行 <code>print("可以")</code>；<b>else 區塊不會執行，因此螢幕只會印出「可以」一次。</b></p>
+   <pre>stu = True
+if stu == True:
+    print("可以")
+else:
+    print("不可以")</pre>
+   <div class="note"><b>雙向 if else 的重點：</b>條件成立就走 if；條件不成立才走 else。<b>一次執行只會選其中一條路，所以本例不會同時印出「可以」和「不可以」。</b></div>
+  </div>
+
+  <div class="scenario-card">
+   <div class="scenario-img">⚾</div>
+   <h3>情境三｜職棒座位</h3>
+   <p class="explain">例如：依照預算選座位。2000元以上是黃金席；1000～1999元是內野區；更低則是外野區。</p>
+   <pre>money = 2000
+if money >= 2000:
+    print("黃金席")
+elif money >= 1000:
+    print("內野區")
+else:
+    print("外野區")</pre>
+   <div class="note">這是<b>多向 if elif else</b>：依序判斷，第一個成立的條件就停止往下判斷。</div>
+  </div>
+ </div>
+
+ <div class="note"><b>重要：</b><code>if</code>、<code>elif</code>、<code>else</code> 後面都要有冒號 <code>:</code>，條件成立後的程式必須縮排。</div>
+ <label><input type="checkbox" onchange="mark('s22','syntax',this.checked)"> 我了解選擇結構與三種流程控制（10分）</label>
+ </div>`;
+ if(id==="s21") return `<div class="card full"><h2>② 語法介紹與情境</h2>
+ <div class="grid"><div><h3>核心語法</h3><pre>x = 10
+y = 20
+total = x + y
+print(total)</pre><p>這四行會依序執行：先建立資料，再計算，最後輸出。</p></div>
+ <div><h3>生活情境｜購物結帳</h3><p>把「商品價格 → 數量 → 小計 → 輸出」拆成連續步驟。</p>
+ <div class="flow"><span>輸入</span><b class="arrow">→</b><span>計算</span><b class="arrow">→</b><span>輸出</span></div>
+ <label><input type="checkbox" onchange="mark('${id}','syntax',this.checked)"> 我了解循序執行（10分）</label></div></div></div>`;
+ return `<div class="card full"><h2>② 語法介紹與情境</h2>
+ <div class="grid"><div><h3>while｜條件式重複</h3><pre>count = 1
+while count <= 5:
+    print(count)
+    count = count + 1</pre></div>
+ <div><h3>for｜次數式重複</h3><pre>for i in range(5):
+    print(i)</pre><div class="note">range(5) 產生 0、1、2、3、4，共5次。</div>
+ <label><input type="checkbox" onchange="mark('${id}','syntax',this.checked)"> 我了解重複結構（10分）</label></div></div></div>`;
+}
+const practice={
+s21:{
+title:"語法練習｜依序完成程式",
+text:"請把下列程式依照循序結構完成，觀察記憶體與輸出。",
+starter:`name = input("姓名：")
+score = int(input("成績："))
+bonus = 10
+total = score + bonus
+print(name)
+print(total)`,
+answer:["name","score","bonus","total"]
+},
+s22:{
+title:"P.31～P.33 情境練習｜選擇結構",
+text:"依照課本情境完成條件判斷。",
+starter:`# 練習：學生電影票
+stu = True
+
+if stu == True:
+    print("可以")
+else:
+    print("不可以")`,
+answer:["stu == True","可以","不可以"]
+},
+s23:{
+title:"語法練習｜迴圈",
+text:"請觀察兩種迴圈的執行方式。",
+starter:`# while
+count = 1
+while count <= 5:
+    print(count)
+    count = count + 1
+
+# for
+for i in range(5):
+    print(i)`,
+answer:["while","for","range(5)"]
+}
+};
+
+function ideHTML(id){
+ let p=practice[id];
+ return `<div class="card full"><h2>③ Python IDE 程式模擬器 <span class="badge">20分</span></h2>
+ <p>${p.text}</p>
+ <div class="ide">
+ <div><textarea id="${id}editor" class="editor">${p.starter}</textarea>
+ <div class="ide-actions">
+  <button class="dark" onclick="runIDE('${id}',false)">▶ 執行程式</button>
+  <button class="primary" onclick="runIDE('${id}',true)">⏭ 逐步執行</button>
+  <button onclick="resetIDE('${id}')">↺ 還原範例</button>
+ </div></div>
+ <div class="step-status" id="${id}stepStatus">尚未開始逐步執行</div><div class="ide-side">
+  <div class="panel"><div class="panel-title">⌨ 鍵盤輸入</div><div id="${id}input" class="panel-body">尚未輸入</div></div>
+  <div class="panel"><div class="panel-title">🧠 記憶體</div><div id="${id}memory" class="panel-body">{ }</div></div>
+  <div class="panel"><div class="panel-title">🖥 螢幕輸出</div><div id="${id}output" class="panel-body">等待執行……</div></div>
+ </div></div>
+ <div class="note">逐步執行會依序模擬常見的 Python：變數、print、input、if/elif/else、while、for。<b>if / else 只會執行其中一條分支</b>；本例 stu=True，因此只會執行 <code>print("可以")</code>，<code>print("不可以")</code> 不會執行。此頁以教學模擬器為主，不是完整 Python 編譯器。</div>
+ </div>`;
+}
+
+function guidedHTML(id){
+ if(id==="s22") return `<div class="card full">
+ <h2>④ 課本情境練習｜P.31～P.33 <span class="badge">20分</span></h2>
+
+ <div class="practice">
+  <b>① if｜P.31 考機車駕照｜5分</b>
+  <p>請輸入「條件」。例如：<code>age&gt;10</code>。評分時<b>不考慮空白個數</b>，所以 <code>age &gt;= 18</code> 與 <code>age&gt;=18</code> 都算正確。</p>
+  <pre>age = int(input("年齡："))
+if ______:
+    print("可以報考機車駕照")</pre>
+  <input id="s22a" placeholder="請輸入條件">
+  <button onclick="checkFillNoSpace('s22a','age >= 18','s22f1','p31',5)">檢查 +5</button>
+  <div id="s22f1" class="feedback"></div>
+ </div>
+
+ <div class="practice">
+  <b>② if else｜P.32 學生電影票｜5分</b>
+  <p>請完成三個空格。<b>本題不提供提示。</b>第一格是 if 條件，第二、三格是輸出內容。</p>
+  <pre>stu = True
+if ______:
+    print("______")
+else:
+    print("______")</pre>
+  <div class="inline-answer">
+   <input id="s22b1" placeholder="第一格">
+   <input id="s22b2" placeholder="第二格">
+   <input id="s22b3" placeholder="第三格">
+  </div>
+  <button onclick="checkMultiFill(['s22b1','s22b2','s22b3'],['stu == True','可以','不可以'],'s22f2','p32',5)">檢查 +5</button>
+  <div id="s22f2" class="feedback"></div>
+ </div>
+
+ <div class="practice">
+  <b>③ if elif｜P.33 職棒座位｜10分</b>
+  <p>請完成三個空格。<b>本題不提供提示。</b>第一格是資料型態轉換，第二、三格是判斷條件。</p>
+  <pre>money = ______(input("預算："))
+if ______:
+    print("黃金席")
+elif ______:
+    print("內野區")
+else:
+    print("外野區")</pre>
+  <div class="inline-answer">
+   <input id="s22c1" placeholder="第一格">
+   <input id="s22c2" placeholder="第二格">
+   <input id="s22c3" placeholder="第三格">
+  </div>
+  <button onclick="checkMultiFill(['s22c1','s22c2','s22c3'],['int','money >= 2000','money >= 1000'],'s22f3','p33',10)">檢查 +10</button>
+  <div id="s22f3" class="feedback"></div>
+ </div>
+ </div>`;
+ if(id==="s21") return `<div class="card"><h2>⑤ 課本情境練習｜2題</h2>
+ <div class="practice"><b>練習A｜BMI</b><p>輸入身高與體重，依序計算 BMI。</p><pre>height = float(input("身高(cm)："))
+weight = float(input("體重(kg)："))
+height = height / 100
+bmi = weight / (height * height)
+print("BMI =", bmi)</pre><button class="ok" onclick="practiceDone('${id}','p1')">完成練習 +5</button></div>
+ <div class="practice"><b>練習B｜音樂鞋折扣</b><p>商品價格5000元、折扣10%，依序算出折扣後價格。</p><pre>price = 5000
+discount = 0.1
+final_price = price - price * discount
+print(final_price)</pre><button class="ok" onclick="practiceDone('${id}','p2')">完成練習 +5</button></div></div>`;
+ return `<div class="card"><h2>⑤ 課本情境練習｜迴圈 <span class="badge">20分</span></h2>
+ <div class="practice"><b>① while｜倒數計時</b><p>請讓程式輸出 5、4、3、2、1。</p><input id="s23a" placeholder="請輸入起始值"><button onclick="checkFill('s23a','5','s23f1')">檢查 +5</button><div id="s23f1" class="feedback"></div></div>
+ <div class="practice"><b>② for｜印出五次</b><p>填入 range 的參數。</p><pre>for i in range(____):
+    print("Python")</pre><input id="s23b" placeholder="請輸入數字"><button onclick="checkFill('s23b','5','s23f2')">檢查 +5</button><div id="s23f2" class="feedback"></div></div>
+ <div class="practice"><b>③ 累加</b><p>使用迴圈計算 1+2+3+4+5。</p><pre>total = 0
+for i in range(1, ____):
+    total = total + i
+print(total)</pre><input id="s23c" placeholder="請輸入 range 的終止值"><button onclick="checkFill('s23c','6','s23f3')">檢查 +10</button><div id="s23f3" class="feedback"></div></div></div>`;
+}
+function challengeHTML(id){
+ if(id==="s22") return `<div class="card full"><h2>⑤ 程式挑戰 <span class="badge">20分</span></h2>
+
+ <div class="challenge">
+  <b>挑戰1｜遊戲血量｜10分</b>
+  <p>輸入目前血量；血量低於或等於0則顯示「遊戲結束」。請完成以下程式。</p>
+  <textarea id="s22challenge1" class="challenge-code">x=int(input("輸入目前血量"))
+if ______:
+    print("遊戲結束")</textarea>
+  <div class="restore-row">
+   <button class="primary" onclick="checkChallenge('s22','c1')">檢查程式 +10</button>
+   <button onclick="restoreChallenge('s22','c1')">↺ 還原程式碼</button>
+  </div>
+  <div id="s22c1f" class="feedback"></div>
+ </div>
+
+ <div class="challenge">
+  <b>挑戰2｜TOEIC 達標｜10分</b>
+  <p>某大學科系規定畢業條件為 TOEIC 要達600分以上。請完成程式：輸入 TOEIC 分數，大於等於600顯示「達標」，否則顯示「再努力一下」。</p>
+  <textarea id="s22challenge2" class="challenge-code">x=int(input("請輸入TOEIC分數"))
+if x ______:
+    print("達標")
+else:
+    print("再努力一下")</textarea>
+  <div class="restore-row">
+   <button class="primary" onclick="checkChallenge('s22','c2')">檢查程式 +10</button>
+   <button onclick="restoreChallenge('s22','c2')">↺ 還原程式碼</button>
+  </div>
+  <div id="s22c2f" class="feedback"></div>
+ </div>
+ </div>`;
+
+ if(id==="s21") return `<div class="card full"><h2>⑤ 程式挑戰｜生活中的循序結構 <span class="badge">20分</span></h2>
+ <div class="challenge"><b>挑戰1｜TOEIC 成績整理</b><p>輸入聽力、閱讀成績，依序算出總分。</p><textarea id="s21c1" placeholder="請輸入你的 Python 程式"></textarea><button class="primary" onclick="checkChallenge('s21','c1')">檢查 +10</button><div id="s21c1f" class="feedback"></div></div>
+ <div class="challenge"><b>挑戰2｜遊戲角色建立</b><p>依序輸入角色名稱與初始血量，輸出角色名稱與血量。</p><textarea id="s21c2" placeholder="請輸入你的 Python 程式"></textarea><button class="primary" onclick="checkChallenge('s21','c2')">檢查 +10</button><div id="s21c2f" class="feedback"></div></div></div>`;
+ return `<div class="card full"><h2>⑤ 程式挑戰｜迴圈解題 <span class="badge">20分</span></h2>
+ <div class="challenge"><b>挑戰1｜TOEIC 練習計數器</b><p>輸入每天練習分鐘數，利用迴圈計算連續5天的總練習時間。</p><textarea id="s23c1" placeholder="請輸入你的 Python 程式"></textarea><button class="primary" onclick="checkChallenge('s23','c1')">檢查 +10</button><div id="s23c1f" class="feedback"></div></div>
+ <div class="challenge"><b>挑戰2｜遊戲血量連續回合</b><p>玩家初始100血量，每回合受到10點傷害，利用迴圈直到血量小於等於0，輸出 Game Over。</p><textarea id="s23c2" placeholder="請輸入你的 Python 程式"></textarea><button class="primary" onclick="checkChallenge('s23','c2')">檢查 +10</button><div id="s23c2f" class="feedback"></div></div></div>`;
+}
+const hw={
+s21:["下列程式最後輸出什麼？","哪一行最先執行？","input() 的資料型態？","哪個運算會先完成？","如何將字串轉成整數？","total = price * count 的用途？","循序結構有何特色？","下列哪個適合循序處理？","print() 的作用？","寫出一段三步驟生活程式。"],
+s22:["if 條件成立時走哪一區？","else 何時執行？","== 與 = 有何不同？","elif 的用途？","stu == True 的意思？","哪一種適合二選一？","多條件應如何排列？","血量超過100如何限制？","TOEIC 600以上如何判斷？","寫出一段 if else。"],
+s23:["while 的特色？","for i in range(5)幾次？","range(5)從哪裡開始？","while 需要注意什麼？","for 適合什麼情境？","如何讓 while 結束？","1到5的總和是多少？","如何重複印出Python 5次？","迴圈的好處？","寫出一段生活中的迴圈。"]
+};
+function homeworkHTML(id){
+ return `<div class="card"><h2>⑥ 課後練習｜10題 <span class="badge">10分</span></h2>
+ <p class="small">每題1分。這裡以「完成題目」記錄學習成果；教師可再依需求改成正式選擇題或程式檢核。</p>
+ ${hw[id].map((x,i)=>`<div class="quiz-item"><label><input type="checkbox" onchange="homework('${id}',${i},this.checked)"> ${i+1}. ${x}</label></div>`).join("")}
+ <div id="${id}hwscore" class="scoreline">本區得分：${state[id].hw||0} / 10</div></div>`;
+}
+function reflectionHTML(id){
+ return `<div class="card"><h2>⑦ 學習心得 <span class="badge">10分</span></h2>
+ <textarea id="${id}reflection" placeholder="今天我學會了什麼？哪一個地方最難？我還想再練習什麼？">${esc(state[id].reflection||"")}</textarea>
+ <button class="primary" onclick="saveReflection('${id}')">儲存心得並取得10分</button>
+ <div id="${id}rf" class="feedback"></div></div>`;
+}
+function totalHTML(id){
+ return `<div class="card center"><div class="small">${sections[id].code} ${sections[id].title}｜總分</div>
+ <div id="${id}big" class="big-score">0 / 100</div><div class="small">配分：筆記10＋語法10＋IDE20＋情境練習20＋程式挑戰20＋課後練習10＋心得10＝100</div>
+ <button class="ok" onclick="uploadSection('${id}')">☁ 上傳本節成績</button>
+ <div id="${id}upload" class="feedback"></div></div>`;
+}
+function render(id){
+ const el=document.getElementById(id); const qs=id==="s21"?q21:id==="s22"?q22:q23;
+ const review7 = id==="s22"
+   ? quizHTML(id,qs).replace("① 前節複習｜10題","⑥ 課後練習｜10題")
+   : quizHTML(id,qs);
+ el.innerHTML=`<div class="progress-card"><div class="progress-row"><b>${sections[id].code}｜${sections[id].title}</b><span>${sections[id].desc}</span></div><div class="bar"><div id="${id}bar" class="fill"></div></div></div>
+ ${id==="s22" ? "" : quizHTML(id,qs)}
+ ${noteHTML(id)}${syntaxHTML(id)}${ideHTML(id)}${guidedHTML(id)}${challengeHTML(id)}${id==="s22" ? review7 : homeworkHTML(id)}${reflectionHTML(id)}${totalHTML(id)}`;
+ updateProgress();
+}
+render("s22");
+renderStudentTicket();
+if(state.student){
+  className.value=state.student.className||"";
+  studentSeat.value=state.student.seat||"";
+  studentName.value=state.student.name||"";
+}
+
+function showSection(id,btn){
+ current=id;document.querySelectorAll(".section").forEach(x=>x.classList.add("hidden"));document.getElementById(id).classList.remove("hidden");
+ document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));btn.classList.add("active");window.scrollTo({top:0,behavior:"smooth"});
+}
+function checkQuiz(id){
+ const qs=id==="s21"?q21:id==="s22"?q22:q23;let score=0;
+ qs.forEach((q,i)=>{const v=document.querySelector(`input[name="${id}q${i}"]:checked`);const f=document.getElementById(`${id}qf${i}`);
+ if(v&&+v.value===q[2]){score+=1;f.className="feedback correct";f.textContent="✓ 正確 +1";}
+ else{f.className="feedback wrong";f.textContent=v?"✗ 再想想看。":"尚未作答。";}
+ });
+ state[id].quiz=score;document.getElementById(id+"qscore").textContent=`本區得分：${score} / 10`;save();
+}
+function mark(id,key,on){state[id][key]=on?10:0;save();}
+function practiceDone(id,key){state[id].practice ||= {};state[id].practice[key]=true;save();alert("已記錄完成，本題得分已加入。");}
+function normalizeAnswer(v){
+ return String(v||"").replace(/\s+/g,"").trim().toLowerCase();
+}
+function checkFillNoSpace(input,answer,feedback,key,points){
+ const v=normalizeAnswer(document.getElementById(input).value);
+ const a=normalizeAnswer(answer);
+ const ok=v===a;
+ const f=document.getElementById(feedback);
+ f.className="feedback "+(ok?"correct":"wrong");
+ f.textContent=ok?`✓ 正確，取得${points}分。`:"✗ 尚未正確，請重新檢查條件。";
+ if(ok){
+   state.s22.fills ||= {};
+   state.s22.fills[key]=points;
+   save();
+ }
+}
+function checkMultiFill(inputs,answers,feedback,key,points){
+ const vals=inputs.map(id=>normalizeAnswer(document.getElementById(id).value));
+ const ans=answers.map(normalizeAnswer);
+ const ok=vals.length===ans.length && vals.every((v,i)=>v===ans[i]);
+ const f=document.getElementById(feedback);
+ f.className="feedback "+(ok?"correct":"wrong");
+ f.textContent=ok?`✓ 三個空格全部正確，取得${points}分。`:"✗ 尚未全部正確，請重新檢查三個空格。";
+ if(ok){
+   state.s22.fills ||= {};
+   state.s22.fills[key]=points;
+   save();
+ }
+}
+
+function checkFill(input,answer,feedback){
+ const v=normalizeAnswer(document.getElementById(input).value);const a=normalizeAnswer(answer);
+ const ok=v===a;document.getElementById(feedback).className="feedback "+(ok?"correct":"wrong");
+ document.getElementById(feedback).textContent=ok?"✓ 正確，答案已記錄。":"✗ 尚未正確，請重新檢查條件或關鍵字。";
+ if(ok){const id=feedback.slice(0,3)==="s22"? "s22":"s23"; state[id].fills ||= {};state[id].fills[feedback]=true;save();}
+}
+function checkChallenge(id,key){
+ const el=document.getElementById(id+"challenge"+(key==="c1"?"1":"2")); if(!el)return;
+ const raw=el.value.replace(/\r/g,"\n").trim();
+ const code=raw.toLowerCase();
+ let ok=false;
+ const compact=code.replace(/[\s\u3000]+/g,"");
+ const lines=raw.split(/\n/).map(x=>x.trim()).filter(Boolean).filter(x=>!x.startsWith("#"));
+ const normLine=x=>x.replace(/[\s\u3000]+/g,"").toLowerCase();
+ const nl=lines.map(normLine);
+
+ if(id==="s22"&&key==="c1"){
+   // 正確結構：x=int(input(...)) + if x <= 0: + 遊戲結束
+   const hasInput=/^x=int\(input\(["']輸入目前血量["']\)\)$/.test(nl[0]||"");
+   const hasIf=nl.some(x=>/^ifx<=0:$/.test(x));
+   const hasPrint=nl.some(x=>/^print\(["']遊戲結束["']\)$/.test(x));
+   ok=hasInput&&hasIf&&hasPrint;
+ }
+ if(id==="s22"&&key==="c2"){
+   // 正確結構：TOEIC >= 600，且有 else 兩種輸出
+   const hasInput=/^x=int\(input\(["']請輸入TOEIC分數["']\)\)$/i.test(nl[0]||"");
+   const hasIf=nl.some(x=>/^ifx>=600:$/.test(x));
+   const hasElse=nl.includes("else:");
+   const hasPass=nl.some(x=>/^print\(["']達標["']\)$/i.test(x));
+   const hasFail=nl.some(x=>/^print\(["']再努力一下["']\)$/i.test(x));
+   ok=hasInput&&hasIf&&hasElse&&hasPass&&hasFail;
+ }
+
+ if(id==="s21"&&key==="c1") ok=code.includes("input")&&code.includes("score")&&code.includes("+");
+ if(id==="s21"&&key==="c2") ok=code.includes("input")&&code.includes("print")&&code.includes("hp");
+ if(id==="s23"&&key==="c1") ok=code.includes("for")&&code.includes("range")&&code.includes("5");
+ if(id==="s23"&&key==="c2") ok=code.includes("while")&&code.includes("hp")&&code.includes("10");
+
+ state[id].challenge ||= {};
+ state[id].challenge[key]=ok;
+ state[id].challengeScore=Object.values(state[id].challenge).filter(Boolean).length*10;
+ const f=document.getElementById(id+key+"f");
+ if(f){f.className="feedback "+(ok?"correct":"wrong");f.textContent=ok?"✓ 程式結構正確，取得10分。":"✗ 尚未通過，請檢查完整程式結構、條件與冒號 :。";}
+ save();
+}
+function restoreChallenge(id,key){
+ const el=document.getElementById(id+"challenge"+(key==="c1"?"1":"2"));
+ if(!el)return;
+ if(id==="s22"&&key==="c1") el.value=`x=int(input("輸入目前血量"))\nif ______:\n    print("遊戲結束")`;
+ if(id==="s22"&&key==="c2") el.value=`x=int(input("請輸入TOEIC分數"))\nif x ______:\n    print("達標")\nelse:\n    print("再努力一下")`;
+ const f=document.getElementById(id+key+"f");
+ if(f){f.className="feedback";f.textContent="已還原預設程式碼，請重新檢查。";}
+ state[id].challenge ||= {}; state[id].challenge[key]=false; save();
+}
+function homework(id,i,on){
+ state[id].hw=Math.max(0,(state[id].hw||0)+(on?1:-1));save();document.getElementById(id+"hwscore").textContent=`本區得分：${state[id].hw||0} / 10`;
+}
+function saveReflection(id){
+ const v=document.getElementById(id+"reflection").value.trim();state[id].reflection=v;state[id].reflectionScore=v.length>=5?10:0;
+ document.getElementById(id+"rf").className="feedback "+(v.length>=5?"correct":"wrong");document.getElementById(id+"rf").textContent=v.length>=5?"✓ 心得已儲存，取得10分。":"請至少寫5個字。";save();
+}
+function score(id){
+ const s=state[id], quiz=s.quiz||0,notes=s.notes||0,syntax=s.syntax||0;
+ const ide=s.ide||0,practice=(s.practice?Object.values(s.practice).filter(Boolean).length*5:0);
+ const fills=s.fills?Object.values(s.fills).reduce((sum,v)=>sum+(v===true?5:(Number(v)||0)),0):0;
+ const guided=Math.min(20,practice+fills);
+ const challenge=s.challenge?Object.values(s.challenge).filter(Boolean).length*10:0;
+ const hw=s.hw||0,rf=s.reflectionScore||0;
+ return Math.min(100,quiz+notes+syntax+20+guided+challenge+hw+rf);
+}
+function updateProgress(){
+ ["s21","s22","s23"].forEach(id=>{
+  const sc=score(id);const big=document.getElementById(id+"big"),bar=document.getElementById(id+"bar");
+  if(big)big.textContent=`${sc} / 100`;if(bar)bar.style.width=sc+"%";
+ });
+}
+
+function resetIDE(id){
+ document.getElementById(id+"editor").value=practice[id].starter;
+ state[id].stepIndex=0;
+ state[id].simMemory={};
+ state[id].simOutput=[];
+ state[id].simInput=[];
+ state[id].simBranchStack=[];
+ state[id].simSignature="";
+ state[id].simTrace=[];
+ ["input","memory","output"].forEach(x=>document.getElementById(id+x).textContent=x==="output"?"等待執行……":x==="memory"?"{ }":"尚未輸入");
+ const st=document.getElementById(id+"stepStatus"); if(st) st.textContent="尚未開始逐步執行";
+ save();
+}
+function runIDE(id,step){
+ const code=document.getElementById(id+"editor").value;
+ const lines=code.split(/\n/);
+ const status=document.getElementById(id+"stepStatus");
+ const memory=document.getElementById(id+"memory");
+ const output=document.getElementById(id+"output");
+ const input=document.getElementById(id+"input");
+ const st=state[id];
+
+ if(step && id==="s22"){
+   st.simMemory=st.simMemory||{};
+   st.simOutput=Array.isArray(st.simOutput)?st.simOutput:[];
+   st.simInput=Array.isArray(st.simInput)?st.simInput:[];
+   st.stepIndex=Number.isInteger(st.stepIndex)?st.stepIndex:0;
+
+   // 若程式內容改變，重新建立逐步執行路徑，避免卡在舊的 stepIndex。
+   const signature=code;
+   if(st.simSignature!==signature || !Array.isArray(st.simTrace)){
+     st.simSignature=signature;
+     st.simTrace=buildS22Trace(lines);
+     st.stepIndex=0;
+     st.simMemory={}; st.simOutput=[]; st.simInput=[];
+   }
+
+   if(st.stepIndex>=st.simTrace.length){
+     status.textContent="✓ 逐步執行完成。請按「↺ 還原範例」重新開始。";
+     memory.textContent=JSON.stringify(st.simMemory,null,2);
+     output.textContent=st.simOutput.join("\n")||"（目前尚無螢幕輸出）";
+     input.textContent=st.simInput.join("\n")||"本範例沒有鍵盤輸入";
+     st.ide=20; save(); return;
+   }
+
+   const stepInfo=st.simTrace[st.stepIndex++];
+   if(stepInfo.kind==="assign") st.simMemory[stepInfo.name]=stepInfo.value;
+   if(stepInfo.kind==="print") st.simOutput.push(evalPrint(stepInfo.expr,st.simMemory));
+   if(stepInfo.kind==="input") st.simInput.push(stepInfo.prompt||"請輸入資料");
+
+   status.textContent=`▶ 第 ${stepInfo.lineNo} 行：${stepInfo.line}`;
+   input.textContent=st.simInput.join("\n")||"本範例沒有鍵盤輸入";
+   memory.textContent=JSON.stringify(st.simMemory,null,2);
+   output.textContent=st.simOutput.join("\n")||"（目前尚無螢幕輸出）";
+   save(); return;
+ }
+
+ if(step){
+   st.stepIndex=Number.isInteger(st.stepIndex)?st.stepIndex:0;
+   while(st.stepIndex<lines.length && (!lines[st.stepIndex].trim()||lines[st.stepIndex].trim().startsWith("#")))st.stepIndex++;
+   if(st.stepIndex>=lines.length){status.textContent="✓ 已逐步走完程式。請按「↺ 還原範例」重新開始。";st.stepIndex=0;save();return;}
+   const n=st.stepIndex+1; status.textContent=`逐步執行｜目前執行第 ${n} 行：${lines[st.stepIndex].trim()}`;st.stepIndex++;st.ide=20;save();return;
+ }
+
+ let mem={},out=[],inputs=[];
+ // 2-2 的 if / else 一般執行也必須遵守真正的分支流程：
+ // 條件成立只執行 if，不得把 else 裡的 print 一起印出。
+ if(id==="s22"){
+   const trace=buildS22Trace(lines);
+   for(const t of trace){
+     if(t.kind==="assign") mem[t.name]=t.value;
+     else if(t.kind==="input"){ mem[t.name]=0; inputs.push(t.prompt||("請輸入 "+t.name)); }
+     else if(t.kind==="print") out.push(evalPrint(t.expr,mem));
+     // branch / other 只是控制流程資訊，不會產生螢幕輸出。
+   }
+ }else{
+   for(let i=0;i<lines.length;i++){
+     let line=lines[i].trim();if(!line||line.startsWith("#"))continue;
+     let m=line.match(/^(\w+)\s*=\s*(?:int|float)\(input\(".*?"\)\)$/);
+     if(m){mem[m[1]]=0;inputs.push("請輸入 "+m[1]);continue;}
+     m=line.match(/^(\w+)\s*=\s*(.+)$/);
+     if(m&&!line.includes("==")){let rhs=m[2];try{mem[m[1]]=evalExpr(rhs,mem)}catch{mem[m[1]]=rhs.replace(/^["']|["']$/g,"")};continue;}
+     m=line.match(/^print\((.*)\)$/);if(m)out.push(evalPrint(m[1],mem));
+   }
+ }
+ input.textContent=inputs.length?inputs.join("\n"):"此程式沒有等待輸入。";
+ memory.textContent=JSON.stringify(mem,null,2);
+ output.textContent=out.length?out.join("\n"):"已完成模擬；目前沒有螢幕輸出。";
+ status.textContent="▶ 已完成一般執行：依條件選擇正確分支";st.ide=20;st.stepIndex=0;save();
+}
+
+function buildS22Trace(lines){
+ const trace=[]; const mem={};
+ const meaningful=i=>{const t=lines[i]?.trim()||"";return !!t&&!t.startsWith("#");};
+ const indentOf=i=>(lines[i].match(/^\s*/)||[""])[0].length;
+ const parseValue=v=>{v=v.trim();if(v==="True")return true;if(v==="False")return false;if(/^-?\d+(\.\d+)?$/.test(v))return Number(v);if((v.startsWith('"')&&v.endsWith('"'))||(v.startsWith("'")&&v.endsWith("'")))return v.slice(1,-1);return v;};
+ const blockEnd=(start,baseIndent)=>{let j=start;while(j<lines.length){if(meaningful(j)&&indentOf(j)<=baseIndent)break;j++;}return j;};
+ const addSimpleLine=(k)=>{const line=lines[k].trim();let m=line.match(/^(\w+)\s*=\s*(True|False|-?\d+(?:\.\d+)?|["'].*["'])$/);if(m){const v=parseValue(m[2]);mem[m[1]]=v;trace.push({kind:"assign",name:m[1],value:v,lineNo:k+1,line});return;}m=line.match(/^print\((.*)\)$/);if(m){trace.push({kind:"print",expr:m[1],lineNo:k+1,line});return;}m=line.match(/^(\w+)\s*=\s*(?:int|float)\(input\((['"])(.*?)\2\)\)$/);if(m){mem[m[1]]=0;trace.push({kind:"input",name:m[1],prompt:m[3],lineNo:k+1,line});return;}trace.push({kind:"other",lineNo:k+1,line});};
+ let i=0;
+ while(i<lines.length){
+   if(!meaningful(i)){i++;continue;}
+   const line=lines[i].trim(), indent=indentOf(i);
+   let m=line.match(/^(\w+)\s*=\s*(True|False|-?\d+(?:\.\d+)?|["'].*["'])$/);
+   if(m){const v=parseValue(m[2]);mem[m[1]]=v;trace.push({kind:"assign",name:m[1],value:v,lineNo:i+1,line});i++;continue;}
+   m=line.match(/^(\w+)\s*=\s*(?:int|float)\(input\((['"])(.*?)\2\)\)$/);
+   if(m){mem[m[1]]=0;trace.push({kind:"input",name:m[1],prompt:m[3],lineNo:i+1,line});i++;continue;}
+   if(/^if\s+.+:$/.test(line)){
+     const chainStart=i; const ifEnd=blockEnd(i+1,indent); trace.push({kind:"branch",lineNo:i+1,line});
+     let chosenStart=-1,chosenEnd=-1; let next=ifEnd;
+     const cond=line.replace(/^if\s+/,'').replace(/:$/,'');
+     if(!!evalCondition(cond,mem)){chosenStart=i+1;chosenEnd=ifEnd;}
+     else{
+       let j=ifEnd;
+       while(j<lines.length&&!meaningful(j))j++;
+       let found=false;
+       while(j<lines.length && indentOf(j)===indent){
+         const l=lines[j].trim();
+         if(/^elif\s+.+:$/.test(l)){
+           trace.push({kind:"branch",lineNo:j+1,line:l});
+           const e=blockEnd(j+1,indent); const c=l.replace(/^elif\s+/,'').replace(/:$/,'');
+           if(!found && !!evalCondition(c,mem)){chosenStart=j+1;chosenEnd=e;found=true;next=e;break;}
+           j=e; while(j<lines.length&&!meaningful(j))j++; continue;
+         }
+         if(l==="else:"){
+           trace.push({kind:"branch",lineNo:j+1,line:l});
+           const e=blockEnd(j+1,indent); if(!found){chosenStart=j+1;chosenEnd=e;} next=e; break;
+         }
+         break;
+       }
+     }
+     if(chosenStart>=0){for(let k=chosenStart;k<chosenEnd;k++){if(meaningful(k))addSimpleLine(k);}}
+     i=chosenEnd>=0?chosenEnd:next; continue;
+   }
+   addSimpleLine(i); i++;
+ }
+ return trace;
+}
+
+function evalCondition(cond,mem){
+ cond=cond.trim().replace(/\bTrue\b/g,"true").replace(/\bFalse\b/g,"false");
+ cond=cond.replace(/\b([A-Za-z_]\w*)\b/g,(m)=>Object.prototype.hasOwnProperty.call(mem,m)?JSON.stringify(mem[m]):m);
+ try{return !!Function("return ("+cond+")")();}catch{return false;}
+}
+function evalExpr(x,mem){
+ x=x.trim();if(/^["'].*["']$/.test(x))return x.slice(1,-1);
+ x=x.replace(/\b([A-Za-z_]\w*)\b/g,(m)=>Object.prototype.hasOwnProperty.call(mem,m)?JSON.stringify(mem[m]):m);
+ if(/^[0-9+\-*/(). %]+$/.test(x))return Function("return "+x)();
+ return x;
+}
+function evalPrint(x,mem){
+ x=x.replace(/\s+/g," ").trim();
+ if(x.includes(",")){return x.split(",").map(v=>evalExpr(v,mem)).join(" ");}
+ return String(evalExpr(x,mem));
+}
+async function uploadSection(id){
+ const box=document.getElementById(id+"upload");
+ if(!state.student?.className || !state.student?.seat || !state.student?.name){
+  box.className="feedback wrong";box.textContent="請先填寫班級、座號與姓名。";return;
+}
+ const total=score(id);
+ const sd=state[id]||{};
+ const practice=(sd.practice?Object.values(sd.practice).filter(Boolean).length*5:0);
+ const fills=(sd.fills?Object.values(sd.fills).reduce((sum,v)=>sum+(v===true?5:(Number(v)||0)),0):0);
+ const scoreBreakdown={notes:Number(sd.notes||0),syntax:Number(sd.syntax||0),ide:Number(sd.ide||0),context:Math.min(20,practice+fills),challenge:Number(sd.challengeScore||0),hw:Number(sd.hw||0),reflection:Number(sd.reflectionScore||0),quiz:Number(sd.quiz||0),total:total};
+ const payload={type:"chapter2",section:sections[id].code,student:state.student,score:total,progress:total+" / 100",completed:total>=100,scoreBreakdown,detail:sd,timestamp:new Date().toISOString()};
+ if(!GAS_URL || GAS_URL.startsWith("請貼上")){box.className="feedback";box.textContent="網站已將資料保存在本機 localStorage。若要寫入 Google Sheet，請在程式最上方填入老師的 GAS /exec 網址。";return;}
+ try{
+  await fetch(GAS_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
+  box.className="feedback correct";box.textContent="✓ 已送出上傳要求。";
+ }catch(e){box.className="feedback wrong";box.textContent="✗ 上傳失敗，請確認 GAS /exec 網址與部署權限。";}
+}
+</script>
+</body>
+</html>
