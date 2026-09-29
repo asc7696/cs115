@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>育成高中｜2-3 重複結構｜皮卡丘冒險</title>
+<style>
+:root{--bg:#fffaf0;--card:#fff;--ink:#263238;--yellow:#ffd92f;--blue:#315efb;--red:#ef5350;--green:#22a06b;--line:#e5e7eb;--shadow:0 8px 24px #00000012}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;line-height:1.7}
+header{background:linear-gradient(135deg,#ffcb05,#ffd92f);padding:22px 16px;color:#222;box-shadow:0 4px 16px #0002}
+.wrap{max-width:1100px;margin:auto}.school{font-size:14px;font-weight:700}.title{font-size:28px;font-weight:900}.sub{font-size:15px}
+.container{max-width:1100px;margin:20px auto;padding:0 14px}
+.card,.student{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin:14px 0;box-shadow:var(--shadow)}
+.student{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px}
+input,textarea,select{font:inherit;width:100%;padding:9px 11px;border:1px solid #cbd5e1;border-radius:10px;background:#fff}
+textarea{min-height:150px;font-family:Consolas,monospace;line-height:1.55}
+button{border:0;border-radius:10px;padding:9px 14px;font:inherit;font-weight:800;cursor:pointer;background:#e5e7eb}
+.primary{background:var(--blue);color:#fff}.ok{background:var(--green);color:#fff}.danger{background:var(--red);color:#fff}
+.badge{display:inline-block;padding:3px 9px;border-radius:999px;background:#fff3b0;font-size:12px;font-weight:900}
+.progress{height:12px;background:#e5e7eb;border-radius:20px;overflow:hidden}.bar{height:100%;width:0;background:linear-gradient(90deg,#ffd92f,#ff9800)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.full{grid-column:1/-1}
+pre{background:#101827;color:#eef2ff;padding:14px;border-radius:12px;overflow:auto}
+.quiz{border:1px solid var(--line);padding:12px;border-radius:12px;margin:10px 0}.opt{display:block;padding:6px 8px;border-radius:8px;background:#f8fafc;margin:5px 0}
+.feedback{margin-top:7px;font-weight:700}.good{color:#168653}.bad{color:#c62828}.hint{background:#fff8d6;border-left:4px solid var(--yellow);padding:10px 12px;border-radius:8px}
+.score{font-size:30px;font-weight:900;color:var(--blue)}table{border-collapse:collapse;width:100%}td,th{border:1px solid var(--line);padding:7px}th{background:#fff8d6}
+.output{background:#0b1220;color:#e5e7eb;border-radius:12px;padding:14px;min-height:120px;white-space:pre-wrap;font-family:Consolas,monospace}
+.codebox{display:grid;grid-template-columns:1.1fr .9fr;gap:12px}.pik{font-size:46px}.hidden{display:none!important}
+.demo-code{font-family:Consolas,monospace;background:#101827;color:#eef2ff;border-radius:12px;padding:12px}
+.demo-line{padding:2px 8px;min-height:28px;white-space:pre}.demo-line.active{background:#ffd92f;color:#111;border-radius:5px}
+.demo-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.memory{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.mem{background:#e8eefc;border-radius:8px;padding:5px 9px;font-family:Consolas,monospace}
+.game-code{background:#101827;color:#eef2ff;border-radius:12px;padding:14px;font-family:Consolas,monospace;line-height:1.9}
+.code-line{white-space:pre}.game-blank{display:inline-block;width:105px;border:0;border-bottom:3px solid #ffd92f;border-radius:0;background:#1d2a42;color:#fff;padding:2px 5px;font-family:Consolas,monospace}
+.game-blank.text{width:145px}.codegrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:760px){.student,.grid,.codebox{grid-template-columns:1fr}.title{font-size:23px}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<div class="school">臺北市立育成高中｜資訊科技學習管理平台</div>
+<div class="title">⚡ 2-3 重複結構｜皮卡丘冒險：讓程式重複執行</div>
+<div class="sub">總複習：循序 → 選擇 → 重複｜100分｜填空、檢核、執行一次完成</div>
+</div></header>
+
+<div class="container">
+<div class="student">
+<input id="className" placeholder="班級，例如 201">
+<input id="seat" placeholder="座號" inputmode="numeric">
+<input id="name" placeholder="姓名">
+<button class="primary" onclick="saveStudent()">儲存身分</button>
+</div>
+
+<div class="card">
+<b>學習進度</b>
+<div class="progress"><div id="bar" class="bar"></div></div>
+<div id="progressText">0 / 100</div>
+</div>
+
+<div class="card">
+<h2>🎯 本節任務</h2>
+<div class="grid">
+<div><div class="pik">⚡</div><b>皮卡丘的訓練任務</b><p>皮卡丘要完成一連串冒險。你要幫它用 Python 的 <b>for、while、if、elif、else、break、continue</b> 完成任務。</p></div>
+<div class="hint"><b>本節最重要的觀念</b><br>
+for：通常用在「知道重複幾次」<br>
+while：通常用在「條件成立就繼續」<br>
+break：立刻離開迴圈<br>
+continue：跳過本輪，進入下一輪</div>
+</div>
+</div>
+
+
+<div class="card">
+<h2>① 先學會迴圈｜皮卡丘訓練 5 次</h2>
+<p>先用同一個故事理解 <b>for、while、continue、break、else</b>。請按「下一步」觀察程式一行一行怎麼執行。</p>
+<div class="grid">
+<div>
+<select id="demoSelect" onchange="loadDemo()">
+<option value="for">for：皮卡丘訓練 5 次</option>
+<option value="while">while：皮卡丘訓練到第 5 次</option>
+<option value="continue">continue：第 3 次跳過訓練</option>
+<option value="break">break：第 3 次發現寶物，停止訓練</option>
+<option value="else">else：5 次正常完成後顯示完成訊息</option>
+</select>
+<div id="demoExplain" class="hint" style="margin-top:10px"></div>
+<div style="margin-top:10px"><b>📘 正在執行的程式碼</b></div>
+<div class="demo-code" id="demoCode">
+  <div class="demo-line">載入程式碼中……</div>
+</div>
+<div class="demo-controls">
+<button class="primary" onclick="demoStep()">▶ 下一步</button>
+<button onclick="demoReset()">↺ 重新開始</button>
+</div>
+</div>
+<div>
+<b>目前執行狀態</b>
+<div class="small" style="margin:6px 0">🖥 執行結果（會保留目前為止的完整輸出）</div>
+<div id="demoOutput" class="output">按「下一步」開始</div>
+<div class="memory" id="demoMemory"></div>
+<div id="demoStatus" class="feedback"></div>
+</div>
+</div>
+<div class="hint" style="margin-top:14px">
+<b>先記住：</b><br>
+① <code>for</code>：已經知道要重複幾次。<br>
+② <code>while</code>：只要條件成立，就繼續重複。<br>
+③ <code>continue</code>：跳過「這一次」，下一次繼續。<br>
+④ <code>break</code>：直接離開整個迴圈。<br>
+⑤ 迴圈的 <code>else</code>：迴圈正常跑完、沒有被 <code>break</code> 中斷時才執行。
+</div>
+</div>
+
+<div class="card">
+<h2>② 快速複習｜10分</h2>
+<div class="quiz">
+<b>第1題｜單選題 2分</b>
+<p>假設程式一開始 <code>i = 1</code>，每次迴圈執行 <code>i = i + 1</code>，要讓皮卡丘訓練到第 5 次，下面哪一個 while 條件可以取代 <code>while i &lt;= 5:</code>？</p>
+<label class="opt"><input type="radio" name="q0" value="0"> while i &lt; 5:</label>
+<label class="opt"><input type="radio" name="q0" value="1"> while i == 5:</label>
+<label class="opt"><input type="radio" name="q0" value="2"> while i &lt; 6:</label>
+<label class="opt"><input type="radio" name="q0" value="3"> while i &gt; 5:</label>
+<div id="qf0" class="feedback"></div>
+</div>
+<div class="quiz">
+<b>第2題｜多選題 2分</b>
+<p><code>range(5)</code> 要改寫成「產生完全相同的 0、1、2、3、4」，哪些選項正確？</p>
+<label class="opt"><input type="checkbox" name="q1" value="0"> range(1, 5)</label>
+<label class="opt"><input type="checkbox" name="q1" value="1"> range(0, 5)</label>
+<label class="opt"><input type="checkbox" name="q1" value="2"> range(1, 5, 1)</label>
+<label class="opt"><input type="checkbox" name="q1" value="3"> range(0, 5, 1)</label>
+<div id="qf1" class="feedback"></div>
+</div>
+<div class="quiz">
+<b>第3題｜單選題 2分</b>
+<p>皮卡丘訓練 5 次，下面哪一個最適合表示「知道要重複固定次數」？</p>
+<label class="opt"><input type="radio" name="q2" value="0"> for</label>
+<label class="opt"><input type="radio" name="q2" value="1"> while</label>
+<label class="opt"><input type="radio" name="q2" value="2"> break</label>
+<label class="opt"><input type="radio" name="q2" value="3"> continue</label>
+<div id="qf2" class="feedback"></div>
+</div>
+<div class="quiz">
+<b>第4題｜單選題 2分</b>
+<p>在迴圈中遇到 <code>break</code> 時，會發生什麼事？</p>
+<label class="opt"><input type="radio" name="q3" value="0"> 跳過這一次，繼續下一次</label>
+<label class="opt"><input type="radio" name="q3" value="1"> 立即離開目前的迴圈</label>
+<label class="opt"><input type="radio" name="q3" value="2"> 回到迴圈第一行重新開始</label>
+<label class="opt"><input type="radio" name="q3" value="3"> 執行迴圈 else</label>
+<div id="qf3" class="feedback"></div>
+</div>
+<div class="quiz">
+<b>第5題｜單選題 2分</b>
+<p>迴圈中的 <code>continue</code> 最適合用來表示哪一種情況？</p>
+<label class="opt"><input class="opt" type="radio" name="q4" value="0"> 立刻結束整個迴圈</label>
+<label class="opt"><input class="opt" type="radio" name="q4" value="1"> 跳過本輪剩下的程式，進入下一輪</label>
+<label class="opt"><input class="opt" type="radio" name="q4" value="2"> 永遠重複同一輪</label>
+<label class="opt"><input class="opt" type="radio" name="q4" value="3"> 只執行 else</label>
+<div id="qf4" class="feedback"></div>
+</div>
+<button class="primary" onclick="checkQuiz()">檢查全部選擇題</button>
+<div id="quizFb" class="feedback"></div>
+</div>
+
+<div class="card">
+<h2>③ 條件判斷精準檢核｜20分</h2>
+<p>以下不是「文字比對」，而是檢查你的條件在多組測試資料下是否與標準答案具有相同邏輯。</p>
+<div class="quiz">
+<b>皮卡丘要進入道館：年滿18歲才可以。</b>
+<pre>age = int(input("年齡："))
+if ______:
+    print("可以進入道館")
+else:
+    print("還不能進入")</pre>
+<input id="c1" placeholder="請輸入你的條件，不提供答案">
+<button class="primary" onclick="checkCondition('c1', 'age >= 18', 'cf1',['age'])">檢查 +10</button>
+<div id="cf1" class="feedback"></div>
+</div>
+<div class="quiz">
+<b>皮卡丘的血量：hp 大於0才可以繼續戰鬥。</b>
+<pre>if ______:
+    print("繼續戰鬥")
+else:
+    print("Game Over")</pre>
+<input id="c2" placeholder="請輸入你的條件，不提供答案">
+<button class="primary" onclick="checkCondition('c2', 'hp > 0', 'cf2',['hp'])">檢查 +10</button>
+<div id="cf2" class="feedback"></div>
+</div>
+<div class="hint">例如第一題：<b>age &gt;= 18、age &gt; 17、18 &lt;= age、age &gt; 18 or age == 18</b> 都會被判定為邏輯等價；<b>age &gt; 18</b> 不會。</div>
+</div>
+
+<div class="card">
+<h2>④ for / range 填空｜15分</h2>
+<div class="quiz">
+<b>任務 A：皮卡丘訓練 5 次</b>
+<pre>for i in range(____):
+    print("皮卡丘訓練！")</pre>
+<input id="f1" placeholder="請填數字">
+<button class="primary" onclick="checkExact('f1','5','ff1',5)">檢查 +5</button><div id="ff1" class="feedback"></div>
+</div>
+<div class="quiz">
+<b>任務 B：皮卡丘要從第1天訓練到第7天。</b>
+<pre>for day in range(1, ____):
+    print("第", day, "天")</pre>
+<input id="f2" placeholder="請填 range 的終止值">
+<button class="primary" onclick="checkExact('f2','8','ff2',5)">檢查 +5</button><div id="ff2" class="feedback"></div>
+</div>
+<div class="quiz">
+<b>任務 C：計算 1～5 的總經驗值。</b>
+<pre>total = 0
+for i in range(1, 6):
+    total = total + i
+print(total)</pre>
+<input id="f3" class="blank wide" placeholder="請填最後輸出結果">
+<button class="primary" onclick="checkNumber('f3',15,'ff3',5)">檢查 +5</button><div id="ff3" class="feedback"></div>
+</div>
+</div>
+
+<div class="card">
+<h2>⑤ while / break / continue 填空｜15分</h2>
+<div class="quiz">
+<b>任務 A：皮卡丘還有血量就繼續戰鬥。</b>
+<pre>hp = 100
+while ______:
+    hp = hp - 20
+    print("剩餘血量", hp)</pre>
+<input id="w1" placeholder="請輸入你的條件，不提供答案">
+<button class="primary" onclick="checkCondition('w1','hp > 0','wf1',['hp'])">檢查 +5</button><div id="wf1" class="feedback"></div>
+</div>
+<div class="quiz">
+<b>任務 B：找到寶物就立即停止搜尋。</b>
+<pre>for i in range(10):
+    if i == 6:
+        ______
+    print("搜尋", i)</pre>
+<input id="w2" placeholder="break 或 continue？">
+<button class="primary" onclick="checkExact('w2','break','wf2',5)">檢查 +5</button><div id="wf2" class="feedback"></div>
+</div>
+<div class="quiz">
+<b>任務 C：遇到障礙物時跳過這一輪，繼續下一輪。</b>
+<pre>for i in range(5):
+    if i == 2:
+        ______
+    print(i)</pre>
+<input id="w3" placeholder="break 或 continue？">
+<button class="primary" onclick="checkExact('w3','continue','wf3',5)">檢查 +5</button><div id="wf3" class="feedback"></div>
+</div>
+</div>
+
+<div class="card full">
+<h2>⑥ ⚡ 皮卡丘冒險總複習｜30分</h2>
+<p><b>這一題把循序、選擇、重複、變數與運算整合在一個小遊戲中。</b></p>
+<div class="hint">
+<b>遊戲功能：</b>
+① 角色可以改成你喜歡的寶可夢。　
+② 每回合依照程式計算傷害。　
+③ 血量低於門檻時補血。　
+④ 血量歸零立即結束。　
+⑤ 最多進行 5 回合。<br>
+請完成下方 <b>6 格程式碼</b>。這一題不直接提供答案；填完後按「檢查全部」，全部正確才能執行。
+</div>
+
+<div class="game-code" style="margin-top:12px">
+<div class="code-line">pokemon = "<input id="g1" class="game-blank text" placeholder="＿＿＿＿"></div>
+<div class="code-line">hp = 100</div>
+<div class="code-line">heal = <input id="g2" class="game-blank" placeholder="＿＿"></div>
+<div class="code-line">print("冒險開始！", pokemon)</div>
+<div class="code-line">for turn in range(1, 6):</div>
+<div class="code-line">    damage = turn * <input id="g3" class="game-blank" placeholder="＿＿"></div>
+<div class="code-line">    hp = hp - damage</div>
+<div class="code-line">    print("第", turn, "回合，", pokemon, "受到", damage, "傷害")</div>
+<div class="code-line">    if hp &lt;= 0:</div>
+<div class="code-line">        print("Game Over")</div>
+<div class="code-line">        <input id="g4" class="game-blank text" placeholder="＿＿＿＿"></div>
+<div class="code-line">    elif hp &lt;= <input id="g5" class="game-blank" placeholder="＿＿"></div>
+<div class="code-line">        hp = <input id="g6" class="game-blank text" style="width:170px" placeholder="＿＿＿＿＿＿"></div>
+<div class="code-line">        print("補血！目前血量", hp)</div>
+<div class="code-line">    else:</div>
+<div class="code-line">        print("繼續冒險")</div>
+<div class="code-line">print("最終血量：", hp)</div>
+</div>
+
+<div class="quiz">
+<b>🧩 6 格全部完成後再檢查</b>
+<p>請確認上方 6 個底線都已填寫，再按「檢查全部 6 格」。</p>
+<button class="primary" onclick="checkGame()">檢查全部 6 格</button>
+<div id="gameFb" class="feedback"></div>
+</div>
+
+<div class="codebox">
+<div>
+<b>🧩 你的完整程式</b>
+<div id="assembled" class="game-code" style="margin-top:8px;min-height:250px"></div>
+<button id="runBtn" class="ok" onclick="runGame()" disabled>▶ 執行皮卡丘遊戲</button>
+<button onclick="resetGame()">↺ 清空答案</button>
+<button onclick="restoreGameDefault()">⟳ 還原成預設程式</button>
+</div>
+<div>
+<b>🖥 執行結果</b>
+<div id="gameOut" class="output">完成 6 格並通過檢查後才能執行。</div>
+</div>
+</div>
+</div>
+
+<div class="card">
+<h2>⑦ 學習心得｜10分</h2>
+<textarea id="reflection" placeholder="例如：我現在知道 for 和 while 的差別是……"></textarea>
+<button class="primary" onclick="saveReflection()">儲存心得 +10</button>
+<div id="rf" class="feedback"></div>
+</div>
+
+<div class="card center">
+<div class="score">目前：<span id="score">0</span> / 100</div>
+<p>完成後請按下方按鈕上傳到共用 GAS。</p>
+<button class="ok" onclick="upload()">☁ 上傳 2-3 學習成果</button>
+<div id="uploadFb" class="feedback"></div>
+</div>
+</div>
+
+<script>
+const GAS_URL="請貼上共用 GAS V26 /exec 網址";
+const KEY="yucheng_ch02_2_3_pika_v26";
+const S=JSON.parse(localStorage.getItem(KEY)||'{}');
+S.parts ||= {}; S.student ||= {};
+
+/* 取得頁面元件：避免瀏覽器因 HTML id 不自動建立全域變數，導致後續動畫全部停止。 */
+const $ = id => document.getElementById(id);
+const classNameEl=$("className"), seatEl=$("seat"), nameEl=$("name");
+const quizFbEl=$("quizFb");
+const demoSelectEl=$("demoSelect"), demoExplainEl=$("demoExplain"), demoCodeEl=$("demoCode");
+const demoOutputEl=$("demoOutput"), demoMemoryEl=$("demoMemory"), demoStatusEl=$("demoStatus");
+const runBtnEl=$("runBtn"), assembledEl=$("assembled"), gameFbEl=$("gameFb"), gameOutEl=$("gameOut");
+const reflectionEl=$("reflection"), rfEl=$("rf");
+const scoreEl=$("score"), barEl=$("bar"), progressTextEl=$("progressText"), uploadFbEl=$("uploadFb");
+
+function save(){localStorage.setItem(KEY,JSON.stringify(S));update();}
+function saveStudent(){S.student={className:classNameEl.value.trim(),seat:seatEl.value.trim(),name:nameEl.value.trim()};save();alert("身分已儲存");}
+if(S.student){classNameEl.value=S.student.className||'';seatEl.value=S.student.seat||'';nameEl.value=S.student.name||''}
+function checkQuiz(){
+ let scoreQ=0;
+ const q0=document.querySelector('input[name="q0"]:checked'),f0=document.getElementById('qf0');
+ if(q0&&q0.value==='2'){scoreQ+=2;f0.className='feedback good';f0.textContent='✓ 正確 +2'}
+ else{f0.className='feedback bad';f0.textContent='✗ 尚未正確，請重新檢查第 5 次是否能執行。'}
+
+ const q1=[...document.querySelectorAll('input[name="q1"]:checked')].map(x=>x.value).sort(),f1=document.getElementById('qf1');
+ if(q1.length===2&&q1[0]==='1'&&q1[1]==='3'){scoreQ+=2;f1.className='feedback good';f1.textContent='✓ 正確 +2'}
+ else{f1.className='feedback bad';f1.textContent='✗ 請比較每個 range 實際產生的數字。'}
+
+ const answers=['0','1','1'];
+ for(let i=2;i<=4;i++){
+  const v=document.querySelector(`input[name="q${i}"]:checked`),f=document.getElementById('qf'+i);
+  if(v&&v.value===answers[i-2]){scoreQ+=2;f.className='feedback good';f.textContent='✓ 正確 +2'}
+  else{f.className='feedback bad';f.textContent='✗ 尚未正確，請再想想。'}
+ }
+ S.parts.quiz=scoreQ;
+ quizFbEl.className=scoreQ===10?'feedback good':'feedback';
+ quizFbEl.textContent='目前快速複習得分：'+scoreQ+' / 10';
+ save();
+}
+
+function checkExact(id,ans,fid,pts){let v=document.getElementById(id).value.trim().toLowerCase().replace(/\s+/g,' '),a=ans.toLowerCase();let ok=v===a;finish(fid,ok,pts);}
+function setDone(id,fid,pts){S.parts[id]=pts;document.getElementById(fid).className='feedback good';document.getElementById(fid).textContent='✓ 已完成 +'+pts;save();}
+function finish(fid,ok,pts){document.getElementById(fid).className='feedback '+(ok?'good':'bad');document.getElementById(fid).textContent=ok?'✓ 正確 +'+pts:'✗ 尚未正確';if(ok)S.parts[fid]=pts;save();}
+function normalizeExpr(s){
+ return s.trim().replace(/≧/g,'>=').replace(/≦/g,'<=')
+ .replace(/\bAND\b/gi,' and ').replace(/\bOR\b/gi,' or ')
+ .replace(/\bNOT\b/gi,' not ').replace(/\s+/g,' ');
+}
+function safeCond(expr,vars){
+ let x=normalizeExpr(expr).replace(/\band\b/g,'&&').replace(/\bor\b/g,'||').replace(/\bnot\b/g,'!');
+ if(!/^[A-Za-z0-9_\s().<>=!&|+\-*/%]+$/.test(x))return null;
+ Object.keys(vars).forEach(k=>x=x.replace(new RegExp('\\b'+k+'\\b','g'),String(vars[k])));
+ x=x.replace(/(?<![<>=!])=(?!=)/g,'==');
+ try{return !!Function('"use strict";return ('+x.replace(/===/g,'==')+')')()}catch(e){return null}
+}
+function equivalent(user,expected,vars){
+ const tests=[];
+ if(vars.includes('age'))for(let v=0;v<=100;v++)tests.push({age:v});
+ if(vars.includes('hp'))for(let v=-20;v<=120;v++)tests.push({hp:v});
+ return tests.every(t=>safeCond(user,t)===safeCond(expected,t));
+}
+function checkCondition(id,expected,fid,vars){
+ const v=document.getElementById(id).value.trim(),f=document.getElementById(fid);
+ if(equivalent(v,expected,vars)){
+  S.parts[fid]=10;f.className='feedback good';f.textContent='✓ 多組測試皆符合題意 +10';
+ }else{
+  delete S.parts[fid];f.className='feedback bad';f.textContent='✗ 尚未通過，請重新檢查條件的邊界與範圍。';
+ }
+ save();
+}
+function checkNumber(id,expected,fid,pts){
+ const v=Number(document.getElementById(id).value.trim()),f=document.getElementById(fid);
+ if(Number.isFinite(v)&&v===expected){
+  S.parts[fid]=pts;f.className='feedback good';f.textContent='✓ 正確 +'+pts;
+ }else{
+  delete S.parts[fid];f.className='feedback bad';f.textContent='✗ 尚未正確，請重新計算。';
+ }
+ save();
+}
+function checkKeyword(id,expected,fid,pts){
+ const v=document.getElementById(id).value.trim().toLowerCase(),f=document.getElementById(fid);
+ if(v===expected){
+  S.parts[fid]=pts;f.className='feedback good';f.textContent='✓ 正確 +'+pts;
+ }else{
+  delete S.parts[fid];f.className='feedback bad';f.textContent='✗ 尚未正確，請重新思考。';
+ }
+ save();
+}
+
+/* 逐行動畫 */
+const demos={
+ for:{
+  explain:"for 適合已經知道要重複幾次的情況。這裡讓皮卡丘訓練 5 次。",
+  lines:['for i in range(1, 6):','    print("皮卡丘訓練", i, "次")'],
+  steps:[
+   {line:0,out:"準備開始 for 迴圈",mem:{}},
+   {line:1,out:"皮卡丘訓練 1 次",mem:{i:1}},
+   {line:1,out:"皮卡丘訓練 1 次\n皮卡丘訓練 2 次",mem:{i:2}},
+   {line:1,out:"皮卡丘訓練 1 次\n皮卡丘訓練 2 次\n皮卡丘訓練 3 次",mem:{i:3}},
+   {line:1,out:"皮卡丘訓練 1 次\n皮卡丘訓練 2 次\n皮卡丘訓練 3 次\n皮卡丘訓練 4 次",mem:{i:4}},
+   {line:1,out:"皮卡丘訓練 1 次\n皮卡丘訓練 2 次\n皮卡丘訓練 3 次\n皮卡丘訓練 4 次\n皮卡丘訓練 5 次",mem:{i:5}},
+   {line:-1,out:"皮卡丘訓練 1 次\n皮卡丘訓練 2 次\n皮卡丘訓練 3 次\n皮卡丘訓練 4 次\n皮卡丘訓練 5 次\n訓練完成！共 5 次",mem:{i:"迴圈結束"}}
+  ]
+ },
+ while:{
+  explain:"while 會先判斷條件；條件為 True 才執行，完成後再回頭判斷。",
+  lines:['i = 1','while i <= 5:','    print("皮卡丘訓練", i, "次")','    i = i + 1'],
+  steps:[
+   {line:0,out:"設定 i = 1",mem:{i:1}},
+   {line:1,out:"判斷 i <= 5 → True",mem:{i:1}},
+   {line:2,out:"皮卡丘訓練 1 次",mem:{i:1}},
+   {line:3,out:"i = i + 1 → i 變成 2",mem:{i:2}},
+   {line:1,out:"判斷 i <= 5 → True",mem:{i:2}},
+   {line:2,out:"皮卡丘訓練 2 次",mem:{i:2}},
+   {line:3,out:"i = i + 1 → i 變成 3",mem:{i:3}},
+   {line:1,out:"判斷 i <= 5 → True",mem:{i:3}},
+   {line:2,out:"皮卡丘訓練 3 次",mem:{i:3}},
+   {line:3,out:"i = i + 1 → i 變成 4",mem:{i:4}},
+   {line:1,out:"判斷 i <= 5 → True",mem:{i:4}},
+   {line:2,out:"皮卡丘訓練 4 次",mem:{i:4}},
+   {line:3,out:"i = i + 1 → i 變成 5",mem:{i:5}},
+   {line:1,out:"判斷 i <= 5 → True",mem:{i:5}},
+   {line:2,out:"皮卡丘訓練 5 次",mem:{i:5}},
+   {line:3,out:"i = i + 1 → i 變成 6",mem:{i:6}},
+   {line:1,out:"判斷 i <= 5 → False，離開 while",mem:{i:6}},
+   {line:-1,out:"訓練完成！共 5 次",mem:{i:6}}
+  ]
+ },
+ continue:{
+  explain:"continue 會跳過這一輪剩下的程式，但迴圈仍會繼續。第 3 次遇到障礙物，因此不訓練。",
+  lines:['for i in range(5):','    if i == 2:','        continue','    print("皮卡丘訓練", i + 1, "次")'],
+  steps:[
+   {line:0,out:"開始訓練",mem:{}},
+   {line:3,out:"皮卡丘訓練 1 次",mem:{i:0}},
+   {line:3,out:"皮卡丘訓練 2 次",mem:{i:1}},
+   {line:1,out:"第 3 次遇到障礙物：i == 2 → True",mem:{i:2}},
+   {line:2,out:"continue：跳過這一輪的 print",mem:{i:2}},
+   {line:3,out:"皮卡丘訓練 4 次",mem:{i:3}},
+   {line:3,out:"皮卡丘訓練 5 次",mem:{i:4}},
+   {line:-1,out:"迴圈結束",mem:{i:4}}
+  ]
+ },
+ break:{
+  explain:"break 會立刻離開目前的迴圈。第 3 次發現寶物，所以不再繼續訓練。",
+  lines:['for i in range(5):','    if i == 2:','        break','    print("皮卡丘訓練", i + 1, "次")'],
+  steps:[
+   {line:0,out:"開始訓練",mem:{}},
+   {line:3,out:"皮卡丘訓練 1 次",mem:{i:0}},
+   {line:3,out:"皮卡丘訓練 2 次",mem:{i:1}},
+   {line:1,out:"第 3 次發現寶物：i == 2 → True",mem:{i:2}},
+   {line:2,out:"break：立即離開迴圈",mem:{i:2}},
+   {line:-1,out:"迴圈結束，不再訓練第 4、5 次",mem:{i:2}}
+  ]
+ },
+ else:{
+  explain:"for 迴圈的 else 只有在迴圈正常跑完、沒有被 break 中斷時才會執行。",
+  lines:['for i in range(5):','    print("皮卡丘訓練", i + 1, "次")','else:','    print("5 次訓練全部完成！")'],
+  steps:[
+   {line:0,out:"開始 for 迴圈",mem:{}},
+   {line:1,out:"皮卡丘訓練 1 次",mem:{i:0}},
+   {line:1,out:"皮卡丘訓練 2 次",mem:{i:1}},
+   {line:1,out:"皮卡丘訓練 3 次",mem:{i:2}},
+   {line:1,out:"皮卡丘訓練 4 次",mem:{i:3}},
+   {line:1,out:"皮卡丘訓練 5 次",mem:{i:4}},
+   {line:2,out:"迴圈正常結束 → 執行 else",mem:{}},
+   {line:3,out:"5 次訓練全部完成！",mem:{}},
+   {line:-1,out:"整段程式結束",mem:{}}
+  ]
+ }
+};
+
+let demoState={name:'while',step:0};
+function loadDemo(){demoState={name:demoSelectEl.value,step:0};renderDemo();}
+function demoReset(){demoState.step=0;renderDemo();}
+function renderDemo(){
+ const d=demos[demoState.name],s=d.steps[Math.min(demoState.step,d.steps.length-1)];
+ demoExplainEl.textContent=d.explain;
+ demoCodeEl.innerHTML=d.lines.map((x,i)=>`<div class="demo-line ${i===s.line?'active':''}">${escapeHtml(x)}</div>`).join('');
+ demoOutputEl.textContent=s.out;
+ demoMemoryEl.innerHTML=Object.entries(s.mem).map(([k,v])=>`<span class="mem">${escapeHtml(k)} = ${escapeHtml(v)}</span>`).join('');
+ demoStatusEl.textContent=s.line<0?'✓ 本次動畫完成｜上方已顯示完整執行結果':'目前步驟 '+(demoState.step+1)+' / '+(d.steps.length-1);
+}
+function demoStep(){
+ const d=demos[demoState.name];
+ if(d && demoState.step<d.steps.length-1){demoState.step++;renderDemo();}
+}
+function escapeHtml(s){return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');}
+function initDemo(){
+ const sel=document.getElementById('demoSelect');
+ if(!sel) return;
+ try{
+   demoState={name:sel.value||'for',step:0};
+   renderDemo();
+ }catch(e){
+   const out=document.getElementById('demoOutput');
+   const code=document.getElementById('demoCode');
+   if(out) out.textContent='動畫載入失敗：'+e.message;
+   if(code) code.innerHTML='<div class="demo-line">請重新整理頁面</div>';
+ }
+}
+if(document.readyState === 'loading'){
+ document.addEventListener('DOMContentLoaded',initDemo);
+}else{
+ initDemo();
+}
+
+/* 六格皮卡丘總複習 */
+function gameValues(){
+ return {
+  g1:document.getElementById('g1').value.trim(),
+  g2:document.getElementById('g2').value.trim(),
+  g3:document.getElementById('g3').value.trim(),
+  g4:document.getElementById('g4').value.trim().toLowerCase(),
+  g5:document.getElementById('g5').value.trim(),
+  g6:document.getElementById('g6').value.trim().replace(/\s+/g,'')
+ };
+}
+function checkGame(){
+ const v=gameValues(),f=gameFb;
+ const checks=[
+  v.g1.length>0 && !/[<>"'\n]/.test(v.g1),
+  Number(v.g2)===20,
+  Number(v.g3)===15,
+  v.g4==='break',
+  Number(v.g5)===30,
+  ['hp+heal','hp=hp+heal'].includes(v.g6)
+ ];
+ const names=['①角色名稱','②補血量','③傷害倍率','④停止迴圈','⑤低血量門檻','⑥補血運算式'];
+ const wrong=checks.map((ok,i)=>ok?'':names[i]).filter(Boolean);
+ if(wrong.length===0){
+  S.parts.game=30;S.game=Object.assign(v,{checked:true});
+  f.className='feedback good';f.textContent='✓ 6 格全部正確！現在可以執行遊戲。 +30';
+  runBtnEl.disabled=false;assembleGame();save();
+ }else{
+  delete S.parts.game;S.game=Object.assign(v,{checked:false});
+  f.className='feedback bad';f.textContent='✗ 還有 '+wrong.length+' 格需要修正：'+wrong.join('、')+'。第6格可寫成「hp + heal」或「hp = hp + heal」。';
+  runBtnEl.disabled=true;assembleGame();save();
+ }
+}
+function assembleGame(){
+ const v=gameValues();
+ assembledEl.innerHTML=`
+<div class="code-line">pokemon = "${escapeHtml(v.g1||'＿＿＿＿')}"</div>
+<div class="code-line">hp = 100</div>
+<div class="code-line">heal = ${escapeHtml(v.g2||'＿＿')}</div>
+<div class="code-line">print("冒險開始！", pokemon)</div>
+<div class="code-line">for turn in range(1, 6):</div>
+<div class="code-line">    damage = turn * ${escapeHtml(v.g3||'＿＿')}</div>
+<div class="code-line">    hp = hp - damage</div>
+<div class="code-line">    print("第", turn, "回合，", pokemon, "受到", damage, "傷害")</div>
+<div class="code-line">    if hp &lt;= 0:</div>
+<div class="code-line">        print("Game Over")</div>
+<div class="code-line">        ${escapeHtml(v.g4||'＿＿＿＿')}</div>
+<div class="code-line">    elif hp &lt;= ${escapeHtml(v.g5||'＿＿')}:</div>
+<div class="code-line">        hp = ${escapeHtml(v.g6||'＿＿＿＿＿＿')}</div>
+<div class="code-line">        print("補血！目前血量", hp)</div>
+<div class="code-line">    else:</div>
+<div class="code-line">        print("繼續冒險")</div>
+<div class="code-line">print("最終血量：", hp)</div>`;
+}
+function resetGame(){
+ ['g1','g2','g3','g4','g5','g6'].forEach(id=>document.getElementById(id).value='');
+ delete S.parts.game;S.game={};runBtnEl.disabled=true;
+ assembledEl.textContent='請先填寫 6 格並檢查。';gameOutEl.textContent='完成 6 格並通過檢查後才能執行。';gameFbEl.textContent='';save();
+}
+function restoreGameDefault(){
+ document.getElementById('g1').value='皮卡丘';
+ document.getElementById('g2').value='20';
+ document.getElementById('g3').value='15';
+ document.getElementById('g4').value='break';
+ document.getElementById('g5').value='30';
+ document.getElementById('g6').value='hp = hp + heal';
+ delete S.parts.game;
+ S.game={};
+ runBtnEl.disabled=true;
+ gameFbEl.className='feedback';
+ gameFbEl.textContent='已還原預設程式，請重新按「檢查全部 6 格」。';
+ gameOutEl.textContent='已還原預設程式，尚未重新檢查。';
+ assembleGame();
+ save();
+}
+
+function runGame(){
+ const v=gameValues(),pokemon=v.g1,heal=Number(v.g2),mult=Number(v.g3),threshold=Number(v.g5);
+ let hp=100,out=['冒險開始！ '+pokemon];
+ for(let turn=1;turn<=5;turn++){
+  const damage=turn*mult;hp-=damage;
+  out.push(`第 ${turn} 回合，${pokemon} 受到 ${damage} 傷害，血量 ${hp}`);
+  if(hp<=0){out.push('Game Over');break}
+  else if(hp<=threshold){hp+=heal;out.push(`補血！目前血量 ${hp}`)}
+  else out.push('繼續冒險');
+ }
+ out.push('最終血量： '+hp);
+ gameOutEl.textContent=out.join('\n');
+}
+
+function saveReflection(){let v=reflectionEl.value.trim();if(v.length>=8){S.parts.reflection=10;rfEl.className='feedback good';rfEl.textContent='✓ 心得已儲存 +10'}else{S.parts.reflection=0;rfEl.className='feedback bad';rfEl.textContent='請至少輸入8個字。'}save();}
+function update(){let total=Object.values(S.parts).reduce((a,b)=>a+(Number(b)||0),0);total=Math.min(100,total);scoreEl.textContent=total;barEl.style.width=total+'%';progressTextEl.textContent=total+' / 100';}
+async function upload(){
+ if(!S.student.className||!S.student.seat||!S.student.name){uploadFbEl.className='feedback bad';uploadFbEl.textContent='請先填寫班級、座號、姓名。';return}
+ let total=Object.values(S.parts).reduce((a,b)=>a+(Number(b)||0),0);total=Math.min(100,total);
+ const payload={action:'saveCh02',chapter:'ch02',section:'2-3',classNo:S.student.className,seatNo:S.student.seat,studentName:S.student.name,student:{class:S.student.className,seat:S.student.seat,name:S.student.name},score:total,progress:total+'/100',detail:S.parts,clientTime:new Date().toISOString(),page:'2-3-pikachu-v26'};
+ if(!GAS_URL||GAS_URL.startsWith('請貼上')){uploadFbEl.textContent='⚠️ 尚未設定共用 GAS /exec 網址。';return}
+ uploadFbEl.textContent='上傳中…';
+ try{await fetch(GAS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});uploadFbEl.className='feedback good';uploadFbEl.textContent='✓ 已送出；請到 Google Sheet 確認 2-3 紀錄。'}catch(e){uploadFbEl.className='feedback bad';uploadFbEl.textContent='✗ 上傳失敗，請檢查 GAS 部署。'}}
+update();
+</script>
+</body>
+</html>
