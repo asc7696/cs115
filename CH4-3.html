@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>育成高中｜資訊科技｜CH4-3 自訂函式</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,"Noto Sans TC",sans-serif;background:#f4f7fb;color:#172033;line-height:1.65}
+header{background:linear-gradient(135deg,#173b67,#246b8f);color:#fff;padding:22px 28px}
+header h1{margin:0;font-size:25px}.sub{opacity:.92;margin-top:4px}
+.student{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px;align-items:center}
+.student input{border:0;border-radius:8px;padding:9px 11px;width:120px}.student input.name{width:150px}
+.layout{display:grid;grid-template-columns:250px 1fr;max-width:1400px;margin:auto}
+aside{background:#fff;min-height:calc(100vh - 150px);padding:18px;border-right:1px solid #d9e1ea;position:sticky;top:0;align-self:start}
+.menu{padding:10px 8px;border-bottom:1px solid #e5ebf1}.menu b{display:block;margin-bottom:6px}.menu label{display:block;font-size:14px;margin:5px 0}
+main{padding:25px;max-width:1050px;width:100%}
+.hero,.card{background:#fff;border-radius:16px;padding:20px;margin:16px 0;box-shadow:0 4px 16px #0000000b;border:1px solid #e1e8ef}
+h2{margin-top:0;color:#173b67}h3{color:#246b8f}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.wide{grid-column:1/-1}
+.code{background:#17212b;color:#f4f8fb;padding:15px;border-radius:12px;overflow:auto;font-family:Consolas,monospace;white-space:pre-wrap}
+textarea.editor{width:100%;min-height:120px;border:2px solid #cbd8e4;border-radius:12px;padding:12px;font-family:Consolas,monospace;font-size:15px}
+button{border:0;border-radius:9px;padding:10px 15px;cursor:pointer;font-weight:700;margin:4px}.primary{background:#246b8f;color:#fff}.green{background:#2f8061;color:#fff}.orange{background:#d67a28;color:#fff}.gray{background:#e8edf2;color:#24384b}
+.result{padding:12px;border-radius:10px;background:#f1f6fa;margin-top:10px;min-height:40px}.good{color:#19724f;font-weight:700}.bad{color:#a63a32;font-weight:700}
+.bar{height:12px;background:#e1e8ef;border-radius:99px;overflow:hidden}.bar>div{height:100%;width:0;background:#246b8f}
+.trace{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.trace-panel{background:#f8fbfd;border:1px solid #d9e5ed;border-radius:12px;padding:12px}
+.trace-panel h4{margin:0 0 8px;color:#173b67}
+.trace-line{padding:9px 10px;border-radius:8px;margin:4px 0;font-family:Consolas,monospace;background:#fff;color:#263746;border-left:5px solid #b8c7d5}
+.trace-line.active{background:#d8eef7;color:#123b52;border-left-color:#1683ad;font-weight:700}
+.history{display:flex;flex-direction:column;gap:6px}.history-item{padding:9px 10px;border-radius:8px;background:#fff;border:1px solid #dce5ed;color:#263746;font-family:Consolas,monospace}
+.history-item.current{background:#e5f5ed;color:#174d39;border-color:#2f8061;font-weight:700}
+.stepbox{background:#f7fafc;border:1px solid #dce5ed;border-radius:12px;padding:15px}
+.practice{background:#fffaf2;border:1px solid #f0d4a8;border-radius:12px;padding:16px;margin-top:14px}
+.fill{display:inline-block;min-width:90px;border:0;border-bottom:2px solid #246b8f;background:#f7fbfd;padding:4px 7px;font-family:Consolas,monospace}
+.reflection{width:100%;min-height:100px;border:1px solid #cbd8e4;border-radius:10px;padding:10px}
+table{width:100%;border-collapse:collapse}th,td{border:1px solid #dce4eb;padding:9px;text-align:left}th{background:#eef5f9}
+.notice{padding:12px;border-left:5px solid #246b8f;background:#eef6fa;border-radius:8px}
+.progress{position:sticky;bottom:0;background:#fff;border-top:1px solid #dce4eb;padding:10px 20px;z-index:9}
+footer{text-align:center;color:#68798a;padding:30px}
+@media(max-width:850px){.trace{grid-template-columns:1fr}.layout{grid-template-columns:1fr}aside{position:static;min-height:auto;border-right:0}main{padding:15px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<h1>育成高中｜資訊科技｜CH4-3 自訂函式</h1>
+<div class="sub">def × 參數 × return × 函式呼叫 × 逐步執行</div>
+<div class="student">
+<span>班級</span><input id="classNo" placeholder="例如 101">
+<span>座號</span><input id="seatNo" placeholder="例如 12">
+<span>姓名</span><input id="studentName" class="name" placeholder="請輸入姓名">
+<button class="green" onclick="saveStudent()">儲存學生資料</button>
+</div>
+</header>
+<div class="layout">
+<aside>
+<div class="menu"><b>📚 本節學習地圖</b></div>
+<div class="menu"><label><input type="checkbox" data-check="custom"> {"builtin":"內建函式","number":"數值函式","string":"字串函式","practice":"學生實作","challenge":"程式挑戰","random":"亂數函式","date":"日期與日曆","custom":"自訂函式","param":"參數與呼叫","return":"return 與傳回值","quiz":"章節小測驗"}.get("custom","custom")}</label></div><div class="menu"><label><input type="checkbox" data-check="param"> {"builtin":"內建函式","number":"數值函式","string":"字串函式","practice":"學生實作","challenge":"程式挑戰","random":"亂數函式","date":"日期與日曆","custom":"自訂函式","param":"參數與呼叫","return":"return 與傳回值","quiz":"章節小測驗"}.get("param","param")}</label></div><div class="menu"><label><input type="checkbox" data-check="return"> {"builtin":"內建函式","number":"數值函式","string":"字串函式","practice":"學生實作","challenge":"程式挑戰","random":"亂數函式","date":"日期與日曆","custom":"自訂函式","param":"參數與呼叫","return":"return 與傳回值","quiz":"章節小測驗"}.get("return","return")}</label></div><div class="menu"><label><input type="checkbox" data-check="practice"> {"builtin":"內建函式","number":"數值函式","string":"字串函式","practice":"學生實作","challenge":"程式挑戰","random":"亂數函式","date":"日期與日曆","custom":"自訂函式","param":"參數與呼叫","return":"return 與傳回值","quiz":"章節小測驗"}.get("practice","practice")}</label></div><div class="menu"><label><input type="checkbox" data-check="challenge"> {"builtin":"內建函式","number":"數值函式","string":"字串函式","practice":"學生實作","challenge":"程式挑戰","random":"亂數函式","date":"日期與日曆","custom":"自訂函式","param":"參數與呼叫","return":"return 與傳回值","quiz":"章節小測驗"}.get("challenge","challenge")}</label></div><div class="menu"><label><input type="checkbox" data-check="quiz"> {"builtin":"內建函式","number":"數值函式","string":"字串函式","practice":"學生實作","challenge":"程式挑戰","random":"亂數函式","date":"日期與日曆","custom":"自訂函式","param":"參數與呼叫","return":"return 與傳回值","quiz":"章節小測驗"}.get("quiz","quiz")}</label></div>
+<div class="menu"><b>學習進度</b><div class="bar"><div id="sideBar"></div></div><div id="sideProgress">0 / 6</div></div>
+<div class="menu"><b>目前分數</b><div id="scoreText">0</div> / 100</div>
+</aside>
+<main>
+
+<div class="hero"><h2>CH4-3 自訂函式</h2>
+<p>當 Python 內建函式與標準函式庫沒有現成工具時，可以自己設計函式。本節聚焦 <b>def、參數、return、呼叫</b>，並用生活化情境理解「輸入 → 函式處理 → 回傳 → 主程式使用」。</p>
+<div class="notice">🎯 核心觀念：<b>定義函式 ≠ 執行函式</b>。只有主程式呼叫函式時，函式才會真正執行。</div></div>
+
+<div class="card"><h2>① 自訂函式四個關鍵</h2>
+<table><tr><th>概念</th><th>說明</th></tr>
+<tr><td>def</td><td>開始定義函式</td></tr>
+<tr><td>參數 parameter</td><td>呼叫函式時傳入的資料</td></tr>
+<tr><td>return</td><td>把結果傳回呼叫函式的位置</td></tr>
+<tr><td>呼叫 call</td><td>使用「函式名稱(資料)」執行函式</td></tr></table>
+<label><input type="checkbox" data-check="custom"> 我能說出 def、參數、return、呼叫的角色</label></div>
+
+<div class="card"><h2>② 逐步執行｜匯率換算</h2>
+<p>課本範例：假設 1 美元 = 30 元新臺幣，建立 <b>dollar(m)</b> 函式。</p>
+<div class="trace">
+<div class="trace-panel"><h4>💻 程式碼</h4><div id="traceCode43"></div><button class="primary" onclick="next43()">▶ 下一步</button><button class="gray" onclick="reset43()">↺ 重來</button><div class="stepbox" id="explain43">按「下一步」開始。</div></div>
+<div class="trace-panel"><h4>🕘 程式歷程</h4><div class="history" id="history43"></div><div class="result" id="output43">尚未輸出</div></div></div>
+<label><input type="checkbox" data-check="param"> 我能看懂參數與函式呼叫</label>
+<label><input type="checkbox" data-check="return"> 我能看懂 return 傳回值</label></div>
+
+<div class="card"><h2>③ 學生填空｜攝氏轉華氏</h2>
+<p>公式：華氏 = 攝氏 × 9 / 5 + 32。請建立函式 <b>F(c)</b>，讓主程式呼叫函式取得結果。</p>
+<textarea class="editor" id="p43a">def F(_____):
+    f = c * 9 / 5 + _____
+    return _____
+
+c = 25
+print(F(_____))</textarea>
+<button class="green" onclick="check43a()">檢查練習</button><button class="gray" onclick="reset43a()">↺ 還原輸入</button>
+<div class="result" id="p43aResult">尚未檢查</div></div>
+
+<div class="card"><h2>④ 學生填空｜匯率換算</h2>
+<p>請完成課本情境：輸入新臺幣金額，呼叫 <b>dollar()</b>，輸出換算後美元。</p>
+<textarea class="editor" id="p43b">def dollar(_____):
+    d = m / 30
+    return _____
+
+x = int(input("輸入新臺幣金額: "))
+print("兌換", dollar(_____), "美元")</textarea>
+<button class="green" onclick="check43b()">檢查練習</button><button class="gray" onclick="reset43b()">↺ 還原輸入</button>
+<div class="result" id="p43bResult">尚未檢查</div></div>
+
+<div class="card"><h2>⑤ 程式挑戰｜P.94 威力彩</h2>
+<p>依課本情境，使用自訂函式分別產生第一區 6 個不重複號碼與第二區 1 個號碼。學生只完成函式骨架與呼叫。</p>
+<textarea class="editor" id="challenge43">import random
+
+def pow1():
+    return random._____(range(1, 39), 6)
+
+def pow2():
+    return random._____(1, 8)
+
+a = _____()
+b = _____()
+print(a)
+print(b)</textarea>
+<button class="green" onclick="runChallenge43()">▶ 執行程式</button><button class="gray" onclick="resetChallenge43()">↺ 還原輸入</button>
+<div class="result" id="challenge43Result">等待執行……</div>
+<label><input type="checkbox" data-check="challenge"> 我完成自訂函式挑戰</label></div>
+
+<div class="card"><h2>⑥ 小測驗</h2><div id="quiz43"></div><button class="orange" onclick="submitQuiz43()">提交測驗</button><div class="result" id="quiz43Result"></div></div>
+
+<div class="card"><h2>⑦ 我的學習心得</h2><textarea id="reflection" class="reflection" placeholder="今天我學會了什麼？哪個函式最容易混淆？"></textarea></div>
+<div class="card"><h2>☁ 上傳學習成果</h2><p class="notice">請先確認班級、座號、姓名，再按下「上傳學習成果」。資料會送到老師的 Google 試算表。</p>
+<button class="green" onclick="uploadToGAS()">☁ 上傳學習成果</button>
+<button class="gray" onclick="clearLocal()">清除本節瀏覽器紀錄</button>
+<span id="gasStatus"></span>
+<form id="gasForm" method="POST" target="gasFrame" style="display:none"><textarea id="gasPayload" name="payload"></textarea></form>
+<iframe name="gasFrame" id="gasFrame" style="display:none"></iframe></div>
+</main></div>
+<div class="progress"><span id="bottomProgress">學習進度：0%</span></div>
+<footer>資訊科技必修｜第四章 模組化程式實作－函式｜localStorage + GAS</footer>
+<script>
+const GAS_URL="https://script.google.com/macros/s/AKfycbwrkpuDd1WaHE2ilaiYwZMxfDx0DW10PSeWrSH4gkj8-gFmjzPyUjymJJQsz2iELka0eg/exec";
+const KEY="it_required_ch4_3";
+const CHECKS=['custom','param','return','practice','challenge','quiz'];
+let state=JSON.parse(localStorage.getItem(KEY)||"{}");
+state.complete=state.complete||{}; state.score=Number(state.score||0); state.points=state.points||{};
+state.quizScore=Number(state.quizScore||0); state.reflection=typeof state.reflection==="string"?state.reflection:"";
+function save(){localStorage.setItem(KEY,JSON.stringify(state));update();}
+function saveStudent(){const c=classNo.value.trim(),s=seatNo.value.trim(),n=studentName.value.trim();if(!c||!s||!n){alert("請先填寫班級、座號、姓名。");return false}state.student={classNo:c,seatNo:s,studentName:n};save();return true;}
+const POINTS={custom:15,param:15,return:15,practice:15,challenge:15,quiz:25};
+function addScoreOnce(k,p){if(!state.points[k]){state.points[k]=p;state.score=Math.min(100,state.score+p);}}
+function setCheck(k,v,p){state.complete[k]=!!v;if(v&&p)addScoreOnce(k,p);save();}
+function update(){const done=CHECKS.filter(k=>state.complete[k]).length,pct=Math.round(done/CHECKS.length*100);sideProgress.textContent=done+" / "+CHECKS.length;sideBar.style.width=pct+"%";bottomProgress.textContent="學習進度："+pct+"%";scoreText.textContent=Math.min(100,state.score);document.querySelectorAll("[data-check]").forEach(x=>x.checked=!!state.complete[x]);if(state.student){classNo.value=state.student.classNo||"";seatNo.value=state.student.seatNo||"";studentName.value=state.student.studentName||""}reflection.value=state.reflection||"";}
+document.querySelectorAll("[data-check]").forEach(x=>x.addEventListener("change",e=>{const k=e.target.dataset.check;state.complete[k]=e.target.checked;if(e.target.checked&&POINTS[k])addScoreOnce(k,POINTS[k]);save();}));
+reflection.addEventListener("input",e=>{state.reflection=e.target.value;save();});
+function clearLocal(){if(confirm("確定清除本節瀏覽器學習紀錄？")){localStorage.removeItem(KEY);location.reload();}}
+function uploadToGAS(){if(!saveStudent())return;state.reflection=reflection.value;save();const payload={action:"saveCH43",chapter:"ch4_3",section:"CH4-3",classNo:state.student.classNo,seatNo:state.student.seatNo,studentName:state.student.studentName,score:Math.min(100,state.score),formalScore:Math.min(100,state.score),progress:Math.round(CHECKS.filter(k=>state.complete[k]).length/CHECKS.length*100)+"%",complete:state.complete,quizScore:state.quizScore||0,reflection:state.reflection||"",detail:state};gasPayload.value=JSON.stringify(payload);gasForm.action=GAS_URL;gasStatus.innerHTML="<span class='good'>　正在上傳……</span>";gasForm.submit();setTimeout(()=>gasStatus.innerHTML="<span class='good'>　✓ 已送出，請到 Google 試算表確認。</span>",1200);}
+update();
+
+const code43=["def dollar(m):","    d = m / 30","    return d","x = 3000","print(dollar(x))"];
+const steps43=[
+ {hist:"Step 1：定義 dollar(m)",msg:"def 建立函式。m 是參數，代表傳進來的新臺幣金額。",out:""},
+ {hist:"Step 2：d = m / 30",msg:"函式收到 m 後，計算新臺幣換算美元。",out:""},
+ {hist:"Step 3：return d",msg:"return 把計算結果傳回主程式。",out:""},
+ {hist:"Step 4：x = 3000",msg:"主程式建立 x，準備把 3000 傳入函式。",out:""},
+ {hist:"Step 5：輸出：100.0",msg:"dollar(x) 呼叫函式，x=3000 傳給 m，函式回傳 100.0。",out:"100.0"}];
+let i43=0;
+function render43(){traceCode43.innerHTML=code43.map((x,i)=>`<div class="trace-line ${i===i43?"active":""}">${i+1}. ${x}</div>`).join("");history43.innerHTML=steps43.slice(0,i43+1).map((s,i)=>`<div class="history-item ${i===i43?"current":""}">${s.hist}<br><small>${s.msg}</small></div>`).join("");explain43.textContent=steps43[i43].msg;output43.textContent=steps43[i43].out?("輸出："+steps43[i43].out):"本步沒有輸出";}
+function next43(){if(i43<steps43.length-1)i43++;render43();if(i43===steps43.length-1){setCheck("custom",true,15);setCheck("param",true,15);setCheck("return",true,15);}}
+function reset43(){i43=0;render43();} render43();
+function check43a(){const v=p43a.value.replace(/\s+/g,"");const ok=v.includes("defF(c):")&&v.includes("+32")&&v.includes("retur")&&v.includes("F(25)");p43aResult.innerHTML=ok?'<span class="good">✓ 正確！</span> 函式定義、return 與呼叫都完成。':'<span class="bad">✗ 請再檢查參數、32、return 與呼叫。';if(ok)setCheck("param",true,15);}
+function reset43a(){p43a.value='def F(_____):\n    f = c * 9 / 5 + _____\n    return _____\n\nc = 25\nprint(F(_____))';}
+function check43b(){const v=p43b.value.replace(/\s+/g,"");const ok=v.includes("defdollar(m):")&&v.includes("returnd")&&v.includes("dollar(x)");p43bResult.innerHTML=ok?'<span class="good">✓ 正確！</span> dollar() 可以接收參數並回傳結果。':'<span class="bad">✗ 請檢查 m、return d 與 dollar(x)。';if(ok){setCheck("return",true,10);setCheck("practice",true,15);}}
+function reset43b(){p43b.value='def dollar(_____):\n    d = m / 30\n    return _____\n\nx = int(input("輸入新臺幣金額: "))\nprint("兌換", dollar(_____), "美元")';}
+function runChallenge43(){const v=challenge43.value.replace(/\s+/g,"");const ok=v.includes("random.sample(range(1,39),6)")&&v.includes("random.randint(1,8)")&&v.includes("a=pow1()")&&v.includes("b=pow2()");challenge43Result.innerHTML=ok?'<span class="good">✓ 正確！</span> 自訂函式已成功被呼叫。':'<span class="bad">✗ 尚未完成。</span> 請檢查 sample、randint 與兩個函式呼叫。';if(ok)setCheck("challenge",true,15);}
+function resetChallenge43(){challenge43.value='import random\n\ndef pow1():\n    return random._____(range(1, 39), 6)\n\ndef pow2():\n    return random._____(1, 8)\n\na = _____()\nb = _____()\nprint(a)\nprint(b)';}
+const quiz43=[
+["1. 定義自訂函式要使用？",["A. call","B. def","C. return","D. function"],1],
+["2. 函式的輸入資料通常放在？",["A. 參數","B. print","C. import","D. list"],0],
+["3. 要把結果傳回主程式使用？",["A. break","B. input","C. return","D. continue"],2],
+["4. dollar(x) 中 x 的角色？",["A. 函式名稱","B. 參數傳入的值","C. return","D. 模組"],1],
+["5. 哪個敘述正確？",["A. 定義函式就會自動執行","B. 函式一定沒有參數","C. 函式可以被重複呼叫","D. return 只能回傳字串"],2]];
+quiz43.innerHTML=quiz43.map((q,i)=>`<div class="practice"><b>${q[0]}</b>${q[1].map((o,j)=>`<label><input type="radio" name="q43_${i}" value="${j}"> ${o}</label><br>`).join("")}</div>`).join("");
+function submitQuiz43(){let s=0;quiz43.forEach((q,i)=>{const a=document.querySelector(`input[name="q43_${i}"]:checked`);if(a&&+a.value===q[2])s++;});state.quizScore=s;quiz43Result.textContent=`成績：${s} / 5（${s*5} / 25）`;if(s===5)setCheck("quiz",true,25);save();}
+
+</script>
+</body></html>

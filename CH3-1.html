@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>育成高中｜資訊科技｜CH3-1 串列的基本概念</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,"Noto Sans TC",sans-serif;background:#f4f7fb;color:#172033;line-height:1.65}
+header{background:linear-gradient(135deg,#173b67,#246b8f);color:#fff;padding:22px 28px;position:sticky;top:0;z-index:10}header h1{margin:0;font-size:25px}.sub{opacity:.9;margin-top:4px}
+.student{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px;align-items:center}.student input{border:0;border-radius:8px;padding:9px 11px;width:120px}.student input.name{width:150px}
+.layout{display:grid;grid-template-columns:250px 1fr;max-width:1400px;margin:auto}aside{background:#fff;min-height:calc(100vh - 150px);padding:18px;border-right:1px solid #d9e1ea;position:sticky;top:120px;align-self:start}
+.menu{padding:10px 8px;border-bottom:1px solid #e5ebf1}.menu b{display:block;margin-bottom:6px}.menu label{display:block;font-size:14px;margin:5px 0}
+main{padding:25px;max-width:1050px;width:100%}.hero,.card{background:#fff;border-radius:16px;padding:20px;margin:16px 0;box-shadow:0 4px 16px #0000000b;border:1px solid #e1e8ef}
+h2{margin-top:0;color:#173b67}h3{color:#246b8f}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.wide{grid-column:1/-1}
+.code{background:#17212b;color:#f4f8fb;padding:15px;border-radius:12px;overflow:auto;font-family:Consolas,monospace;white-space:pre-wrap}
+textarea.editor{width:100%;min-height:150px;border:2px solid #cbd8e4;border-radius:12px;padding:12px;font-family:Consolas,monospace;font-size:15px}
+button{border:0;border-radius:9px;padding:10px 15px;cursor:pointer;font-weight:700;margin:4px}.primary{background:#246b8f;color:#fff}.green{background:#2f8061;color:#fff}.orange{background:#d67a28;color:#fff}.gray{background:#e8edf2;color:#24384b}
+.result{padding:12px;border-radius:10px;background:#f1f6fa;margin-top:10px;min-height:40px}.good{color:#19724f;font-weight:700}.bad{color:#a63a32;font-weight:700}
+.bar{height:12px;background:#e1e8ef;border-radius:99px;overflow:hidden}.bar>div{height:100%;width:0;background:#246b8f}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#eef5f9;padding:12px;border-radius:12px;text-align:center}.stat strong{display:block;font-size:22px;color:#173b67}
+table{width:100%;border-collapse:collapse}th,td{border:1px solid #dce4eb;padding:9px;text-align:left}th{background:#eef5f9}
+.trace{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.trace-panel{background:#f8fbfd;border:1px solid #d9e5ed;border-radius:12px;padding:12px}.trace-panel h4{margin:0 0 8px;color:#173b67}.trace-line{padding:9px 10px;border-radius:8px;margin:4px 0;font-family:Consolas,monospace;background:#fff;color:#263746;border-left:5px solid #b8c7d5}.trace-line.active{background:#d8eef7;color:#123b52;border-left-color:#1683ad;font-weight:700;box-shadow:0 0 0 1px #a9d8e8}.history{display:flex;flex-direction:column;gap:6px}.history .history-item{padding:9px 10px;border-radius:8px;background:#fff;border:1px solid #dce5ed;color:#263746;font-family:Consolas,monospace}.history .history-item.current{background:#e5f5ed;color:#174d39;border-color:#2f8061;font-weight:700}.practice{background:#fffaf2;border:1px solid #f0d4a8;border-radius:12px;padding:16px;margin-top:14px}.fill{display:inline-block;min-width:100px;border:0;border-bottom:2px solid #246b8f;background:#f7fbfd;padding:4px 7px;font-family:Consolas,monospace}.practice textarea{min-height:120px}.array{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.cell{min-width:58px;padding:13px 9px;text-align:center;border:3px solid #b8c7d5;border-radius:12px;background:#fff;font-weight:700;position:relative}.cell .idx{position:absolute;top:-23px;left:0;right:0;font-size:12px;color:#64778a}.cell.active{border-color:#246b8f;background:#dff0f8;transform:translateY(-3px)}.cell.good{border-color:#2f8061;background:#e5f5ed}
+.stepbox{background:#f7fafc;border:1px solid #dce5ed;border-radius:12px;padding:15px}.progress{position:sticky;bottom:0;background:#fff;border-top:1px solid #dce4eb;padding:10px 20px;z-index:9}.notice{padding:12px;border-left:5px solid #246b8f;background:#eef6fa;border-radius:8px}.pokemon-item{background:#f8fbff;border:1px solid #dbe5ef;border-radius:10px;padding:12px;margin:10px 0}.mini{min-height:58px;margin-top:6px}.pokemon-item button{margin:6px 8px 0 0}.pokemon-item .good,.pokemon-item .bad{margin-left:6px}.reflection{width:100%;min-height:100px;border:1px solid #cbd8e4;border-radius:10px;padding:10px}footer{text-align:center;color:#68798a;padding:30px}
+@media(max-width:850px){.trace{grid-template-columns:1fr}.layout{grid-template-columns:1fr}aside{position:static;min-height:auto;border-right:0}main{padding:15px}.grid{grid-template-columns:1fr}header{position:static}.stats{grid-template-columns:1fr 1fr}}
+</style></head>
+<body>
+<header><h1>育成高中｜資訊科技｜CH3-1 串列的基本概念</h1><div class="sub">從 list、索引、取值、修改、append / insert / remove / sort / reverse，到二維串列。</div>
+<div class="student"><span>班級</span><input id="classNo" placeholder="例如 101"><span>座號</span><input id="seatNo" placeholder="例如 12"><span>姓名</span><input id="studentName" class="name" placeholder="請輸入姓名"><button class="green" onclick="saveStudent()">儲存學生資料</button></div></header>
+<div class="layout"><aside><div class="menu"><b>📚 本節學習地圖</b></div><div class="menu"><label><input type="checkbox" data-check="index"> 索引與取值</label></div><div class="menu"><label><input type="checkbox" data-check="methods"> list 方法</label></div><div class="menu"><label><input type="checkbox" data-check="listPractice"> list 方法實作</label></div><div class="menu"><label><input type="checkbox" data-check="twoD"> 二維串列</label></div><div class="menu"><label><input type="checkbox" data-check="challenge"> 程式挑戰</label></div><div class="menu"><label><input type="checkbox" data-check="quiz"> 章節小測驗</label></div><div class="menu"><b>學習進度</b><div class="bar"><div id="sideBar"></div></div><div id="sideProgress">0 / 6</div></div></aside>
+<main><div class="hero"><h2>CH3-1 串列的基本概念</h2><p>從 list、索引、取值、修改、append / insert / remove / sort / reverse，到二維串列。</p><div class="stats"><div class="stat"><strong id="scoreText">0</strong>學習分數</div><div class="stat"><strong id="doneText">0%</strong>完成度</div><div class="stat"><strong>6</strong>學習任務</div></div></div>
+<div class="card"><h2>① 什麼是串列 list？</h2>
+<p><b>串列（list）</b>是一種可以把多筆資料依序放在一起管理的資料結構。在 Python 中，list 由許多<b>元素</b>組成，每個元素可以存放一筆資料；要找到某個元素，就使用它的位置編號，也就是<b>索引（index，又稱註標）</b>。</p>
+<table><tr><th>名詞</th><th>意思</th><th>例子</th></tr>
+<tr><td><b>串列 list</b></td><td>用一個名稱管理多筆資料的容器</td><td><code>a = [50,79,12,37,56]</code></td></tr>
+<tr><td><b>資料值</b></td><td>串列中實際存放的內容</td><td>50、79、12、37、56</td></tr>
+<tr><td><b>元素 element</b></td><td>串列中的每一筆資料</td><td>a[0] 的元素是 50</td></tr>
+<tr><td><b>索引 index</b></td><td>元素在串列中的位置編號，Python 從 0 開始</td><td>0、1、2、3、4</td></tr>
+<tr><td><b>註標</b></td><td>index 的另一種中文稱呼，用來標示元素位置</td><td>a[2] 表示索引 2</td></tr></table>
+<div class="code">a = [50, 79, 12, 37, 56]</div>
+<p>所以 <b>a[0] = 50</b>、<b>a[1] = 79</b>；注意：第一個元素的索引是 <b>0</b>，不是 1。</p>
+<div class="array" id="basicArray"></div><div class="stepbox" id="arrayExplain">按「下一步」觀察索引、元素與資料值。</div><button class="primary" onclick="arrayNext()">下一步</button><button class="gray" onclick="arrayReset()">重來</button></div>
+
+<div class="card"><h2>② 取值與修改｜逐步執行</h2>
+<p>請按「下一步」逐行執行，左邊看目前執行的程式碼，右邊同步觀察串列 <b>a</b> 的變化歷程。</p>
+<div class="grid"><div><div class="code" id="getModifyCode">a = [10, 82, 48]\nprint(a[0])\na[1] = 37\nprint(a)</div><div class="stepbox" id="getModifyExplain">第 1 步：建立串列 a。</div><button class="primary" onclick="getModifyNext()">▶ 下一步</button><button class="gray" onclick="getModifyReset()">重來</button></div>
+<div class="trace-panel"><h4>📦 串列 a 目前狀態</h4><div class="array" id="modifyArray"></div><h4>🕘 a 的變化歷程</h4><div class="history" id="modifyHistory"></div></div></div>
+<label><input type="checkbox" data-check="index"> 我了解索引從 0 開始，也知道如何取值與修改</label></div>
+
+<div class="card"><h2>③ 常用 list 方法</h2><table><tr><th>方法</th><th>用途</th><th>例子</th></tr><tr><td>append()</td><td>最後新增</td><td>a.append(37)</td></tr><tr><td>insert()</td><td>指定位置插入</td><td>a.insert(1,37)</td></tr><tr><td>remove()</td><td>刪除指定資料</td><td>a.remove(82)</td></tr><tr><td>sort()</td><td>由小到大排序</td><td>a.sort()</td></tr><tr><td>reverse()</td><td>反轉</td><td>a.reverse()</td></tr></table><label><input type="checkbox" data-check="methods"> 我能分辨五種方法</label></div>
+
+<div class="card"><h2>④ 動手操作：list 方法｜逐步執行</h2>
+<p>原始串列 <b>a = [60,40,21,88]</b>，依序執行：新增 97 → 在 60 後插入 31 → 刪除 88 → 升冪排序。</p>
+<div class="grid"><div><div class="code" id="methodCode">a = [60, 40, 21, 88]\na.append(97)\na.insert(1, 31)\na.remove(88)\na.sort()\nprint(a)</div><div class="stepbox" id="methodExplain">按「下一步」開始逐步執行。</div><button class="primary" onclick="methodNext()">▶ 下一步</button><button class="gray" onclick="methodReset()">重來</button></div>
+<div class="trace-panel"><h4>📦 串列 a 目前狀態</h4><div class="array" id="methodArray"></div><h4>🕘 a 的變化歷程</h4><div class="history" id="methodHistory"></div></div></div>
+<div class="result" id="listResult">尚未執行</div><label><input type="checkbox" data-check="listPractice"> 我完成串列方法實作</label>
+
+<div class="practice"><h3>🎮 學生練習：寶可夢隊伍</h3><p>目前的寶可夢隊伍：</p><div class="code">pokemon = ['皮丘','雷丘','小火龍']</div><p>請依照指令，在下方寫出正確的 Python 程式碼。每完成一項就按「檢查第 N 題」。</p>
+<div class="pokemon-list">
+<div class="pokemon-item"><b>第1題</b> 顯示寶可夢列表：<br><textarea class="editor mini" id="pokemon1">_____</textarea><button class="green" onclick="checkPokemon(1)">檢查第1題</button><span id="pokemonFb1"></span></div>
+<div class="pokemon-item"><b>第2題</b> 在隊伍最後增加伊布，並顯示更新後的寶可夢列表。<br><textarea class="editor mini" id="pokemon2">pokemon._____('伊布')
+_____</textarea><button class="green" onclick="checkPokemon(2)">檢查第2題</button><span id="pokemonFb2"></span></div>
+<div class="pokemon-item"><b>第3題</b> 放掉皮丘並顯示更新後的寶可夢列表。<br><textarea class="editor mini" id="pokemon3">pokemon._____('皮丘')
+_____</textarea><button class="green" onclick="checkPokemon(3)">檢查第3題</button><span id="pokemonFb3"></span></div>
+<div class="pokemon-item"><b>第4題</b> 在小火龍前增加噴火龍並顯示更新後的寶可夢列表。<br><textarea class="editor mini" id="pokemon4">pokemon._____(_____, '噴火龍')
+_____</textarea><button class="green" onclick="checkPokemon(4)">檢查第4題</button><span id="pokemonFb4"></span></div>
+<div class="pokemon-item"><b>第5題</b> 使用 sort() 依筆畫數由少到多排序，並顯示寶可夢列表。<br><textarea class="editor mini" id="pokemon5">pokemon._____()
+_____</textarea><button class="green" onclick="checkPokemon(5)">檢查第5題</button><span id="pokemonFb5"></span></div>
+<div class="pokemon-item"><b>第6題</b> 顯示第一個寶可夢。<br><textarea class="editor mini" id="pokemon6">print(pokemon[_____])</textarea><button class="green" onclick="checkPokemon(6)">檢查第6題</button><span id="pokemonFb6"></span></div>
+</div><button class="gray" onclick="resetPokemon()">↺ 清空六題</button><div class="result" id="pokemonResult">尚未檢查</div></div></div>
+
+<div class="card"><h2>⑤ 二維串列</h2>
+<p>二維串列可以想成一張表格：<b>第 1 個索引代表列（row）</b>，<b>第 2 個索引代表欄（column）</b>；兩個索引都從 0 開始。課本也以第一維表示列、第二維表示欄。</p>
+<div class="grid"><div><div class="stepbox"><b>列 row</b>：橫向的一排資料，例如 score[1] 代表第 2 列。<br><b>欄 column</b>：直向的一欄資料，例如 score[2] 代表第 3 欄。<br><br>⚠️ 題目若說「第 2 列第 3 欄」，Python 要寫 <b>score[1][2]</b>。</div></div>
+<div><table class="twodtable"><tr><th></th><th>第1欄</th><th>第2欄</th><th>第3欄</th></tr><tr><th>第1列</th><td>85</td><td>78</td><td>92</td></tr><tr><th>第2列</th><td>80</td><td>88</td><td>76</td></tr><tr><th>第3列</th><td>90</td><td>86</td><td>95</td></tr></table></div></div>
+<div class="practice"><h3>🧩 學生練習：二維串列取值與修改</h3><div class="code">score = [[85,78,92],[80,88,76],[90,86,95]]</div><p>1. 顯示 <b>score 第一列第三欄</b>。<br>2. 將 <b>score 第二列第三欄</b>更新為「score 第一列第一欄」及「score 第二列第二欄」的加總。</p><textarea class="editor" id="twoDCode">print(score[_____][_____])
+score[_____][_____] = score[_____][_____] + score[_____][_____]</textarea><button class="green" onclick="checkTwoDPractice()">檢查練習</button><button class="gray" onclick="resetTwoDPractice()">還原輸入</button><div class="result" id="twoDResult">尚未檢查</div></div>
+<label><input type="checkbox" data-check="twoD"> 我了解列、欄與兩個索引</label></div>
+
+<div class="card"><h2>⑥ 程式挑戰</h2>
+<p>本題改成「程式填空」：請補上底線部分，再按「執行程式」觀察結果。</p>
+<div class="practice"><h3>挑戰 1｜數字成績排序</h3><p>將 <b>numbers = [12,7,25,9,18]</b> 由小到大排序並輸出。</p><textarea class="editor" id="challenge1Code">numbers = _____
+numbers._____()
+print(numbers)</textarea><button class="green" onclick="runChallenge1()">▶ 執行程式</button><button class="gray" onclick="resetChallenge1()">↺ 還原輸入</button><div class="result" id="challenge1Result">等待執行……</div></div>
+<div class="practice"><h3>挑戰 2｜生活情境：整理飲料價格</h3><p>便利商店飲料價格是 <b>drink = [35,25,45,30,20]</b>。請使用 list 的 <b>sort()</b> 將價格由低到高排列，再輸出排序後的價格。</p><textarea class="editor" id="challenge2Code">drink = _____
+drink._____()
+____(drink)</textarea><button class="green" onclick="runChallenge2()">▶ 執行程式</button><button class="gray" onclick="resetChallenge2()">↺ 還原輸入</button><div class="result" id="challenge2Result">等待執行……</div></div>
+<label><input type="checkbox" data-check="challenge"> 我完成兩題程式挑戰</label></div>
+<div class="card"><h2>⑦ 小測驗</h2><div id="quiz31"></div><button class="orange" onclick="submit31Quiz()">提交測驗</button><div class="result" id="quiz31Result"></div></div>
+<div class="card"><h2>📝 我的學習心得</h2><textarea id="reflection" class="reflection" placeholder="今天我學會了什麼？哪個地方最容易出錯？"></textarea></div>
+<div class="card"><h2>☁ 上傳學習成果</h2><p class="notice">請先確認班級、座號、姓名，再按下「上傳學習成果」。資料會送到老師的 Google 試算表。</p><button class="green" onclick="uploadToGAS()">☁ 上傳學習成果</button><button class="gray" onclick="clearLocal()">清除本節瀏覽器紀錄</button><span id="gasStatus"></span>
+<form id="gasForm" method="POST" target="gasFrame" style="display:none"><textarea id="gasPayload" name="payload"></textarea></form><iframe name="gasFrame" id="gasFrame" style="display:none"></iframe></div></main></div>
+<div class="progress"><span id="bottomProgress">學習進度：0%</span></div><footer>資訊科技必修｜第三章 串列的程式設計實作｜localStorage + GAS</footer>
+<script>
+const GAS_URL="https://script.google.com/macros/s/AKfycbwrkpuDd1WaHE2ilaiYwZMxfDx0DW10PSeWrSH4gkj8-gFmjzPyUjymJJQsz2iELka0eg/exec";
+const KEY="it_required_CH3_1";
+const CHECKS=["index","methods","listPractice","twoD","challenge","quiz"];
+let state=JSON.parse(localStorage.getItem(KEY)||"{}");state.complete=state.complete||{};state.score=state.score||0;state.quizScore=state.quizScore||0;state.challenge=state.challenge||{};state.reflection=(typeof state.reflection === "string")?state.reflection:"";
+function save(){localStorage.setItem(KEY,JSON.stringify(state));update()}
+function saveStudent(){const c=document.getElementById("classNo").value.trim(),s=document.getElementById("seatNo").value.trim(),n=document.getElementById("studentName").value.trim();if(!c||!s||!n){alert("請先填寫班級、座號、姓名。");return false}state.student={classNo:c,seatNo:s,studentName:n};save();return true}
+function addScoreOnce(key,pts){state.points=state.points||{};if(!state.points[key]){state.points[key]=pts;state.score=Math.min(100,state.score+pts)}}
+function setCheck(k,v,pts){state.complete[k]=v;if(v&&pts)addScoreOnce(k,pts);save()}
+function update(){const done=CHECKS.filter(k=>state.complete[k]).length,pct=Math.round(done/CHECKS.length*100);document.getElementById("sideProgress").textContent=done+" / "+CHECKS.length;document.getElementById("sideBar").style.width=pct+"%";document.getElementById("doneText").textContent=pct+"%";document.getElementById("bottomProgress").textContent="學習進度："+pct+"%";document.getElementById("scoreText").textContent=Math.min(100,state.score);document.querySelectorAll("[data-check]").forEach(x=>x.checked=!!state.complete[x]);if(state.student){classNo.value=state.student.classNo||"";seatNo.value=state.student.seatNo||"";studentName.value=state.student.studentName||""}reflection.value=(typeof state.reflection === "string")?state.reflection:""}
+document.querySelectorAll("[data-check]").forEach(x=>x.addEventListener("change",e=>{const k=e.target.dataset.check;if(e.target.checked){const pts={methods:10}[k]||0;addScoreOnce("manual_"+k,pts)}state.complete[k]=e.target.checked;save()}));reflection.addEventListener("input",e=>{state.reflection=e.target.value;save()});
+function uploadToGAS(){if(!saveStudent())return;state.reflection=reflection.value;save();const payload={action:"saveCh03_1",chapter:"ch03_1",section:"CH3-1",classNo:state.student.classNo,seatNo:state.student.seatNo,studentName:state.student.studentName,score:Math.min(100,state.score),formalScore:Math.min(100,state.score),progress:Math.round(CHECKS.filter(k=>state.complete[k]).length/CHECKS.length*100)+"%",complete:state.complete,quizScore:state.quizScore||0,challenge:state.challenge||{},reflection:state.reflection||"",detail:state};gasPayload.value=JSON.stringify(payload);gasForm.action=GAS_URL;gasStatus.innerHTML="<span class='good'>　正在上傳……</span>";gasForm.submit();setTimeout(()=>gasStatus.innerHTML="<span class='good'>　✓ 已送出，請到 Google 試算表確認。</span>",1200)}
+function clearLocal(){if(confirm("確定清除本節瀏覽器學習紀錄？")){localStorage.removeItem(KEY);location.reload()}}
+
+const arrSteps=[{a:[50,79,12,37,56],active:null,msg:"一個串列可以用一個名稱 a 管理多筆資料。"},{a:[50,79,12,37,56],active:0,msg:"a[0]：索引 0 對應第一個元素 50。"},{a:[50,79,12,37,56],active:2,msg:"a[2]：索引 2 對應第三個元素 12。"},{a:[50,79,12,37,56],active:4,msg:"a[4]：索引 4 對應第五個元素 56。"}];let arrIdx=0;
+function renderArr(){const s=arrSteps[arrIdx];basicArray.innerHTML=s.a.map((v,i)=>`<div class="cell ${s.active===i?"active":""}"><span class="idx">index ${i}</span>${v}<small style="display:block;color:#68798a">元素 ${i+1}</small></div>`).join("");arrayExplain.textContent=s.msg}
+function arrayNext(){arrIdx=Math.min(arrSteps.length-1,arrIdx+1);renderArr();if(arrIdx===arrSteps.length-1)setCheck("index",true,10)}function arrayReset(){arrIdx=0;renderArr()}
+
+const modifySteps=[
+ {line:0,a:[10,82,48],out:"",msg:"第 1 步：建立串列 a = [10,82,48]。"},
+ {line:1,a:[10,82,48],out:"10",msg:"第 2 步：print(a[0]) 取出索引 0 的資料值 10。串列內容沒有改變。"},
+ {line:2,a:[10,37,48],out:"10",msg:"第 3 步：a[1] = 37，把索引 1 原本的 82 修改成 37。"},
+ {line:3,a:[10,37,48],out:"10",msg:"第 4 步：輸出目前的結果。"}
+];let modifyIdx=0;
+const traceCodeLines={
+ getModifyCode:["a = [10, 82, 48]","print(a[0])","a[1] = 37","print(a)"],
+ methodCode:["a = [60, 40, 21, 88]","a.append(97)","a.insert(1, 31)","a.remove(88)","a.sort()","print(a)"]
+};
+function renderTraceCode(id,active){
+ const el=document.getElementById(id);
+ const lines=traceCodeLines[id]||[];
+ el.innerHTML=lines.map((x,i)=>`<div class="trace-line ${i===active?"active":""}">${i+1}. ${x}</div>`).join("");
+}
+function renderModify(){const s=modifySteps[modifyIdx];modifyArray.innerHTML=s.a.map((v,i)=>`<div class="cell ${i===1&&modifyIdx>=2?"good":""}"><span class="idx">${i}</span>${v}</div>`).join("");modifyHistory.innerHTML=modifySteps.slice(0,modifyIdx+1).map((x,i)=>`<div class="history-item ${i===modifyIdx?"current":""}">Step ${i+1}：${x.out?`輸出：${x.out.split("\n").join("<br>")}`:`a = [${x.a.join(", ")}]`}</div>`).join("");getModifyExplain.textContent=s.msg;renderTraceCode("getModifyCode",s.line)}
+function getModifyNext(){modifyIdx=Math.min(modifySteps.length-1,modifyIdx+1);renderModify();if(modifyIdx===modifySteps.length-1)setCheck("index",true,10)}function getModifyReset(){modifyIdx=0;renderModify()}
+
+const methodSteps=[
+ {line:0,a:[60,40,21,88],msg:"第 1 步：建立原始串列 a。"},
+ {line:1,a:[60,40,21,88,97],msg:"第 2 步：append(97) 把 97 加到串列最後面。"},
+ {line:2,a:[60,31,40,21,88,97],msg:"第 3 步：insert(1,31) 把 31 插入索引 1，也就是 60 的後面。"},
+ {line:3,a:[60,31,40,21,97],msg:"第 4 步：remove(88) 找到資料值 88 並刪除。"},
+ {line:4,a:[21,31,40,60,97],msg:"第 5 步：sort() 由小到大排序。"},
+ {line:5,a:[21,31,40,60,97],msg:"第 6 步：print(a) 輸出最後結果。"}
+];let methodIdx=0;
+function renderMethod(){const s=methodSteps[methodIdx];methodArray.innerHTML=s.a.map((v,i)=>`<div class="cell ${methodIdx===2&&i===1?"active":""}"><span class="idx">${i}</span>${v}</div>`).join("");methodHistory.innerHTML=methodSteps.slice(0,methodIdx+1).map((x,i)=>`<div class="history-item ${i===methodIdx?"current":""}">Step ${i+1}：${x.a.join(", ")}</div>`).join("");methodExplain.textContent=s.msg;renderTraceCode("methodCode",s.line);listResult.innerHTML=`目前執行到第 ${methodIdx+1} 步`+(methodIdx===methodSteps.length-1?"　<span class='good'>✓ 最終輸出：[21, 31, 40, 60, 97]</span>":"");}
+function methodNext(){methodIdx=Math.min(methodSteps.length-1,methodIdx+1);renderMethod();if(methodIdx===methodSteps.length-1)setCheck("listPractice",true,15)}
+function methodReset(){methodIdx=0;renderMethod()}
+
+const pokemonDefault=["","","","","",""];
+function normalizeCode(c){return String(c||"").replace(/\r/g,"").trim();}
+function checkPokemon(n){
+ const c=normalizeCode(document.getElementById("pokemon"+n).value);
+ if(c.includes("_____")){document.getElementById("pokemonFb"+n).innerHTML=` <span class="bad">✗ 請完成所有空格後再檢查。</span>`;return;}
+ const lines=c.split(/\n/).map(x=>x.trim()).filter(Boolean);
+ const tests=[
+  ()=>/^print\(\s*pokemon\s*\)$/.test(c),
+  ()=>/^pokemon\.append\(\s*[\"']伊布[\"']\s*\)\s*\n\s*print\(\s*pokemon\s*\)$/.test(c),
+  ()=>/^pokemon\.remove\(\s*[\"']皮丘[\"']\s*\)\s*\n\s*print\(\s*pokemon\s*\)$/.test(c),
+  ()=>/^pokemon\.insert\(\s*2\s*,\s*[\"']噴火龍[\"']\s*\)\s*\n\s*print\(\s*pokemon\s*\)$/.test(c),
+  ()=>/^pokemon\.sort\(\s*\)\s*\n\s*print\(\s*pokemon\s*\)$/.test(c),
+  ()=>/^print\(\s*pokemon\[\s*0\s*\]\s*\)$/.test(c)
+ ];
+ const ok=!!tests[n-1]();
+ const fb=document.getElementById("pokemonFb"+n);
+ fb.innerHTML=ok?` <span class="good">✓ 正確</span>`:` <span class="bad">✗ 尚未正確，請依提示完成填空。</span>`;
+ if(ok){state.challenge=state.challenge||{};state.challenge["pokemon"+n]={passed:true};save();}
+ const all=[1,2,3,4,5,6].every(i=>state.challenge?.["pokemon"+i]?.passed);
+ if(all){addScoreOnce("pokemon",10);state.challenge.pokemon={passed:true};save();pokemonResult.innerHTML="<span class='good'>✓ 六題全部完成！</span>";}
+}
+function resetPokemon(){
+ const templates=[
+  "_____",
+  "pokemon._____(\'_____\')\n_____",
+  "pokemon._____(\'_____\')\n_____",
+  "pokemon._____(_____, \'_____\')\n_____",
+  "pokemon._____()\n_____",
+  "print(pokemon[_____])"
+ ];
+ templates.forEach((v,i)=>{document.getElementById("pokemon"+(i+1)).value=v;document.getElementById("pokemonFb"+(i+1)).innerHTML="";});
+ pokemonResult.textContent="尚未檢查";
+}
+function checkTwoDPractice(){
+ const c=twoDCode.value.replace(/\r/g,"").trim();
+ if(c.includes("_____")){
+  twoDResult.innerHTML='<span class="bad">✗ 請先完成所有填空，再按「檢查練習」。</span>';
+  return;
+ }
+ const a=/print\(\s*score\[0\]\[2\]\s*\)/.test(c);
+ const b=/score\[1\]\[2\]\s*=\s*score\[0\]\[0\]\s*\+\s*score\[1\]\[1\]/.test(c);
+ twoDResult.innerHTML=`<div class="${a?"good":"bad"}">${a?"✓":"✗"} 第1題：顯示 score 第一列第三欄</div><div class="${b?"good":"bad"}">${b?"✓":"✗"} 第2題：更新 score 第二列第三欄</div>`+(a&&b?'<p>✓ 兩題皆正確！</p>':'');
+ if(a&&b)setCheck("twoD",true,10);
+}
+function resetTwoDPractice(){twoDCode.value="print(score[_____][_____])\nscore[_____][_____] = score[_____][_____] + score[_____][_____]";twoDResult.textContent="尚未檢查"}
+
+const challengeDefaults={
+ c1:"numbers = _____\\nnumbers._____()\\nprint(numbers)",
+ c2:"drink = _____\\ndrink._____()\\n____(drink)"
+};
+function runFillChallenge(id){const el=document.getElementById(id+"Code"),c=el.value;let ok=false,out="";
+if(id==="challenge1"){ok=/numbers\s*=\s*\[\s*12\s*,\s*7\s*,\s*25\s*,\s*9\s*,\s*18\s*\]/.test(c)&&/numbers\.sort\s*\(\s*\)/.test(c)&&/print\(\s*numbers\s*\)/.test(c);out="[7, 9, 12, 18, 25]"}
+if(id==="challenge2"){ok=/drink\s*=\s*\[\s*35\s*,\s*25\s*,\s*45\s*,\s*30\s*,\s*20\s*\]/.test(c)&&/drink\.sort\s*\(\s*\)/.test(c)&&/(?:print)\(\s*drink\s*\)/.test(c);out="[20, 25, 30, 35, 45]"}
+document.getElementById(id+"Result").innerHTML=ok?`<span class='good'>✓ 程式正確！預期輸出：${out}</span>`:`<span class='bad'>✗ 尚未正確，請確認三行：建立串列 → sort() → print()。</span>`;if(ok){state.challenge[id]={code:c,passed:true};const both=state.challenge.challenge1?.passed&&state.challenge.challenge2?.passed;if(both)setCheck("challenge",true,25);else save()}}
+function runChallenge1(){runFillChallenge("challenge1")}function runChallenge2(){runFillChallenge("challenge2")}
+function resetChallenge1(){challenge1Code.value="numbers = _____\nnumbers._____()\nprint(numbers)"}function resetChallenge2(){challenge2Code.value="drink = _____\ndrink._____()\n____(drink)"}
+function runProgram(n){runFillChallenge(n)}
+
+const q31=[["Python list 的第一個索引值是？",["0","1","-1","10"],0],["append(97) 加在哪裡？",["最前面","最後面","索引1","刪除"],1],["remove(82) 依什麼刪除？",["索引","資料值","長度","型態"],1],["a.sort() 預設？",["由大到小","反轉","由小到大","隨機"],2],["score[1][2] 代表？",["第1列第2欄","第2列第3欄","第3列第2欄","索引2"],1]];
+function buildQuiz(qs){quiz31.innerHTML=qs.map((q,i)=>`<div class="card"><b>${i+1}. ${q[0]}</b><br>${q[1].map((o,j)=>`<label><input type="radio" name="quiz31${i}" value="${j}"> ${o}</label><br>`).join("")}</div>`).join("")}
+function submit31Quiz(){let sc=0;q31.forEach((q,i)=>{const x=document.querySelector(`input[name="quiz31${i}"]:checked`);if(x&&+x.value===q[2])sc++});state.quizScore=sc*6;state.score=Math.min(100,(state.score||0)+sc*6);save();quiz31Result.innerHTML=`答對 ${sc}/5 題，取得 ${sc*6} 分`;if(sc===5)setCheck("quiz",true,2)}
+renderArr();renderModify();renderMethod();resetPokemon();resetTwoDPractice();buildQuiz(q31);if(typeof state.reflection!=="string"){state.reflection="";save();} reflection.value=state.reflection;update();
+</script></body></html>

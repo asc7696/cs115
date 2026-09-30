@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>育成高中｜資訊科技｜CH4-1 內建函式</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,"Noto Sans TC",sans-serif;background:#f4f7fb;color:#172033;line-height:1.65}
+header{background:linear-gradient(135deg,#173b67,#246b8f);color:#fff;padding:22px 28px}
+header h1{margin:0;font-size:25px}.sub{opacity:.92;margin-top:4px}
+.student{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px;align-items:center}
+.student input{border:0;border-radius:8px;padding:9px 11px;width:120px}.student input.name{width:150px}
+.layout{display:grid;grid-template-columns:250px 1fr;max-width:1400px;margin:auto}
+aside{background:#fff;min-height:calc(100vh - 150px);padding:18px;border-right:1px solid #d9e1ea;position:sticky;top:0;align-self:start}
+.menu{padding:10px 8px;border-bottom:1px solid #e5ebf1}.menu b{display:block;margin-bottom:6px}.menu label{display:block;font-size:14px;margin:5px 0}
+main{padding:25px;max-width:1050px;width:100%}
+.hero,.card{background:#fff;border-radius:16px;padding:20px;margin:16px 0;box-shadow:0 4px 16px #0000000b;border:1px solid #e1e8ef}
+h2{margin-top:0;color:#173b67}h3{color:#246b8f}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.wide{grid-column:1/-1}
+.code{background:#17212b;color:#f4f8fb;padding:15px;border-radius:12px;overflow:auto;font-family:Consolas,monospace;white-space:pre-wrap}
+textarea.editor{width:100%;min-height:120px;border:2px solid #cbd8e4;border-radius:12px;padding:12px;font-family:Consolas,monospace;font-size:15px}
+button{border:0;border-radius:9px;padding:10px 15px;cursor:pointer;font-weight:700;margin:4px}.primary{background:#246b8f;color:#fff}.green{background:#2f8061;color:#fff}.orange{background:#d67a28;color:#fff}.gray{background:#e8edf2;color:#24384b}
+.result{padding:12px;border-radius:10px;background:#f1f6fa;margin-top:10px;min-height:40px}.good{color:#19724f;font-weight:700}.bad{color:#a63a32;font-weight:700}
+.bar{height:12px;background:#e1e8ef;border-radius:99px;overflow:hidden}.bar>div{height:100%;width:0;background:#246b8f}
+.trace{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.trace-panel{background:#f8fbfd;border:1px solid #d9e5ed;border-radius:12px;padding:12px}
+.trace-panel h4{margin:0 0 8px;color:#173b67}
+.trace-line{padding:9px 10px;border-radius:8px;margin:4px 0;font-family:Consolas,monospace;background:#fff;color:#263746;border-left:5px solid #b8c7d5}
+.trace-line.active{background:#d8eef7;color:#123b52;border-left-color:#1683ad;font-weight:700}
+.history{display:flex;flex-direction:column;gap:6px}.history-item{padding:9px 10px;border-radius:8px;background:#fff;border:1px solid #dce5ed;color:#263746;font-family:Consolas,monospace}
+.history-item.current{background:#e5f5ed;color:#174d39;border-color:#2f8061;font-weight:700}
+.stepbox{background:#f7fafc;border:1px solid #dce5ed;border-radius:12px;padding:15px}
+.practice{background:#fffaf2;border:1px solid #f0d4a8;border-radius:12px;padding:16px;margin-top:14px}
+.fill{display:inline-block;min-width:90px;border:0;border-bottom:2px solid #246b8f;background:#f7fbfd;padding:4px 7px;font-family:Consolas,monospace}
+.reflection{width:100%;min-height:100px;border:1px solid #cbd8e4;border-radius:10px;padding:10px}
+table{width:100%;border-collapse:collapse}th,td{border:1px solid #dce4eb;padding:9px;text-align:left}th{background:#eef5f9}
+.notice{padding:12px;border-left:5px solid #246b8f;background:#eef6fa;border-radius:8px}
+.progress{position:sticky;bottom:0;background:#fff;border-top:1px solid #dce4eb;padding:10px 20px;z-index:9}
+footer{text-align:center;color:#68798a;padding:30px}
+@media(max-width:850px){.trace{grid-template-columns:1fr}.layout{grid-template-columns:1fr}aside{position:static;min-height:auto;border-right:0}main{padding:15px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<h1>育成高中｜資訊科技｜CH4-1 內建函式</h1>
+<div class="sub">內建函式 × 逐步執行 × 生活情境填空</div>
+<div class="student">
+<span>班級</span><input id="classNo" placeholder="例如 101">
+<span>座號</span><input id="seatNo" placeholder="例如 12">
+<span>姓名</span><input id="studentName" class="name" placeholder="請輸入姓名">
+<button class="green" onclick="saveStudent()">儲存學生資料</button>
+</div>
+</header>
+<div class="layout">
+<aside>
+<div class="menu"><b>📚 本節學習地圖</b></div>
+<div class="menu"><label><input type="checkbox" data-check="builtin"> {"builtin":"內建函式","number":"數值函式","string":"字串函式","practice":"學生實作","challenge":"程式挑戰","random":"亂數函式","date":"日期與日曆","custom":"自訂函式","param":"參數與呼叫","return":"return 與傳回值","quiz":"章節小測驗"}.get("builtin","builtin")}</label></div><div class="menu"><label><input type="checkbox" data-check="number"> {"builtin":"內建函式","number":"數值函式","string":"字串函式","practice":"學生實作","challenge":"程式挑戰","random":"亂數函式","date":"日期與日曆","custom":"自訂函式","param":"參數與呼叫","return":"return 與傳回值","quiz":"章節小測驗"}.get("number","number")}</label></div><div class="menu"><label><input type="checkbox" data-check="string"> {"builtin":"內建函式","number":"數值函式","string":"字串函式","practice":"學生實作","challenge":"程式挑戰","random":"亂數函式","date":"日期與日曆","custom":"自訂函式","param":"參數與呼叫","return":"return 與傳回值","quiz":"章節小測驗"}.get("string","string")}</label></div><div class="menu"><label><input type="checkbox" data-check="practice"> {"builtin":"內建函式","number":"數值函式","string":"字串函式","practice":"學生實作","challenge":"程式挑戰","random":"亂數函式","date":"日期與日曆","custom":"自訂函式","param":"參數與呼叫","return":"return 與傳回值","quiz":"章節小測驗"}.get("practice","practice")}</label></div><div class="menu"><label><input type="checkbox" data-check="challenge"> {"builtin":"內建函式","number":"數值函式","string":"字串函式","practice":"學生實作","challenge":"程式挑戰","random":"亂數函式","date":"日期與日曆","custom":"自訂函式","param":"參數與呼叫","return":"return 與傳回值","quiz":"章節小測驗"}.get("challenge","challenge")}</label></div><div class="menu"><label><input type="checkbox" data-check="quiz"> {"builtin":"內建函式","number":"數值函式","string":"字串函式","practice":"學生實作","challenge":"程式挑戰","random":"亂數函式","date":"日期與日曆","custom":"自訂函式","param":"參數與呼叫","return":"return 與傳回值","quiz":"章節小測驗"}.get("quiz","quiz")}</label></div>
+<div class="menu"><b>學習進度</b><div class="bar"><div id="sideBar"></div></div><div id="sideProgress">0 / 6</div></div>
+<div class="menu"><b>目前分數</b><div id="scoreText">0</div> / 100</div>
+</aside>
+<main>
+
+<div class="hero"><h2>CH4-1 內建函式</h2>
+<p>Python 已經準備許多可以直接呼叫的工具。這些工具叫做<strong>內建函式</strong>。本節只聚焦在本課程需要的函式：abs、int、float、pow、min、max，以及字串的 str、len、upper、lower。</p>
+<div class="notice">🎯 學習重點：看到「函式名稱(資料)」，要能說出它做什麼、輸入什麼、得到什麼結果。</div></div>
+
+<div class="card"><h2>① 認識內建函式</h2>
+<table><tr><th>函式</th><th>用途</th><th>例子</th></tr>
+<tr><td>abs()</td><td>取絕對值</td><td>abs(-10) → 10</td></tr>
+<tr><td>int()</td><td>轉成整數</td><td>int(2.9) → 2</td></tr>
+<tr><td>float()</td><td>轉成浮點數</td><td>float("286") → 286.0</td></tr>
+<tr><td>pow()</td><td>次方</td><td>pow(2,3) → 8</td></tr>
+<tr><td>min() / max()</td><td>找最小／最大值</td><td>min(3,8,5) → 3</td></tr>
+<tr><td>str() / len()</td><td>轉字串／計算字元數</td><td>len("Python") → 6</td></tr>
+<tr><td>upper() / lower()</td><td>英文大小寫轉換</td><td>"Play".upper() → "PLAY"</td></tr></table>
+<label><input type="checkbox" data-check="builtin"> 我能說出本節主要內建函式的用途</label></div>
+
+<div class="card"><h2>② 逐步執行｜玩家帳號與密碼檢核</h2>
+<p>把「帳號轉成大寫」與「密碼是否有 6 個字元」拆成一步一步看。</p>
+<div class="trace">
+<div class="trace-panel"><h4>💻 程式碼</h4><div id="traceCode41"></div><button class="primary" onclick="next41()">▶ 下一步</button><button class="gray" onclick="reset41()">↺ 重來</button><div class="stepbox" id="explain41">按「下一步」開始。</div></div>
+<div class="trace-panel"><h4>🕘 程式歷程</h4><div class="history" id="history41"></div><div class="result" id="output41">尚未輸出</div></div></div>
+<label><input type="checkbox" data-check="number"> 我能理解內建函式的呼叫方式</label></div>
+
+<div class="card"><h2>③ 數值函式</h2>
+<div class="grid"><div class="stepbox"><b>abs()</b>：把負數變成正數。<br><b>int()</b>：浮點數無條件捨去小數部分。<br><b>float()</b>：轉成浮點數。<br><b>pow()</b>：計算次方。</div>
+<div class="stepbox"><b>min()</b>：找最小值。<br><b>max()</b>：找最大值。<br>這些函式都可以直接呼叫，不需要自己先定義。</div></div>
+<div class="practice"><h3>學生填空：玩家分數</h3>
+<p>玩家分數可能出現負值，請用 <b>abs()</b> 取得差距；再用 <b>max()</b> 找出三場遊戲最高分。</p>
+<textarea class="editor" id="p41a">score = -35
+difference = _____(score)
+scores = [72, 95, 88]
+best = _____(scores)
+print(difference)
+print(best)</textarea>
+<button class="green" onclick="check41a()">檢查練習</button><button class="gray" onclick="reset41a()">↺ 還原輸入</button>
+<div class="result" id="p41aResult">尚未檢查</div></div></div>
+
+<div class="card"><h2>④ 字串函式／方法</h2>
+<table><tr><th>寫法</th><th>功能</th></tr><tr><td>str(n)</td><td>把資料轉成字串</td></tr><tr><td>len(s)</td><td>計算字元數</td></tr><tr><td>s.upper()</td><td>英文全部大寫</td></tr><tr><td>s.lower()</td><td>英文全部小寫</td></tr></table>
+<div class="practice"><h3>學生填空：玩家帳號與 6 位密碼</h3>
+<p>玩家帳號是 <b>"pokemon"</b>，請轉成大寫；密碼是 <b>"Pika99"</b>，請檢查字元數是否為 6。</p>
+<textarea class="editor" id="p41b">account = "pokemon"
+print(account._____())
+password = "Pika99"
+print(_____(password))</textarea>
+<button class="green" onclick="check41b()">檢查練習</button><button class="gray" onclick="reset41b()">↺ 還原輸入</button>
+<div class="result" id="p41bResult">尚未檢查</div></div>
+<label><input type="checkbox" data-check="string"> 我完成字串函式實作</label></div>
+
+<div class="card"><h2>⑤ 程式挑戰｜生活情境：遊戲戰力</h2>
+<p>玩家三次挑戰分數為 <b>[120, 85, 150]</b>，請找出最高分；玩家與目標的分數差距為 -28，請顯示絕對值。</p>
+<textarea class="editor" id="challenge41">scores = [120, 85, 150]
+best = _____(scores)
+difference = _____(-28)
+print(best)
+print(difference)</textarea>
+<button class="green" onclick="runChallenge41()">▶ 執行程式</button><button class="gray" onclick="resetChallenge41()">↺ 還原輸入</button>
+<div class="result" id="challenge41Result">等待執行……</div>
+<label><input type="checkbox" data-check="practice"> 我完成本節實作</label></div>
+
+<div class="card"><h2>⑥ 小測驗</h2><div id="quiz41"></div><button class="orange" onclick="submitQuiz41()">提交測驗</button><div class="result" id="quiz41Result"></div></div>
+
+<div class="card"><h2>⑦ 我的學習心得</h2><textarea id="reflection" class="reflection" placeholder="今天我學會了什麼？哪個函式最容易混淆？"></textarea></div>
+<div class="card"><h2>☁ 上傳學習成果</h2><p class="notice">請先確認班級、座號、姓名，再按下「上傳學習成果」。資料會送到老師的 Google 試算表。</p>
+<button class="green" onclick="uploadToGAS()">☁ 上傳學習成果</button>
+<button class="gray" onclick="clearLocal()">清除本節瀏覽器紀錄</button>
+<span id="gasStatus"></span>
+<form id="gasForm" method="POST" target="gasFrame" style="display:none"><textarea id="gasPayload" name="payload"></textarea></form>
+<iframe name="gasFrame" id="gasFrame" style="display:none"></iframe></div>
+</main></div>
+<div class="progress"><span id="bottomProgress">學習進度：0%</span></div>
+<footer>資訊科技必修｜第四章 模組化程式實作－函式｜localStorage + GAS</footer>
+<script>
+const GAS_URL="https://script.google.com/macros/s/AKfycbwrkpuDd1WaHE2ilaiYwZMxfDx0DW10PSeWrSH4gkj8-gFmjzPyUjymJJQsz2iELka0eg/exec";
+const KEY="it_required_ch4_1";
+const CHECKS=['builtin','number','string','practice','challenge','quiz'];
+let state=JSON.parse(localStorage.getItem(KEY)||"{}");
+state.complete=state.complete||{}; state.score=Number(state.score||0); state.points=state.points||{};
+state.quizScore=Number(state.quizScore||0); state.reflection=typeof state.reflection==="string"?state.reflection:"";
+function save(){localStorage.setItem(KEY,JSON.stringify(state));update();}
+function saveStudent(){const c=classNo.value.trim(),s=seatNo.value.trim(),n=studentName.value.trim();if(!c||!s||!n){alert("請先填寫班級、座號、姓名。");return false}state.student={classNo:c,seatNo:s,studentName:n};save();return true;}
+const POINTS={builtin:10,number:15,string:15,practice:15,challenge:15,quiz:30};
+function addScoreOnce(k,p){if(!state.points[k]){state.points[k]=p;state.score=Math.min(100,state.score+p);}}
+function setCheck(k,v,p){state.complete[k]=!!v;if(v&&p)addScoreOnce(k,p);save();}
+function update(){const done=CHECKS.filter(k=>state.complete[k]).length,pct=Math.round(done/CHECKS.length*100);sideProgress.textContent=done+" / "+CHECKS.length;sideBar.style.width=pct+"%";bottomProgress.textContent="學習進度："+pct+"%";scoreText.textContent=Math.min(100,state.score);document.querySelectorAll("[data-check]").forEach(x=>x.checked=!!state.complete[x]);if(state.student){classNo.value=state.student.classNo||"";seatNo.value=state.student.seatNo||"";studentName.value=state.student.studentName||""}reflection.value=state.reflection||"";}
+document.querySelectorAll("[data-check]").forEach(x=>x.addEventListener("change",e=>{const k=e.target.dataset.check;state.complete[k]=e.target.checked;if(e.target.checked&&POINTS[k])addScoreOnce(k,POINTS[k]);save();}));
+reflection.addEventListener("input",e=>{state.reflection=e.target.value;save();});
+function clearLocal(){if(confirm("確定清除本節瀏覽器學習紀錄？")){localStorage.removeItem(KEY);location.reload();}}
+function uploadToGAS(){if(!saveStudent())return;state.reflection=reflection.value;save();const payload={action:"saveCH41",chapter:"ch4_1",section:"CH4-1",classNo:state.student.classNo,seatNo:state.student.seatNo,studentName:state.student.studentName,score:Math.min(100,state.score),formalScore:Math.min(100,state.score),progress:Math.round(CHECKS.filter(k=>state.complete[k]).length/CHECKS.length*100)+"%",complete:state.complete,quizScore:state.quizScore||0,reflection:state.reflection||"",detail:state};gasPayload.value=JSON.stringify(payload);gasForm.action=GAS_URL;gasStatus.innerHTML="<span class='good'>　正在上傳……</span>";gasForm.submit();setTimeout(()=>gasStatus.innerHTML="<span class='good'>　✓ 已送出，請到 Google 試算表確認。</span>",1200);}
+update();
+
+const code41=["account = \"pokemon\"","print(account.upper())","password = \"Pika99\"","print(len(password))"];
+const steps41=[
+ {h:"Step 1：建立玩家帳號",hist:"Step 1：account = \"pokemon\"",msg:"先建立字串變數 account，內容是 pokemon。",out:""},
+ {h:"Step 2：轉成大寫",hist:"Step 2：輸出：POKEMON",msg:"upper() 將英文小寫字母轉成大寫。",out:"POKEMON"},
+ {h:"Step 3：建立密碼",hist:"Step 3：password = \"Pika99\"",msg:"建立密碼字串 Pika99。",out:""},
+ {h:"Step 4：計算長度",hist:"Step 4：輸出：5",msg:"len() 計算字元數。Pika99 共有 5 個字元。",out:"5"}];
+let i41=0;
+function render41(){traceCode41.innerHTML=code41.map((x,i)=>`<div class="trace-line ${i===i41?"active":""}">${i+1}. ${x}</div>`).join("");history41.innerHTML=steps41.slice(0,i41+1).map((s,i)=>`<div class="history-item ${i===i41?"current":""}">${s.hist}<br><small>${s.msg}</small></div>`).join("");explain41.textContent=steps41[i41].msg;output41.textContent=steps41[i41].out?("輸出："+steps41[i41].out):"本步沒有輸出";}
+function next41(){if(i41<steps41.length-1)i41++;render41();if(i41===steps41.length-1)setCheck("number",true,15);}
+function reset41(){i41=0;render41();} render41();
+function checkText(id,expected,msg){const v=document.getElementById(id).value;const ok=expected.every(x=>v.includes(x));document.getElementById(id+"Result").innerHTML=ok?`<span class="good">✓ 正確！</span> ${msg}`:`<span class="bad">✗ 請再檢查填空內容。</span>`;return ok;}
+function check41a(){const ok=checkText("p41a",["abs(score)","max(scores)"],"abs() 與 max() 都使用正確。");if(ok)setCheck("practice",true,15);}
+function reset41a(){p41a.value='score = -35\ndifference = _____(score)\nscores = [72, 95, 88]\nbest = _____(scores)\nprint(difference)\nprint(best)';}
+function check41b(){const ok=checkText("p41b",["account.upper()","len(password)"],"upper() 與 len() 都使用正確。");if(ok)setCheck("string",true,15);}
+function reset41b(){p41b.value='account = "pokemon"\nprint(account._____())\npassword = "Pika99"\nprint(_____(password) )';}
+function runChallenge41(){const v=challenge41.value.replace(/\s+/g,"");const ok=v.includes("best=max(scores)")&&v.includes("difference=abs(-28)")&&v.includes("print(best)")&&v.includes("print(difference)");challenge41Result.innerHTML=ok?'<span class="good">✓ 正確！</span> 輸出：150、28':'<span class="bad">✗ 尚未完成。</span> 請補上 max、abs 與 print。';if(ok)setCheck("challenge",true,15);}
+function resetChallenge41(){challenge41.value='scores = [120, 85, 150]\nbest = _____(scores)\ndifference = _____(-28)\nprint(best)\nprint(difference)';}
+const quiz41=[
+["1. abs(-18) 的結果？",["A. -18","B. 18","C. 0","D. 錯誤"],1],
+["2. int(8.9) 的結果？",["A. 8.9","B. 9","C. 8","D. 0"],2],
+["3. \"play\".upper() 的結果？",["A. play","B. Play","C. PLAY","D. 錯誤"],2],
+["4. len(\"Python\") 的結果？",["A. 5","B. 6","C. 7","D. 8"],1],
+["5. 哪個函式可以找最大值？",["A. min","B. max","C. abs","D. pow"],1]];
+quiz41.innerHTML=quiz41.map((q,i)=>`<div class="practice"><b>${q[0]}</b>${q[1].map((o,j)=>`<label><input type="radio" name="q41_${i}" value="${j}"> ${o}</label><br>`).join("")}</div>`).join("");
+function submitQuiz41(){let s=0;quiz41.forEach((q,i)=>{const a=document.querySelector(`input[name="q41_${i}"]:checked`);if(a&&+a.value===q[2])s++;});state.quizScore=s;quiz41Result.textContent=`成績：${s} / 5（${s*6} / 30）`;if(s===5)setCheck("quiz",true,30);save();}
+
+</script>
+</body></html>
