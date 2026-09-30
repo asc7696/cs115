@@ -465,12 +465,63 @@ function runGame(){
 function saveReflection(){let v=reflection.value.trim();if(v.length>=8){S.parts.reflection=10;rf.className='feedback good';rf.textContent='✓ 心得已儲存 +10'}else{S.parts.reflection=0;rf.className='feedback bad';rf.textContent='請至少輸入8個字。'}save();}
 function update(){let total=Object.values(S.parts).reduce((a,b)=>a+(Number(b)||0),0);total=Math.min(100,total);score.textContent=total;bar.style.width=total+'%';progressText.textContent=total+' / 100';}
 async function upload(){
- if(!S.student.className||!S.student.seat||!S.student.name){uploadFb.className='feedback bad';uploadFb.textContent='請先填寫班級、座號、姓名。';return}
- let total=Object.values(S.parts).reduce((a,b)=>a+(Number(b)||0),0);total=Math.min(100,total);
- const payload={action:'saveCh02',chapter:'ch02',section:'2-3',classNo:S.student.className,seatNo:S.student.seat,studentName:S.student.name,student:{class:S.student.className,seat:S.student.seat,name:S.student.name},score:total,progress:total+'/100',detail:S.parts,clientTime:new Date().toISOString(),page:'2-3-pikachu-v26'};
- if(!GAS_URL||GAS_URL.startsWith('請貼上')){uploadFb.textContent='⚠️ 尚未設定共用 GAS /exec 網址。';return}
+ // 上傳時直接讀取目前畫面上的班級、座號、姓名，
+ // 不再要求學生一定要先按「儲存身分」。
+ const classValue=document.getElementById('className').value.trim();
+ const seatValue=document.getElementById('seat').value.trim();
+ const nameValue=document.getElementById('name').value.trim();
+
+ if(!classValue||!seatValue||!nameValue){
+   uploadFb.className='feedback bad';
+   uploadFb.textContent='請先填寫班級、座號、姓名。';
+   return;
+ }
+
+ // 同步保存身分，確保 GAS 上傳與畫面資料一致
+ S.student={className:classValue,seat:seatValue,name:nameValue};
+ localStorage.setItem(KEY,JSON.stringify(S));
+
+ let total=Object.values(S.parts).reduce((a,b)=>a+(Number(b)||0),0);
+ total=Math.min(100,total);
+
+ const payload={
+   action:'saveCh02',
+   chapter:'ch02',
+   section:'2-3',
+   classNo:classValue,
+   seatNo:seatValue,
+   studentName:nameValue,
+   student:{class:classValue,seat:seatValue,name:nameValue},
+   score:total,
+   progress:total+'/100',
+   detail:S.parts,
+   clientTime:new Date().toISOString(),
+   page:'2-3-pikachu-v26'
+ };
+
+ if(!GAS_URL||GAS_URL.startsWith('請貼上')){
+   uploadFb.className='feedback bad';
+   uploadFb.textContent='⚠️ 尚未設定共用 GAS /exec 網址。';
+   return;
+ }
+
+ uploadFb.className='feedback';
  uploadFb.textContent='上傳中…';
- try{await fetch(GAS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});uploadFb.className='feedback good';uploadFb.textContent='✓ 已送出；請到 Google Sheet 確認 2-3 紀錄。'}catch(e){uploadFb.className='feedback bad';uploadFb.textContent='✗ 上傳失敗，請檢查 GAS 部署。'}}
+
+ try{
+   await fetch(GAS_URL,{
+     method:'POST',
+     mode:'no-cors',
+     headers:{'Content-Type':'text/plain;charset=utf-8'},
+     body:JSON.stringify(payload)
+   });
+   uploadFb.className='feedback good';
+   uploadFb.textContent='✓ 已送出；請到 Google Sheet 確認 2-3 紀錄。';
+ }catch(e){
+   uploadFb.className='feedback bad';
+   uploadFb.textContent='✗ 上傳失敗，請檢查 GAS 部署。';
+ }
+}
 update();
 </script>
 </body>
