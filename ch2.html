@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>育成高中｜CH2 複習 30 分鐘</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;background:#f4f7fb;color:#263238}
+header{background:linear-gradient(135deg,#315c9b,#4f8ac9);color:#fff;padding:24px 18px}
+.wrap{max-width:1050px;margin:auto}.title{font-size:28px;font-weight:800}.sub{opacity:.9;margin-top:5px}
+.card{background:#fff;border-radius:16px;padding:20px;margin:16px 0;box-shadow:0 3px 12px #00000012}
+h2{margin-top:0;color:#315c9b}h3{color:#345}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+input,textarea,button{font:inherit}input,textarea{border:1px solid #ccd6e0;border-radius:9px;padding:10px}
+textarea{width:100%;min-height:100px;resize:vertical}
+button{border:0;border-radius:9px;padding:10px 16px;cursor:pointer;font-weight:700}
+.primary{background:#315c9b;color:#fff}.secondary{background:#e9eef6;color:#315c9b}
+.score{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid #ddd;padding:10px 0}
+.badge{display:inline-block;background:#edf3ff;color:#315c9b;padding:5px 10px;border-radius:999px;font-weight:700}
+.code{background:#18222d;color:#eaf3ff;padding:15px;border-radius:10px;white-space:pre-wrap;font-family:Consolas,monospace}
+.note{background:#fff7df;padding:12px;border-radius:9px;margin:10px 0}
+.feedback{margin-top:10px;padding:10px;border-radius:8px;min-height:42px}
+.ok{background:#e2f7ea}.bad{background:#ffe4e1}
+.hidden{display:none}.qbox{border-left:5px solid #4f8ac9;padding-left:14px;margin:14px 0}
+.result{font-size:18px;font-weight:800}.small{font-size:13px;color:#667}
+.lock{opacity:.6}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<div class="title">🧠 CH2 複習任務｜30 分鐘</div>
+<div class="sub">循序結構・選擇結構・重複結構｜以「實際執行結果」評分</div>
+</div></header>
+
+<div class="score"><div class="wrap">
+<strong>目前得分：</strong><span id="score">0</span> / 100
+<span style="margin-left:20px">　⏱ 使用時間：<span id="timer">00:00</span></span>
+</div></div>
+
+<main class="wrap">
+<section class="card">
+<h2>👤 學生資料</h2>
+<div class="grid">
+<label>班級<br><input id="classNo" placeholder="例如 205"></label>
+<label>座號<br><input id="seatNo" placeholder="座號"></label>
+<label>姓名<br><input id="studentName" placeholder="姓名"></label>
+</div>
+<p class="small">請先填寫資料，再開始複習。送出後會寫入 Google 試算表。</p>
+</section>
+
+<section class="card">
+<h2>① 三種基本結構複習</h2>
+<p>先回顧三種基本結構：循序、選擇、重複。</p>
+<div class="grid">
+<div><span class="badge">循序結構</span><div class="code">x = 10
+y = 20
+x = x + y
+print(x)</div><p>依序執行每一行。</p></div>
+<div><span class="badge">選擇結構</span><div class="code">score = 80
+if score &gt;= 60:
+    score = score + 10
+print(score)</div><p>依條件決定執行哪一段。</p></div>
+<div><span class="badge">重複結構</span><div class="code">for i in range(1, 4):
+    print(i)</div><p>讓相同工作重複執行。</p></div>
+</div>
+<button class="primary" id="finishReview">我完成複習，開始三題執行結果檢核</button>
+<div id="structureArea" class="hidden"></div>
+</section>
+
+<section class="card">
+<h2>② while 挑戰 <span class="badge">10 分</span></h2>
+<p>請完成程式，使最後輸出：</p>
+<div class="code">1
+2
+3
+4
+5</div>
+<p>可以使用任何正確的 Python 寫法，不限定只能使用某一組程式碼。系統會依<strong>實際執行結果</strong>判分。</p>
+<div class="code">count = 1
+while <input id="whileCondition" style="width:180px;background:#fff;color:#222;padding:6px;border-radius:6px;border:0" placeholder="請填入條件">:  # ← 這裡填條件
+    print(count)
+    count = count + 1</div>
+<p class="small">提示：請填入能讓程式輸出 1、2、3、4、5 的條件，例如比較 <code>count</code> 與某個數字。</p>
+<button class="primary" id="whileRun">▶ 執行並評分</button>
+<div id="whileFeedback" class="feedback"></div>
+</section>
+
+<section class="card">
+<h2>③ range() 挑戰 <span class="badge">10 分</span></h2>
+<p>請在兩個空格填入數字，讓程式能湊出指定數字 <strong>29</strong>。</p>
+<div class="code">for i in range(1, __, __):
+    print(i)</div>
+<div class="grid">
+<label>第二個數字：<input id="rangeEnd" type="number" placeholder="例如 30"></label>
+<label>第三個數字：<input id="rangeStep" type="number" placeholder="例如 1"></label>
+</div>
+<button class="primary" id="rangeRun">▶ 執行 range 並評分</button>
+<div id="rangeFeedback" class="feedback"></div>
+<p class="small">不限唯一答案：只要實際產生的 range 中包含 29，即判定正確。</p>
+</section>
+
+<section class="card">
+<h2>④ 章末程式填空 <span class="badge">10 分</span></h2>
+<p>請填入兩個數字，使 29 出現在輸出結果中。</p>
+<div class="code">for i in range(1, <input id="fillA" style="width:80px" type="number">, <input id="fillB" style="width:80px" type="number">):
+    print(i)</div>
+<button class="primary" id="fillRun">▶ 執行並評分</button>
+<div id="fillFeedback" class="feedback"></div>
+</section>
+
+<section class="card">
+<h2>⑤ 綜合小測驗 <span class="badge">50 分</span></h2>
+<div id="quiz"></div>
+</section>
+
+<section class="card">
+<h2>⑥ 完成複習</h2>
+<p>確認所有題目都已完成後，送出學習成果。</p>
+<button class="primary" id="upload">☁️ 上傳學習成果到 GAS</button>
+<div id="uploadFeedback" class="feedback"></div>
+</section>
+</main>
+
+<script>
+const GAS_URL="https://script.google.com/macros/s/AKfycbwrkpuDd1WaHE2ilaiYwZMxfDx0DW10PSeWrSH4gkj8-gFmjzPyUjymJJQsz2iELka0eg/exec";
+const S={score:0,structure:0,whileScore:0,rangeScore:0,fillScore:0,quizScore:0,
+answered:[false,false,false],quizAnswered:[],start:Date.now(),detail:{}};
+
+function $(id){return document.getElementById(id)}
+function add(n){S.score+=n;render()}
+function render(){$("score").textContent=S.score}
+setInterval(()=>{$("timer").textContent=formatTime(Math.floor((Date.now()-S.start)/1000))},1000)
+function formatTime(s){return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
+function norm(s){return String(s??"").replace(/\r/g,"").trim().replace(/[ \t]+$/gm,"")}
+function fb(id,msg,ok){$(id).textContent=msg;$(id).className="feedback "+(ok?"ok":"bad")}
+
+/* 三種基本結構：每題只能作答一次；答錯也立即進下一題 */
+const structureQ=[
+ {code:`x = 10
+y = 20
+x = x + y
+print(x)`,ans:"30",pts:3},
+ {code:`score = 80
+if score >= 60:
+    score = score + 10
+print(score)`,ans:"90",pts:3},
+ {code:`for i in range(1, 4):
+    print(i)`,ans:"1\\n2\\n3",pts:4}
+];
+let si=0;
+$("finishReview").onclick=()=>{
+ if(!$("classNo").value.trim()||!$("seatNo").value.trim()||!$("studentName").value.trim()){
+   alert("請先填寫班級、座號、姓名");return;
+ }
+ $("finishReview").disabled=true;
+ $("structureArea").classList.remove("hidden");showStructure();
+};
+function showStructure(){
+ if(si>=structureQ.length){
+   $("structureArea").innerHTML='<div class="feedback ok"><strong>✅ 三題檢核完成</strong><br>本區得分：'+S.structure+'/10</div>';
+   S.detail.structures={score:S.structure,q1:S.answered[0]?S.answered[0]:false,q2:S.answered[1],q3:S.answered[2]};
+   return;
+ }
+ const q=structureQ[si];
+ $("structureArea").innerHTML=`<div class="qbox">
+ <strong>第 ${si+1} 題（${q.pts} 分）</strong>
+ <div class="code">${q.code.replace(/</g,"&lt;").replace(/>/g,"&gt;")}</div>
+ <p>請寫下程式的「執行結果」：</p>
+ <textarea id="structAns" placeholder="請輸入執行結果"></textarea>
+ <button class="primary" id="structBtn">送出本題</button>
+ <div id="structFb" class="feedback"></div></div>`;
+ $("structBtn").onclick=()=>{
+   if($("structBtn").disabled)return;
+   const ans=norm($("structAns").value);
+   const ok=ans===q.ans;
+   $("structBtn").disabled=true;$("structAns").disabled=true;
+   if(ok){S.structure+=q.pts;add(q.pts);fb("structFb","✅ 執行結果正確，獲得 "+q.pts+" 分。",true)}
+   else fb("structFb","❌ 執行結果不正確，本題 0 分，直接進入下一題。",false);
+   S.answered[si]=true;
+   S.detail["structure"+(si+1)]={answer:ans,correct:ok,score:ok?q.pts:0};
+   si++;setTimeout(showStructure,900);
+ };
+}
+
+/* while：不限定唯一寫法，真正模擬執行結果 */
+$("whileRun").onclick=()=>{
+ const condition=$("whileCondition").value.trim();
+ const code=`count = 1\\nwhile ${condition}:\\n    print(count)\\n    count = count + 1`;
+ const out=simulateWhileCondition(condition);
+ const ok=norm(out)==="1\\n2\\n3\\n4\\n5";
+ S.whileScore=ok?10:0;
+ if(ok){if(!S.detail.whileCorrect){add(10);S.detail.whileCorrect=true}}
+ else if(S.detail.whileCorrect){S.score-=10;S.detail.whileCorrect=false;render()}
+ S.detail.whileChallenge={condition,code,output:out,correct:ok,score:S.whileScore};
+ if(ok) fb("whileFeedback","✅ 執行結果正確！本題 10 分。\\n實際輸出：\\n"+out,true);
+ else fb("whileFeedback","❌ 執行結果不正確，請修改條件後再執行。\\n實際輸出：\\n"+(out||"（沒有產生正確輸出）"),false);
+}
+function simulateWhileCondition(condition){
+ condition=condition.replace(/\s+/g," ").trim();
+ let lim=condition.match(/^count\s*(<=|<|>=|>)\s*(\d+)$/);
+ if(!lim)return "";
+ let count=1,op=lim[1],target=Number(lim[2]),out=[],guard=0;
+ const test=()=>op=="<="?count<=target:op=="<"?count<target:op==">="?count>=target:count>target;
+ while(test()&&guard++<100){out.push(String(count));count=count+1}
+ return out.join("\n");
+}
+
+/* range：只要 29 實際出現即得分 */
+function checkRange(end,step){
+ end=Number(end);step=Number(step);
+ if(!Number.isInteger(end)||!Number.isInteger(step)||step<=0)return {ok:false,out:[]};
+ const out=[];for(let i=1;i<end&&out.length<1000;i+=step)out.push(i);
+ return {ok:out.includes(29),out};
+}
+$("rangeRun").onclick=()=>runRange("rangeEnd","rangeStep","rangeFeedback","rangeChallenge");
+$("fillRun").onclick=()=>runRange("fillA","fillB","fillFeedback","fillChallenge");
+function runRange(a,b,f,key){
+ const end=$(a).value,step=$(b).value,r=checkRange(end,step);
+ const pts=10;
+ if(r.ok){
+   if(!S.detail[key+"Correct"]){add(pts);S.detail[key+"Correct"]=true}
+   fb(f,"✅ 執行結果包含 29！本題 "+pts+" 分。\\n實際結果："+r.out.join(", "),true);
+ }else{
+   if(S.detail[key+"Correct"]){S.score-=pts;S.detail[key+"Correct"]=false;render()}
+   fb(f,"❌ 執行結果沒有 29，請再嘗試。\\n實際結果："+r.out.join(", "),false);
+ }
+ S.detail[key]={end:Number(end),step:Number(step),output:r.out,correct:r.ok,score:r.ok?pts:0};
+}
+
+/* 50 分小測驗 */
+const questions=[
+ ["range(5) 會產生哪一組？",["0,1,2,3,4","1,2,3,4,5","0,1,2,3,4,5","5"],0],
+ ["while 最重要的是什麼？",["一定執行5次","條件成立就重複，條件不成立才停止","只能搭配 range","一定要有 for"],1],
+ ["for i in range(1,4) 的 i 依序是？",["0,1,2","1,2,3","1,2,3,4","0,1,2,3"],1],
+ ["以下哪一個是選擇結構？",["for","while","if","range"],2],
+ ["程式執行的順序、分支、重複，合稱什麼？",["資料型態","流程控制","字串運算","輸入"],1]
+];
+function makeQuiz(){
+ $("quiz").innerHTML=questions.map((q,i)=>`<div class="qbox"><strong>${i+1}. ${q[0]}</strong>
+ ${q[1].map((x,j)=>`<label style="display:block;margin:8px 0"><input type="radio" name="q${i}" value="${j}"> ${x}</label>`).join("")}
+ <button class="secondary" data-q="${i}">送出</button><div id="qf${i}" class="feedback"></div></div>`).join("");
+ document.querySelectorAll("[data-q]").forEach(btn=>btn.onclick=()=>{
+   const i=Number(btn.dataset.q);if(S.quizAnswered[i])return;
+   const el=document.querySelector(`input[name="q${i}"]:checked`);
+   if(!el){fb("qf"+i,"請先選擇答案。",false);return}
+   S.quizAnswered[i]=true;btn.disabled=true;
+   const ok=Number(el.value)===questions[i][2];
+   if(ok){S.quizScore+=10;add(10);fb("qf"+i,"✅ 答對，10 分。",true)}
+   else fb("qf"+i,"❌ 答錯，0 分。",false);
+ });
+}
+makeQuiz();
+
+$("upload").onclick=async()=>{
+ const c=$("classNo").value.trim(),s=$("seatNo").value.trim(),n=$("studentName").value.trim();
+ if(!c||!s||!n){fb("uploadFeedback","請先填寫班級、座號、姓名。",false);return}
+ const payload={
+  action:"saveCh02",chapter:"ch02",section:"CH2複習",
+  classNo:c,seatNo:s,studentName:n,
+  student:{class:c,seat:s,name:n},
+  score:S.score,progress:S.score+"/100",
+  elapsedSeconds:Math.floor((Date.now()-S.start)/1000),
+  detail:{
+   whileScore:S.whileScore,rangeScore:S.rangeScore,
+   structureScore:S.structure,fillScore:S.fillScore,quizScore:S.quizScore,
+   p:S.detail
+  },
+  clientTime:new Date().toISOString(),page:"ch02-review-v6-while-fill"
+ };
+ $("upload").disabled=true;
+ try{
+   await fetch(GAS_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
+   fb("uploadFeedback","✅ 已送出學習成果。請稍候確認 Google 試算表的 ch02_review。",true);
+ }catch(e){
+   $("upload").disabled=false;
+   fb("uploadFeedback","❌ 上傳失敗："+e,false);
+ }
+};
+</script>
+</body>
+</html>
