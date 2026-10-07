@@ -1,0 +1,1410 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>THSPC 選手自學學習平台｜C++ 演算法訓練</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--ink:#172033;--muted:#657084;--accent:#315efb;--accent2:#12a594;--line:#e4e8f0;--dark:#111827;--warn:#f59e0b}
+*{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans TC","Microsoft JhengHei",sans-serif;line-height:1.7}
+a{color:inherit} button,input{font:inherit}
+header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav{max-width:1400px;margin:auto;padding:12px 18px;display:flex;align-items:center;gap:14px}
+.logo{font-weight:900;white-space:nowrap} .logo span{color:var(--accent)}
+.search{flex:1;max-width:520px;border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:#fafbfe}
+.nav a{text-decoration:none;font-size:14px;color:var(--muted)}
+.hero{background:linear-gradient(135deg,#101a3a,#2749a8 55%,#0b8f82);color:white}
+.hero-inner{max-width:1400px;margin:auto;padding:58px 20px 48px}
+.eyebrow{font-size:13px;letter-spacing:2px;opacity:.8}
+.hero h1{font-size:clamp(32px,5vw,58px);line-height:1.15;margin:10px 0}
+.hero p{max-width:800px;font-size:18px;color:#e8edff}
+.stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.stat{background:rgba(255,255,255,.13);padding:10px 14px;border-radius:12px}
+.layout{max-width:1400px;margin:auto;padding:22px 18px;display:grid;grid-template-columns:260px 1fr;gap:22px}
+aside{position:sticky;top:75px;align-self:start;max-height:calc(100vh - 90px);overflow:auto}
+.side-card,.panel,.lesson,.challenge,.progress-card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 4px 18px rgba(20,35,70,.04)}
+.side-card{padding:16px} .side-card h3{margin-top:0}
+.side-card a{display:block;padding:7px 8px;border-radius:8px;text-decoration:none;color:var(--muted);font-size:14px}
+.side-card a:hover{background:#eef2ff;color:var(--accent)}
+.progress-card{padding:16px;margin-top:14px} .bar{height:9px;background:#e8ebf2;border-radius:20px;overflow:hidden} .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0}
+main{min-width:0}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.filter{padding:9px 12px;border:1px solid var(--line);background:#fff;border-radius:10px;cursor:pointer}
+.filter.active{background:#eaf0ff;border-color:#b8c7ff;color:#2148d6}
+.phase-title{font-size:22px;font-weight:900;margin:28px 0 12px}
+.lesson{padding:22px;margin-bottom:18px}
+.lesson-head{display:flex;justify-content:space-between;align-items:center}
+.num{font-weight:900;color:var(--accent);font-size:18px;margin-right:8px}
+.tag{display:inline-block;background:#eef2ff;color:#3452bf;padding:3px 8px;border-radius:20px;font-size:12px}
+.lesson h2{font-size:25px;margin:8px 0}
+.goal{color:var(--muted)}
+.done{border:1px solid var(--line);background:#fff;border-radius:10px;padding:7px 10px;cursor:pointer}
+.done.completed{background:#e9fbf6;border-color:#9be3d0;color:#087d68}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.panel{padding:16px;box-shadow:none}
+.panel h3{margin-top:0;font-size:17px}
+pre{background:#111827;color:#e8edf7;border-radius:12px;padding:15px;overflow:auto;font-size:13px;line-height:1.55}
+.copy{border:0;background:#e8edff;color:#2444b4;padding:7px 10px;border-radius:8px;cursor:pointer}
+.problems{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.problem{border:1px solid var(--line);border-radius:11px;padding:10px;text-decoration:none;display:flex;flex-direction:column;background:#fafbfe}
+.problem:hover{border-color:#aebeff;transform:translateY(-1px)}
+.problem span{font-size:12px;color:var(--accent);font-weight:800}
+.problem b{font-size:14px} .problem small{color:var(--muted)}
+.selfcheck{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);font-size:13px;color:var(--muted)}
+#challenges{margin-top:40px} .challenge-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.challenge{padding:16px;display:grid;grid-template-columns:48px 1fr auto;gap:12px;align-items:center}
+.challenge-no{width:40px;height:40px;border-radius:12px;background:#edf1ff;color:#315efb;display:grid;place-items:center;font-weight:900}
+.challenge h3{margin:0;font-size:17px} .challenge p,.challenge small{margin:0;color:var(--muted);display:block}
+.challenge a{text-decoration:none;color:var(--accent);font-size:13px}
+.source{background:#fff7e6;border:1px solid #f3d08a;border-radius:14px;padding:16px;margin:20px 0}
+.source strong{color:#9a6500}
+.footer{text-align:center;color:var(--muted);padding:45px 20px}
+.hidden{display:none!important}
+@media(max-width:900px){.layout{grid-template-columns:1fr}aside{position:static;max-height:none}.grid2,.challenge-grid{grid-template-columns:1fr}.nav a{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <div class="logo">🏆 THSPC <span>選手自學平台</span></div>
+    <input id="search" class="search" placeholder="搜尋主題，例如：BFS、DP、Prefix、2024..." oninput="filterLessons()">
+    <a href="#map">能力地圖</a>
+    <a href="#challenges">歷屆題</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">TAIPEI HIGH SCHOOL PROGRAMMING CONTEST TRAINING</div>
+    <h1>資訊學科能力競賽<br>選手自學學習平台</h1>
+    <p>以 THSPC 2023＋2024 題型反推能力階梯，從 C++ 基礎一路訓練到 DP、Graph、Flow、Cartesian Tree 與進階 Query。</p>
+    <div class="stats">
+      <div class="stat">📚 30 個核心主題</div>
+      <div class="stat">🎯 12 題歷屆挑戰</div>
+      <div class="stat">💻 C++17</div>
+      <div class="stat">💾 學習進度自動保存</div>
+    </div>
+  </div>
+</section>
+
+<div class="layout">
+<aside>
+  <div class="side-card">
+    <h3>📚 課程導覽</h3>
+    <a href="#map">能力地圖</a>
+    <a href="#lessons">30 課程</a>
+    <a href="#challenges">2023＋2024 歷屆題</a>
+    <a href="#sop">競賽解題 SOP</a>
+  </div>
+  <div class="progress-card">
+    <b>我的學習進度</b>
+    <p id="progressText">0 / 30 課</p>
+    <div class="bar"><i id="progressBar"></i></div>
+    <button class="filter" style="margin-top:10px" onclick="resetProgress()">重設進度</button>
+  </div>
+</aside>
+
+<main>
+<section id="map" class="side-card" style="padding:22px;margin-bottom:20px">
+<h2 style="margin-top:0">🧭 選手能力地圖</h2>
+<p>學習順序不是「把所有 C++ 語法教完」，而是逐步建立「題目特徵 → 演算法 → 複雜度」的判斷能力。</p>
+<div class="challenge-grid">
+<div class="panel"><b>第一階段</b><br>C++、Array、String、Loop</div>
+<div class="panel"><b>第二階段</b><br>Simulation、Sort、Prefix、Binary Search、Two Pointers</div>
+<div class="panel"><b>第三階段</b><br>Stack、Queue、BFS、DFS、Graph</div>
+<div class="panel"><b>第四階段</b><br>DP、Knapsack、Bitmask、Partition、Rectangle DP</div>
+<div class="panel"><b>第五階段</b><br>Matrix Exponentiation、Tree、Cartesian Tree、DSU、Offline Query</div>
+<div class="panel"><b>第六階段</b><br>Bipartite Matching、Max Flow、THSPC 綜合題</div>
+</div>
+</section>
+
+<section class="source">
+<strong>📌 題目來源說明</strong><br>
+本平台的進階能力路線依你提供的 THSPC 2023 題目，以及「臺北市 113 學年度高級中學資訊學科能力競賽」2024 題目 PDF 整合。
+2024 題目包含：預燒排程、太陽能板、音樂創作、優惠卷、運算順序、山花聚頂；其限制條件分別呈現 Bitmask/Partition DP、Rectangle DP、有限狀態＋矩陣快速冪、0/1 Knapsack、Cartesian Tree、Offline Query 等能力階梯。
+</section>
+
+<div id="lessons">
+<h2>📖 30 個核心課程</h2>
+<div class="toolbar">
+<button class="filter active" onclick="showAll(this)">全部</button>
+<button class="filter" onclick="filterPhase('第一階段',this)">基礎</button>
+<button class="filter" onclick="filterPhase('第二階段',this)">基礎演算法</button>
+<button class="filter" onclick="filterPhase('第三階段',this)">搜尋 / 圖論</button>
+<button class="filter" onclick="filterPhase('第四階段',this)">DP</button>
+<button class="filter" onclick="filterPhase('第五階段',this)">進階</button>
+</div>
+<div class="phase-title">第一階段｜C++競賽基本功</div>
+<article class="lesson" id="lesson-1" data-title="輸入、輸出、變數與資料型態 C++ 基礎">
+  <div class="lesson-head">
+    <div><span class="num">01</span><span class="tag">C++ 基礎</span></div>
+    <button class="done" onclick="toggleDone(1)">○ 完成</button>
+  </div>
+  <h2>輸入、輸出、變數與資料型態</h2>
+  <p class="goal"><strong>學習目標：</strong>建立競賽程式的 Input → Process → Output 思維。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>先確認輸入幾個資料</li><li>選擇正確資料型態</li><li>完成運算後輸出</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>輸入兩個整數 a、b，輸出 a+b。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int main() {
+    int a, b;
+    cin &gt;&gt; a &gt;&gt; b;
+    cout &lt;&lt; a + b &lt;&lt; &#x27;\\n&#x27;;
+    return 0;
+}</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=a001" target="_blank" rel="noopener"><span>a001</span><b>哈囉</b><small>基本輸出輸入</small></a><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=a002" target="_blank" rel="noopener"><span>a002</span><b>簡易加法</b><small>基本輸出輸入</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+
+<article class="lesson" id="lesson-2" data-title="if、else 與邏輯判斷 條件判斷">
+  <div class="lesson-head">
+    <div><span class="num">02</span><span class="tag">條件判斷</span></div>
+    <button class="done" onclick="toggleDone(2)">○ 完成</button>
+  </div>
+  <h2>if、else 與邏輯判斷</h2>
+  <p class="goal"><strong>學習目標：</strong>能把題目的文字條件轉成布林邏輯。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>先列出條件</li><li>找 AND / OR / NOT</li><li>注意邊界值</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>判斷年份是否為閏年。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>int year;
+cin &gt;&gt; year;
+
+if (year % 400 == 0 ||
+    (year % 4 == 0 &amp;&amp; year % 100 != 0))
+    cout &lt;&lt; &quot;Leap Year&quot;;
+else
+    cout &lt;&lt; &quot;Common Year&quot;;</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=a004" target="_blank" rel="noopener"><span>a004</span><b>文文的求婚</b><small>條件判斷</small></a><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=a244" target="_blank" rel="noopener"><span>a244</span><b>新手訓練～for + if</b><small>for / if</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+
+<article class="lesson" id="lesson-3" data-title="for / while 迴圈 迴圈">
+  <div class="lesson-head">
+    <div><span class="num">03</span><span class="tag">迴圈</span></div>
+    <button class="done" onclick="toggleDone(3)">○ 完成</button>
+  </div>
+  <h2>for / while 迴圈</h2>
+  <p class="goal"><strong>學習目標：</strong>熟悉固定次數與條件控制的重複結構。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>做 N 次 → for</li><li>做到條件成立 → while</li><li>避免無限迴圈</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>計算 1～N 的總和。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>long long sum = 0;
+for (int i = 1; i &lt;= n; i++)
+    sum += i;
+cout &lt;&lt; sum;</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=a005" target="_blank" rel="noopener"><span>a005</span><b>Eva 的回家作業</b><small>迴圈 / 判斷</small></a><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=a038" target="_blank" rel="noopener"><span>a038</span><b>數字翻轉</b><small>while 迴圈</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+
+<article class="lesson" id="lesson-4" data-title="函式與數論基本功 Function / GCD">
+  <div class="lesson-head">
+    <div><span class="num">04</span><span class="tag">Function / GCD</span></div>
+    <button class="done" onclick="toggleDone(4)">○ 完成</button>
+  </div>
+  <h2>函式與數論基本功</h2>
+  <p class="goal"><strong>學習目標：</strong>把可重複使用的解題步驟模組化。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>先定義輸入與輸出</li><li>把獨立工作寫成函式</li><li>從 GCD、質數開始建立工具箱</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>使用歐幾里得演算法求最大公因數。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>int gcd(int a, int b) {
+    while (b != 0) {
+        int r = a % b;
+        a = b;
+        b = r;
+    }
+    return a;
+}</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=a010" target="_blank" rel="noopener"><span>a010</span><b>因數分解</b><small>數論</small></a><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=a038" target="_blank" rel="noopener"><span>a038</span><b>數字翻轉</b><small>迴圈</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+
+<article class="lesson" id="lesson-5" data-title="一維陣列與線性掃描 Array">
+  <div class="lesson-head">
+    <div><span class="num">05</span><span class="tag">Array</span></div>
+    <button class="done" onclick="toggleDone(5)">○ 完成</button>
+  </div>
+  <h2>一維陣列與線性掃描</h2>
+  <p class="goal"><strong>學習目標：</strong>能處理一串資料並在 O(N) 內完成基本統計。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>讀入陣列</li><li>一次掃描</li><li>維護目前答案</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>找 N 個數中的最大值。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>int mx = a[0];
+for (int i = 1; i &lt; n; i++)
+    mx = max(mx, a[i]);</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=a248" target="_blank" rel="noopener"><span>a248</span><b>新手訓練～陣列應用</b><small>陣列</small></a><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=a693" target="_blank" rel="noopener"><span>a693</span><b>吞食天地</b><small>區間 / 陣列</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+
+<article class="lesson" id="lesson-6" data-title="二維陣列與矩陣 2D Array">
+  <div class="lesson-head">
+    <div><span class="num">06</span><span class="tag">2D Array</span></div>
+    <button class="done" onclick="toggleDone(6)">○ 完成</button>
+  </div>
+  <h2>二維陣列與矩陣</h2>
+  <p class="goal"><strong>學習目標：</strong>建立 row / column、網格與座標思維。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>先確認 row、column</li><li>用雙層迴圈走訪</li><li>注意 i/j 的方向</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>輸出矩陣轉置。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>for (int j = 0; j &lt; m; j++) {
+    for (int i = 0; i &lt; n; i++)
+        cout &lt;&lt; a[i][j] &lt;&lt; &#x27; &#x27;;
+    cout &lt;&lt; &#x27;\\n&#x27;;
+}</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=a015" target="_blank" rel="noopener"><span>a015</span><b>矩陣的翻轉</b><small>矩陣</small></a><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=b266" target="_blank" rel="noopener"><span>b266</span><b>矩陣翻轉</b><small>矩陣</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+
+<article class="lesson" id="lesson-7" data-title="String 與字元計數 String / Counting">
+  <div class="lesson-head">
+    <div><span class="num">07</span><span class="tag">String / Counting</span></div>
+    <button class="done" onclick="toggleDone(7)">○ 完成</button>
+  </div>
+  <h2>String 與字元計數</h2>
+  <p class="goal"><strong>學習目標：</strong>能處理字串、字元與出現次數。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>char 可當整數處理</li><li>字母可映射到 0～25</li><li>計數問題優先想陣列或 map</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>統計小寫英文字母出現次數。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>int cnt[26] = {};
+for (char c : s)
+    cnt[c - &#x27;a&#x27;]++;</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=a009" target="_blank" rel="noopener"><span>a009</span><b>解碼器</b><small>字元處理</small></a><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=c462" target="_blank" rel="noopener"><span>c462</span><b>APCS 交錯字串</b><small>字串</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+<div class="phase-title">第二階段｜基礎演算法</div>
+<article class="lesson" id="lesson-8" data-title="Simulation 模擬 Simulation">
+  <div class="lesson-head">
+    <div><span class="num">08</span><span class="tag">Simulation</span></div>
+    <button class="done" onclick="toggleDone(8)">○ 完成</button>
+  </div>
+  <h2>Simulation 模擬</h2>
+  <p class="goal"><strong>學習目標：</strong>把題目規則精確翻譯成程式狀態。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>找目前狀態</li><li>執行一次規則</li><li>更新狀態</li><li>重複直到結束</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>循環淘汰中，下一個位置可用 (pos+k)%n 計算。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>pos = (pos + k) % n;</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=a038" target="_blank" rel="noopener"><span>a038</span><b>數字翻轉</b><small>模擬 / while</small></a><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=a244" target="_blank" rel="noopener"><span>a244</span><b>新手訓練～for + if</b><small>模擬基礎</small></a><a class="problem" href="#challenges" target="_blank" rel="noopener"><span>THSPC2023-1</span><b>魔法師</b><small>歷屆挑戰</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+
+<article class="lesson" id="lesson-9" data-title="排序 Sort Sorting">
+  <div class="lesson-head">
+    <div><span class="num">09</span><span class="tag">Sorting</span></div>
+    <button class="done" onclick="toggleDone(9)">○ 完成</button>
+  </div>
+  <h2>排序 Sort</h2>
+  <p class="goal"><strong>學習目標：</strong>理解 O(N log N) 排序，以及排序如何幫助後續演算法。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>先問排序能否讓問題變簡單</li><li>使用 sort</li><li>再思考二分、雙指標、Greedy</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>由小到大排序。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>sort(a, a + n);</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=i207" target="_blank" rel="noopener"><span>i207</span><b>檔名排序</b><small>排序</small></a><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=i178" target="_blank" rel="noopener"><span>i178</span><b>比大小 Cards</b><small>排序 / 二分 / Greedy</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+
+<article class="lesson" id="lesson-10" data-title="Prefix Sum 前綴和 Prefix Sum">
+  <div class="lesson-head">
+    <div><span class="num">10</span><span class="tag">Prefix Sum</span></div>
+    <button class="done" onclick="toggleDone(10)">○ 完成</button>
+  </div>
+  <h2>Prefix Sum 前綴和</h2>
+  <p class="goal"><strong>學習目標：</strong>把大量區間總和查詢從 O(N) 降到 O(1)。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>建立 prefix[i]</li><li>區間 [L,R] → prefix[R]-prefix[L-1]</li><li>先看查詢次數再選方法</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>快速回答多次區間總和。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>prefix[0] = 0;
+for (int i = 1; i &lt;= n; i++)
+    prefix[i] = prefix[i-1] + a[i];
+
+long long sum = prefix[r] - prefix[l-1];</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=a693" target="_blank" rel="noopener"><span>a693</span><b>吞食天地</b><small>Prefix Sum</small></a><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=a694" target="_blank" rel="noopener"><span>a694</span><b>吞食天地二</b><small>Prefix Sum</small></a><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=k707" target="_blank" rel="noopener"><span>k707</span><b>區間相關題</b><small>Prefix Sum</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+
+<article class="lesson" id="lesson-11" data-title="Difference Array 差分 Difference">
+  <div class="lesson-head">
+    <div><span class="num">11</span><span class="tag">Difference</span></div>
+    <button class="done" onclick="toggleDone(11)">○ 完成</button>
+  </div>
+  <h2>Difference Array 差分</h2>
+  <p class="goal"><strong>學習目標：</strong>處理大量區間加值操作。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>區間 [L,R] 加 x</li><li>diff[L]+=x</li><li>diff[R+1]-=x</li><li>最後做一次前綴累加</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>對 [L,R] 每個位置加 1。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>diff[L] += 1;
+diff[R + 1] -= 1;</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=k572" target="_blank" rel="noopener"><span>k572</span><b>區間修改延伸</b><small>差分 / Prefix</small></a><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=a694" target="_blank" rel="noopener"><span>a694</span><b>吞食天地二</b><small>區間</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+
+<article class="lesson" id="lesson-12" data-title="Binary Search 二分搜尋 Binary Search">
+  <div class="lesson-head">
+    <div><span class="num">12</span><span class="tag">Binary Search</span></div>
+    <button class="done" onclick="toggleDone(12)">○ 完成</button>
+  </div>
+  <h2>Binary Search 二分搜尋</h2>
+  <p class="goal"><strong>學習目標：</strong>學會利用單調性把搜尋範圍每次砍半。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>確認資料已排序或答案具有單調性</li><li>維護 [L,R]</li><li>每次取 mid</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>在排序陣列中尋找 X。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>int l = 0, r = n - 1;
+while (l &lt;= r) {
+    int mid = (l + r) / 2;
+    if (a[mid] == x) break;
+    if (a[mid] &lt; x) l = mid + 1;
+    else r = mid - 1;
+}</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=i178" target="_blank" rel="noopener"><span>i178</span><b>比大小 Cards</b><small>二分搜尋</small></a><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=k290" target="_blank" rel="noopener"><span>k290</span><b>借款金額</b><small>二分 / Prefix</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+
+<article class="lesson" id="lesson-13" data-title="Two Pointers / Sliding Window Two Pointers">
+  <div class="lesson-head">
+    <div><span class="num">13</span><span class="tag">Two Pointers</span></div>
+    <button class="done" onclick="toggleDone(13)">○ 完成</button>
+  </div>
+  <h2>Two Pointers / Sliding Window</h2>
+  <p class="goal"><strong>學習目標：</strong>處理具有連續性且左右邊界可單向移動的區間問題。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>維護 left/right</li><li>right 持續前進</li><li>不合法時 left 前進恢復條件</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>找最長不重複連續區間。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>int l = 0;
+unordered_set&lt;int&gt; s;
+
+for (int r = 0; r &lt; n; r++) {
+    while (s.count(a[r])) {
+        s.erase(a[l]);
+        l++;
+    }
+    s.insert(a[r]);
+    ans = max(ans, r - l + 1);
+}</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=k185" target="_blank" rel="noopener"><span>k185</span><b>裁員風暴</b><small>雙指標</small></a><a class="problem" href="#challenges" target="_blank" rel="noopener"><span>THSPC2023-3</span><b>線上遊戲</b><small>Sliding Window</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+<div class="phase-title">第三階段｜搜尋與資料結構</div>
+<article class="lesson" id="lesson-14" data-title="Stack 堆疊 Stack">
+  <div class="lesson-head">
+    <div><span class="num">14</span><span class="tag">Stack</span></div>
+    <button class="done" onclick="toggleDone(14)">○ 完成</button>
+  </div>
+  <h2>Stack 堆疊</h2>
+  <p class="goal"><strong>學習目標：</strong>理解 LIFO，能用 Stack 處理括號、運算式與單調結構。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>後進先出 → Stack</li><li>push / pop / top</li><li>遇到配對問題先想 Stack</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>括號配對。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>stack&lt;char&gt; st;
+for (char c : s) {
+    if (c == &#x27;(&#x27;) st.push(c);
+    else if (!st.empty()) st.pop();
+}</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=i213" target="_blank" rel="noopener"><span>i213</span><b>stack 練習</b><small>Stack</small></a><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=a017" target="_blank" rel="noopener"><span>a017</span><b>五則運算</b><small>Stack / Expression</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+
+<article class="lesson" id="lesson-15" data-title="Queue / Deque Queue">
+  <div class="lesson-head">
+    <div><span class="num">15</span><span class="tag">Queue</span></div>
+    <button class="done" onclick="toggleDone(15)">○ 完成</button>
+  </div>
+  <h2>Queue / Deque</h2>
+  <p class="goal"><strong>學習目標：</strong>理解 FIFO，為 BFS 與滑動視窗資料結構打底。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>先進先出 → Queue</li><li>兩端操作 → Deque</li><li>先畫出資料進出順序</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>模擬排隊。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>queue&lt;int&gt; q;
+q.push(10);
+q.push(20);
+cout &lt;&lt; q.front();
+q.pop();</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=e447" target="_blank" rel="noopener"><span>e447</span><b>Queue 練習</b><small>Queue</small></a><a class="problem" href="#challenges" target="_blank" rel="noopener"><span>THSPC2023-1</span><b>魔法師</b><small>循環 / Queue</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+
+<article class="lesson" id="lesson-16" data-title="Recursion / Backtracking Recursion">
+  <div class="lesson-head">
+    <div><span class="num">16</span><span class="tag">Recursion</span></div>
+    <button class="done" onclick="toggleDone(16)">○ 完成</button>
+  </div>
+  <h2>Recursion / Backtracking</h2>
+  <p class="goal"><strong>學習目標：</strong>建立遞迴的 Base Case、狀態與回溯觀念。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>先決定 Base Case</li><li>一層只處理一件選擇</li><li>回溯時還原狀態</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>列舉所有子集合。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>void dfs(int i) {
+    if (i == n) {
+        // 一組答案
+        return;
+    }
+    dfs(i + 1);          // 不選
+    chosen[i] = true;
+    dfs(i + 1);          // 選
+    chosen[i] = false;
+}</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=a010" target="_blank" rel="noopener"><span>a010</span><b>因數分解</b><small>遞迴延伸</small></a><a class="problem" href="#challenges" target="_blank" rel="noopener"><span>THSPC2024-1</span><b>預燒排程前導</b><small>Bitmask / DP</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+
+<article class="lesson" id="lesson-17" data-title="BFS 最短路徑 BFS">
+  <div class="lesson-head">
+    <div><span class="num">17</span><span class="tag">BFS</span></div>
+    <button class="done" onclick="toggleDone(17)">○ 完成</button>
+  </div>
+  <h2>BFS 最短路徑</h2>
+  <p class="goal"><strong>學習目標：</strong>處理無權圖或等成本移動的最短步數。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>起點進 queue</li><li>逐層擴展</li><li>第一次到達通常就是最短距離</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>四方向迷宮最短路徑。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>queue&lt;pair&lt;int,int&gt;&gt; q;
+q.push({sx, sy});
+dist[sx][sy] = 0;
+
+while (!q.empty()) {
+    auto [x, y] = q.front(); q.pop();
+    for (int d = 0; d &lt; 4; d++) {
+        int nx = x + dx[d], ny = y + dy[d];
+        if (valid(nx, ny)) {
+            dist[nx][ny] = dist[x][y] + 1;
+            q.push({nx, ny});
+        }
+    }
+}</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=i177" target="_blank" rel="noopener"><span>i177</span><b>小畫家</b><small>BFS / DFS</small></a><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=c246" target="_blank" rel="noopener"><span>c246</span><b>逃亡</b><small>BFS</small></a><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=f166" target="_blank" rel="noopener"><span>f166</span><b>傳送點</b><small>BFS</small></a><a class="problem" href="#challenges" target="_blank" rel="noopener"><span>THSPC2023-4</span><b>忍術，脫逃！</b><small>BFS / 狀態</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+
+<article class="lesson" id="lesson-18" data-title="DFS / Graph DFS / Graph">
+  <div class="lesson-head">
+    <div><span class="num">18</span><span class="tag">DFS / Graph</span></div>
+    <button class="done" onclick="toggleDone(18)">○ 完成</button>
+  </div>
+  <h2>DFS / Graph</h2>
+  <p class="goal"><strong>學習目標：</strong>把點與邊問題轉成圖，並處理連通元件。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>建立 adjacency list</li><li>visited 避免重複</li><li>DFS/BFS 都可做連通性</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>計算圖的連通元件。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>void dfs(int u) {
+    visited[u] = true;
+    for (int v : graph[u])
+        if (!visited[v])
+            dfs(v);
+}</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=f822" target="_blank" rel="noopener"><span>f822</span><b>紅林愛下棋</b><small>Graph</small></a><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=i177" target="_blank" rel="noopener"><span>i177</span><b>小畫家</b><small>DFS / BFS</small></a><a class="problem" href="#challenges" target="_blank" rel="noopener"><span>THSPC2023-2</span><b>營養品</b><small>Graph</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+<div class="phase-title">第四階段｜Dynamic Programming</div>
+<article class="lesson" id="lesson-19" data-title="DP 基礎：狀態與轉移 DP">
+  <div class="lesson-head">
+    <div><span class="num">19</span><span class="tag">DP</span></div>
+    <button class="done" onclick="toggleDone(19)">○ 完成</button>
+  </div>
+  <h2>DP 基礎：狀態與轉移</h2>
+  <p class="goal"><strong>學習目標：</strong>學會用『狀態、轉移、初始值』建立 DP。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>dp[i] 代表什麼？</li><li>最後一步從哪裡來？</li><li>Base Case 是什麼？</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>爬樓梯：dp[i]=dp[i-1]+dp[i-2]。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>dp[0] = 1;
+dp[1] = 1;
+for (int i = 2; i &lt;= n; i++)
+    dp[i] = dp[i-1] + dp[i-2];</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=f314" target="_blank" rel="noopener"><span>f314</span><b>勇者修煉</b><small>APCS DP</small></a><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=e574" target="_blank" rel="noopener"><span>e574</span><b>背包類 DP</b><small>Knapsack / DP</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+
+<article class="lesson" id="lesson-20" data-title="0/1 Knapsack / Subset Sum Knapsack">
+  <div class="lesson-head">
+    <div><span class="num">20</span><span class="tag">Knapsack</span></div>
+    <button class="done" onclick="toggleDone(20)">○ 完成</button>
+  </div>
+  <h2>0/1 Knapsack / Subset Sum</h2>
+  <p class="goal"><strong>學習目標：</strong>處理每個物品只能選一次的最佳化問題。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>物品逐一加入</li><li>容量由大到小更新避免重複使用</li><li>目標若是至少 M，可把超過 M 壓到 M</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>選商品使總價至少 M，超過最少。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>vector&lt;char&gt; dp(m + 1, false);
+dp[0] = true;
+
+for (int x : price) {
+    for (int s = m; s &gt;= 0; s--) {
+        if (dp[s])
+            dp[min(m, s + x)] = true;
+    }
+}</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=f314" target="_blank" rel="noopener"><span>f314</span><b>勇者修煉</b><small>DP</small></a><a class="problem" href="#challenges" target="_blank" rel="noopener"><span>THSPC2024-4</span><b>優惠卷</b><small>0/1 Knapsack</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+
+<article class="lesson" id="lesson-21" data-title="Bitmask 與狀態壓縮 Bitmask">
+  <div class="lesson-head">
+    <div><span class="num">21</span><span class="tag">Bitmask</span></div>
+    <button class="done" onclick="toggleDone(21)">○ 完成</button>
+  </div>
+  <h2>Bitmask 與狀態壓縮</h2>
+  <p class="goal"><strong>學習目標：</strong>當 N 小於約 20 時，用 bit 表示選取狀態。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>第 i 位代表第 i 個物品</li><li>mask 的每個 bit 表示選/不選</li><li>2^N 是否可接受要先估算</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>列舉所有子集合。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>for (int mask = 0; mask &lt; (1 &lt;&lt; n); mask++) {
+    for (int i = 0; i &lt; n; i++)
+        if (mask &amp; (1 &lt;&lt; i)) {
+            // 選第 i 個
+        }
+}</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="#challenges" target="_blank" rel="noopener"><span>THSPC2024-1</span><b>預燒排程</b><small>Bitmask / Partition DP</small></a><a class="problem" href="#challenges" target="_blank" rel="noopener"><span>THSPC2024-4</span><b>優惠卷</b><small>Subset Sum</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+
+<article class="lesson" id="lesson-22" data-title="Partition DP Partition DP">
+  <div class="lesson-head">
+    <div><span class="num">22</span><span class="tag">Partition DP</span></div>
+    <button class="done" onclick="toggleDone(22)">○ 完成</button>
+  </div>
+  <h2>Partition DP</h2>
+  <p class="goal"><strong>學習目標：</strong>處理固定順序下，把前綴切成連續幾批的最佳化。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>dp[i]：前 i 個的最佳答案</li><li>枚舉最後一批起點 j</li><li>dp[i] = min(dp[j] + cost(j+1,i))</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>連續分批，每批成本為該批最大時間且有容量限制。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>// 概念式
+dp[i] = INF;
+for (int j = 0; j &lt; i; j++)
+    if (groupOK(j + 1, i))
+        dp[i] = min(dp[i], dp[j] + groupCost(j + 1, i));</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="#challenges" target="_blank" rel="noopener"><span>THSPC2024-1</span><b>預燒排程</b><small>Partition DP</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+
+<article class="lesson" id="lesson-23" data-title="2D Rectangle DP Rectangle DP">
+  <div class="lesson-head">
+    <div><span class="num">23</span><span class="tag">Rectangle DP</span></div>
+    <button class="done" onclick="toggleDone(23)">○ 完成</button>
+  </div>
+  <h2>2D Rectangle DP</h2>
+  <p class="goal"><strong>學習目標：</strong>處理矩形可水平／垂直切割的最佳化問題。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>dp[w][h] 表示矩形最大收益</li><li>考慮直接放板</li><li>再枚舉水平、垂直切割</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>w×h 屋頂最大發電量。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>dp[w][h] = bestPanel(w, h);
+for (int x = 1; x &lt; w; x++)
+    dp[w][h] = max(dp[w][h], dp[x][h] + dp[w-x][h]);
+for (int y = 1; y &lt; h; y++)
+    dp[w][h] = max(dp[w][h], dp[w][y] + dp[w][h-y]);</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="#challenges" target="_blank" rel="noopener"><span>THSPC2024-2</span><b>太陽能板</b><small>Rectangle DP</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+
+<article class="lesson" id="lesson-24" data-title="有限狀態 DP / Automaton State DP">
+  <div class="lesson-head">
+    <div><span class="num">24</span><span class="tag">State DP</span></div>
+    <button class="done" onclick="toggleDone(24)">○ 完成</button>
+  </div>
+  <h2>有限狀態 DP / Automaton</h2>
+  <p class="goal"><strong>學習目標：</strong>只保存『未來仍需要知道』的最小狀態。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>找出影響下一步的資訊</li><li>例如上一個字元、奇偶狀態</li><li>避免保存整個字串</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>音符規則只需記上一個狀態與 E/G 數量奇偶。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>// state = (last_note, parity)
+nextState = transition(state, note);</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="#challenges" target="_blank" rel="noopener"><span>THSPC2024-3</span><b>音樂創作</b><small>State DP / Automaton</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+<div class="phase-title">第五階段｜進階演算法</div>
+<article class="lesson" id="lesson-25" data-title="Matrix Exponentiation Matrix / Fast Power">
+  <div class="lesson-head">
+    <div><span class="num">25</span><span class="tag">Matrix / Fast Power</span></div>
+    <button class="done" onclick="toggleDone(25)">○ 完成</button>
+  </div>
+  <h2>Matrix Exponentiation</h2>
+  <p class="goal"><strong>學習目標：</strong>當 N 到 10^9 時，把線性 DP 轉成 O(log N)。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>建立狀態向量</li><li>建立轉移矩陣</li><li>快速冪計算 M^N</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>若 state[n+1]=M·state[n]，則 state[N]=M^N·state[0]。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>while (n) {
+    if (n &amp; 1) ans = ans * base;
+    base = base * base;
+    n &gt;&gt;= 1;
+}</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="#challenges" target="_blank" rel="noopener"><span>THSPC2024-3</span><b>音樂創作</b><small>Matrix Exponentiation</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+
+<article class="lesson" id="lesson-26" data-title="Tree 基礎 Tree">
+  <div class="lesson-head">
+    <div><span class="num">26</span><span class="tag">Tree</span></div>
+    <button class="done" onclick="toggleDone(26)">○ 完成</button>
+  </div>
+  <h2>Tree 基礎</h2>
+  <p class="goal"><strong>學習目標：</strong>理解 Root、Parent、Child、Depth、Subtree 與 Traversal。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>把 Tree 視為特殊 Graph</li><li>先學 DFS traversal</li><li>再進階到樹上的資料結構</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>由 adjacency list 做樹的 DFS。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>void dfs(int u, int p) {
+    for (int v : g[u]) {
+        if (v == p) continue;
+        dfs(v, u);
+    }
+}</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=f822" target="_blank" rel="noopener"><span>f822</span><b>紅林愛下棋</b><small>Graph</small></a><a class="problem" href="#challenges" target="_blank" rel="noopener"><span>THSPC2024-5</span><b>運算順序前導</b><small>Tree</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+
+<article class="lesson" id="lesson-27" data-title="Cartesian Tree Cartesian Tree / Monotonic Stack">
+  <div class="lesson-head">
+    <div><span class="num">27</span><span class="tag">Cartesian Tree / Monotonic Stack</span></div>
+    <button class="done" onclick="toggleDone(27)">○ 完成</button>
+  </div>
+  <h2>Cartesian Tree</h2>
+  <p class="goal"><strong>學習目標：</strong>把指定的運算順序轉成一棵二元樹。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>最後計算的運算子是根</li><li>左右兩側遞迴形成左右子樹</li><li>N 到 10^5 時使用單調堆疊建樹</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>A+B+C+D，若最後做第 1 個 +，第 1 個 + 位於最外層。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>// 單調堆疊建 Cartesian Tree 的核心概念
+while (!st.empty() &amp;&amp; priority[st.top()] &lt; priority[i])
+    last = st.top(), st.pop();</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="#challenges" target="_blank" rel="noopener"><span>THSPC2024-5</span><b>運算順序</b><small>Cartesian Tree</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+
+<article class="lesson" id="lesson-28" data-title="DSU / Union-Find DSU">
+  <div class="lesson-head">
+    <div><span class="num">28</span><span class="tag">DSU</span></div>
+    <button class="done" onclick="toggleDone(28)">○ 完成</button>
+  </div>
+  <h2>DSU / Union-Find</h2>
+  <p class="goal"><strong>學習目標：</strong>處理大量集合合併與同集合查詢。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>parent[x] 表示代表元</li><li>find 找根</li><li>union 合併，搭配路徑壓縮</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>判斷兩點是否屬於同一集合。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>int find(int x) {
+    if (parent[x] == x) return x;
+    return parent[x] = find(parent[x]);
+}</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="#challenges" target="_blank" rel="noopener"><span>THSPC2023-2</span><b>營養品前導</b><small>集合 / Graph</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+
+<article class="lesson" id="lesson-29" data-title="Offline Query、Median 與 Prefix Sum Offline / Median">
+  <div class="lesson-head">
+    <div><span class="num">29</span><span class="tag">Offline / Median</span></div>
+    <button class="done" onclick="toggleDone(29)">○ 完成</button>
+  </div>
+  <h2>Offline Query、Median 與 Prefix Sum</h2>
+  <p class="goal"><strong>學習目標：</strong>把大量查詢重新排序，搭配 median 與前綴和降低總成本。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>先分析查詢共同結構</li><li>排序後離線處理</li><li>Median 最小化絕對距離總和</li><li>Prefix Sum 快速算距離</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>位置 x1...xk 的集合點若無高度限制，最佳位置為 median。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>// sorted positions
+sort(pos.begin(), pos.end());
+long long med = pos[pos.size()/2];
+
+// 距離總和可用 prefix sum 快速計算</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="#challenges" target="_blank" rel="noopener"><span>THSPC2024-6</span><b>山花聚頂</b><small>Offline Query / Median / Prefix Sum</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+<div class="phase-title">第六階段｜THSPC選手專題</div>
+<article class="lesson" id="lesson-30" data-title="Bipartite Matching / Max Flow Matching / Flow">
+  <div class="lesson-head">
+    <div><span class="num">30</span><span class="tag">Matching / Flow</span></div>
+    <button class="done" onclick="toggleDone(30)">○ 完成</button>
+  </div>
+  <h2>Bipartite Matching / Max Flow</h2>
+  <p class="goal"><strong>學習目標：</strong>從二分圖配對進入網路流，完成 2023 營養品型問題。</p>
+  <div class="grid2">
+    <section class="panel">
+      <h3>🧠 解題策略</h3>
+      <ol><li>建立 Source → 左側 → 右側 → Sink</li><li>容量 1 表示只能配對一次</li><li>最大流 = 最大匹配</li></ol>
+      <h3>🔍 本課範例</h3>
+      <p>左集合 A1,A2,A3 與右集合 B1,B2,B3 的最大配對。</p>
+    </section>
+    <section class="panel">
+      <h3>💻 C++ 核心範例</h3>
+      <pre><code>// 網路流結構
+S -&gt; 左側節點 -&gt; 右側節點 -&gt; T
+// 每條匹配邊容量 1</code></pre>
+      <button class="copy" onclick="copyCode(this)">複製程式</button>
+    </section>
+  </div>
+  <section class="panel practice-panel">
+    <h3>🎯 建議練習</h3>
+    <div class="problems"><a class="problem" href="https://zerojudge.tw/ShowProblem?problemid=i179" target="_blank" rel="noopener"><span>i179</span><b>防守城堡</b><small>Flow / 二分圖匹配</small></a><a class="problem" href="#challenges" target="_blank" rel="noopener"><span>THSPC2023-2</span><b>營養品</b><small>Matching / Flow</small></a></div>
+  </section>
+  <div class="selfcheck">
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說明「為什麼用這個方法」</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能說出時間複雜度</label>
+    <label><input type="checkbox" onchange="saveCheck(this)"> 我能獨立完成至少一題練習</label>
+  </div>
+</article>
+
+</div>
+
+<section id="challenges">
+<h2>🏆 THSPC 2023＋2024 選手挑戰</h2>
+<p>建議流程：第一次 90 分鐘獨立作答 → 第二次分析 WA/TLE → 第三次閱讀演算法 → 第四次完成改編題。</p>
+<div class="challenge-grid">
+
+<div class="challenge">
+  <div class="challenge-no">01</div>
+  <div><h3>魔法師</h3><p>Simulation / Circular / Queue</p><small>從模擬到循環淘汰</small></div>
+  <a href="#lesson-challenges">訓練地圖</a>
+</div>
+
+<div class="challenge">
+  <div class="challenge-no">02</div>
+  <div><h3>營養品</h3><p>Graph / Bipartite / Flow</p><small>把衝突關係轉成圖</small></div>
+  <a href="#lesson-challenges">訓練地圖</a>
+</div>
+
+<div class="challenge">
+  <div class="challenge-no">03</div>
+  <div><h3>線上遊戲</h3><p>Two Pointers / Sliding Window</p><small>連續區間與重複元素</small></div>
+  <a href="#lesson-challenges">訓練地圖</a>
+</div>
+
+<div class="challenge">
+  <div class="challenge-no">04</div>
+  <div><h3>忍術，脫逃！</h3><p>BFS / State</p><small>網格最短路徑與狀態</small></div>
+  <a href="#lesson-challenges">訓練地圖</a>
+</div>
+
+<div class="challenge">
+  <div class="challenge-no">05</div>
+  <div><h3>園遊會</h3><p>Range Query / Advanced Query</p><small>區間統計與高階查詢</small></div>
+  <a href="#lesson-challenges">訓練地圖</a>
+</div>
+
+<div class="challenge">
+  <div class="challenge-no">06</div>
+  <div><h3>線上訂票</h3><p>Enumeration / Greedy</p><small>方案枚舉與最佳化</small></div>
+  <a href="#lesson-challenges">訓練地圖</a>
+</div>
+
+<div class="challenge">
+  <div class="challenge-no">07</div>
+  <div><h3>預燒排程</h3><p>Bitmask / Partition DP</p><small>N≤16 的狀態壓縮與連續分批</small></div>
+  <a href="#lesson-challenges">訓練地圖</a>
+</div>
+
+<div class="challenge">
+  <div class="challenge-no">08</div>
+  <div><h3>太陽能板</h3><p>Rectangle DP</p><small>矩形切割與最佳安裝</small></div>
+  <a href="#lesson-challenges">訓練地圖</a>
+</div>
+
+<div class="challenge">
+  <div class="challenge-no">09</div>
+  <div><h3>音樂創作</h3><p>Automaton / Matrix Exp</p><small>N≤10^9 的有限狀態計數</small></div>
+  <a href="#lesson-challenges">訓練地圖</a>
+</div>
+
+<div class="challenge">
+  <div class="challenge-no">10</div>
+  <div><h3>優惠卷</h3><p>0/1 Knapsack</p><small>每種商品只能選一次</small></div>
+  <a href="#lesson-challenges">訓練地圖</a>
+</div>
+
+<div class="challenge">
+  <div class="challenge-no">11</div>
+  <div><h3>運算順序</h3><p>Cartesian Tree</p><small>由運算順序建立二元樹</small></div>
+  <a href="#lesson-challenges">訓練地圖</a>
+</div>
+
+<div class="challenge">
+  <div class="challenge-no">12</div>
+  <div><h3>山花聚頂</h3><p>Offline Query / Median</p><small>大量查詢、高度門檻與距離最小化</small></div>
+  <a href="#lesson-challenges">訓練地圖</a>
+</div>
+
+</div>
+</section>
+
+<section id="sop" class="side-card" style="padding:22px;margin-top:28px">
+<h2 style="margin-top:0">🧠 競賽解題 SOP</h2>
+<ol>
+<li><b>看限制：</b>N 到多少？先估計 O(N)、O(N log N)、O(N²)、O(2^N) 是否可行。</li>
+<li><b>看結構：</b>連續區間？圖？樹？選或不選？大量查詢？</li>
+<li><b>先寫暴力：</b>先知道最直覺的方法，再找 TLE 的瓶頸。</li>
+<li><b>找重複工作：</b>考慮 Prefix、DP、Hash、資料結構。</li>
+<li><b>選演算法：</b>把「題目特徵」對應到「演算法工具」。</li>
+<li><b>分析複雜度：</b>每一題寫完都要說出時間與空間複雜度。</li>
+<li><b>測邊界：</b>N=1、最小值、最大值、全部相同、答案不存在。</li>
+<li><b>再 AC：</b>ZeroJudge 通過後，寫一句「我為什麼這樣解」。</li>
+</ol>
+<div class="grid2">
+<div class="panel"><h3>題目特徵 → 演算法</h3>
+<ul>
+<li>連續區間 → Two Pointers / Sliding Window</li>
+<li>區間總和 → Prefix Sum</li>
+<li>大量區間修改 → Difference Array</li>
+<li>最少步數 → BFS</li>
+<li>連通 → DFS / BFS / DSU</li>
+<li>每個物品只能一次 → 0/1 Knapsack</li>
+<li>N≤20、選／不選 → Bitmask</li>
+<li>N 很大且狀態轉移固定 → Matrix Exponentiation</li>
+<li>大量 Query → Offline / BIT / Segment Tree / Mo</li>
+</ul></div>
+<div class="panel"><h3>複雜度快速表</h3>
+<ul>
+<li>N≈10 → O(N!) 可能可行</li>
+<li>N≈20 → O(2^N)</li>
+<li>N≈100 → O(N³) 視常數</li>
+<li>N≈1,000 → O(N²)</li>
+<li>N≈100,000 → O(N log N) 或 O(N)</li>
+<li>N≈10^9 → O(log N) 或數學 / 快速冪</li>
+</ul></div>
+</div>
+</section>
+</main>
+</div>
+
+<footer class="footer">
+  THSPC 選手自學學習平台｜C++17｜進度保存在本機瀏覽器 localStorage
+</footer>
+
+<script>
+const KEY='thspc2023_2024_progress_v1';
+const CHECK='thspc2023_2024_checks_v1';
+
+function getDone(){
+  try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return []}
+}
+function updateProgress(){
+  const done=getDone();
+  const n=done.length;
+  document.getElementById('progressText').textContent=`${n} / 30 課`;
+  document.getElementById('progressBar').style.width=(n/30*100)+'%';
+  document.querySelectorAll('.lesson').forEach(card=>{
+    const id=Number(card.id.replace('lesson-',''));
+    const btn=card.querySelector('.done');
+    if(done.includes(id)){btn.textContent='✓ 已完成';btn.classList.add('completed')}else{btn.textContent='○ 完成';btn.classList.remove('completed')}
+  });
+}
+function toggleDone(id){
+  let d=getDone();
+  d=d.includes(id)?d.filter(x=>x!==id):[...d,id];
+  localStorage.setItem(KEY,JSON.stringify(d));
+  updateProgress();
+}
+function resetProgress(){
+  if(confirm('確定要清除 30 課的完成進度嗎？')){localStorage.removeItem(KEY);updateProgress();}
+}
+function copyCode(btn){
+  const code=btn.previousElementSibling.innerText;
+  navigator.clipboard.writeText(code).then(()=>{btn.textContent='✓ 已複製';setTimeout(()=>btn.textContent='複製程式',1200)})
+}
+function saveCheck(box){
+  const id=box.closest('.lesson').id+'|'+Array.from(box.closest('.selfcheck').querySelectorAll('input')).indexOf(box);
+  let data={};
+  try{data=JSON.parse(localStorage.getItem(CHECK)||'{}')}catch(e){}
+  data[id]=box.checked;
+  localStorage.setItem(CHECK,JSON.stringify(data));
+}
+function restoreChecks(){
+  let data={};
+  try{data=JSON.parse(localStorage.getItem(CHECK)||'{}')}catch(e){}
+  document.querySelectorAll('.selfcheck input').forEach(box=>{
+    const id=box.closest('.lesson').id+'|'+Array.from(box.closest('.selfcheck').querySelectorAll('input')).indexOf(box);
+    box.checked=!!data[id];
+  });
+}
+function filterLessons(){
+  const q=document.getElementById('search').value.toLowerCase().trim();
+  document.querySelectorAll('.lesson,.phase-title').forEach(el=>el.classList.remove('hidden'));
+  if(!q)return;
+  document.querySelectorAll('.lesson').forEach(el=>{
+    const hit=el.dataset.title.toLowerCase().includes(q) || el.innerText.toLowerCase().includes(q);
+    el.classList.toggle('hidden',!hit);
+  });
+  document.querySelectorAll('.phase-title').forEach(el=>{
+    let next=el.nextElementSibling, found=false;
+    while(next && !next.classList.contains('phase-title')){
+      if(next.classList.contains('lesson')&&!next.classList.contains('hidden'))found=true;
+      next=next.nextElementSibling;
+    }
+    el.classList.toggle('hidden',!found);
+  });
+}
+function showAll(btn){
+  document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));btn.classList.add('active');
+  document.querySelectorAll('.lesson,.phase-title').forEach(el=>el.classList.remove('hidden'));
+  document.getElementById('search').value='';
+}
+function filterPhase(phase,btn){
+  document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));btn.classList.add('active');
+  document.querySelectorAll('.lesson').forEach(el=>{
+    const p=el.previousElementSibling;
+    let title='';
+    let cur=el;
+    while(cur && !cur.classList.contains('phase-title'))cur=cur.previousElementSibling;
+    title=cur?cur.innerText:'';
+    el.classList.toggle('hidden',!title.includes(phase));
+  });
+  document.querySelectorAll('.phase-title').forEach(el=>el.classList.toggle('hidden',!el.innerText.includes(phase)));
+}
+updateProgress();restoreChecks();
+</script>
+</body>
+</html>
