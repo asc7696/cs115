@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python 基礎互動學習平台</title>
+<style>
+:root{--bg:#f4f7fb;--panel:#fff;--ink:#17233b;--muted:#68758b;--line:#e4eaf2;--blue:#3867e8;--cyan:#eaf2ff;--green:#16845b;--orange:#f0a33a;--shadow:0 8px 28px #20345a12}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 "Noto Sans TC",system-ui,sans-serif}
+header{background:linear-gradient(120deg,#172b55,#315fba);color:#fff;padding:28px max(20px,calc((100% - 1180px)/2))}
+header h1{margin:0;font-size:clamp(24px,4vw,36px)}header p{margin:6px 0 0;color:#dbe7ff}
+.shell{max-width:1180px;margin:22px auto;padding:0 16px;display:grid;grid-template-columns:260px minmax(0,1fr);gap:20px}
+aside,.content{background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+aside{padding:16px;height:max-content;position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto}
+.aside-title{font-weight:800;margin:2px 8px 10px}.nav{display:flex;flex-direction:column;gap:4px}
+.nav button{border:0;background:transparent;text-align:left;padding:9px 11px;border-radius:10px;color:#34435e;cursor:pointer;font:inherit;font-size:14px}
+.nav button:hover{background:#f1f5fc}.nav button.active{background:var(--cyan);color:#204fc5;font-weight:750}
+.nav small{color:#8a96a9;margin-right:6px}.progress{margin:16px 8px 4px}.track{height:8px;background:#e9eef6;border-radius:9px;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,#3867e8,#39b5a1);transition:.25s}
+.content{padding:clamp(18px,3vw,32px);min-height:650px}.topline{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:14px}
+h2{font-size:clamp(23px,3vw,30px);margin:10px 0 4px}h3{margin:24px 0 8px;font-size:18px}.lead{color:#59677e;margin:0 0 18px}
+.pill{display:inline-block;background:#edf3ff;color:#315bc4;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700}
+.card{border:1px solid var(--line);border-radius:14px;padding:16px;margin:14px 0;background:#fff}
+.tip{background:#f0f8f5;border-left:4px solid #36a77b;padding:12px 14px;border-radius:8px;margin:14px 0}
+.warn{background:#fff7e9;border-left:4px solid #e6a33c;padding:12px 14px;border-radius:8px;margin:14px 0}
+pre{margin:10px 0;background:#142039;color:#e6efff;padding:16px;border-radius:12px;overflow:auto;font:14px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace}
+code{font-family:ui-monospace,Consolas,monospace}.inline{background:#eef2f8;padding:2px 6px;border-radius:5px;color:#294d9e}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px}th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left}th{background:#f5f7fb}
+.exercise{background:#f8faff;border:1px solid #dce6fb;border-radius:14px;padding:16px;margin:16px 0}
+textarea{width:100%;min-height:92px;resize:vertical;border:1px solid #cbd5e4;border-radius:10px;padding:12px;font:14px/1.6 ui-monospace,Consolas,monospace}
+input[type=text]{padding:10px 12px;border:1px solid #cbd5e4;border-radius:9px;font:inherit;max-width:100%}
+button.action{border:0;border-radius:9px;padding:9px 15px;background:var(--blue);color:white;font-weight:700;cursor:pointer;margin:5px 5px 5px 0}
+button.secondary{background:#edf2fa;color:#34435e}button:disabled{opacity:.5;cursor:not-allowed}
+.feedback{font-weight:700;margin-top:8px;min-height:25px}.good{color:var(--green)}.bad{color:#c14a36}
+.quiz-option{display:block;padding:9px 12px;border:1px solid var(--line);border-radius:9px;margin:7px 0;cursor:pointer}.quiz-option:has(input:checked){border-color:#7294ed;background:#f1f5ff}
+footer{max-width:1180px;margin:0 auto;padding:0 16px 30px;color:var(--muted);font-size:13px}
+@media(max-width:800px){.shell{grid-template-columns:1fr;margin:12px auto}aside{position:static;max-height:none}.nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.content{min-height:0}}
+@media(max-width:420px){.nav{grid-template-columns:1fr 1fr}.nav button{font-size:12px;padding:8px 6px}.content{padding:16px}}
+</style>
+</head>
+<body>
+<header><h1>🐍 Python 基礎互動學習平台</h1><p>從變數、運算到串列，再挑戰 ZeroJudge｜一步一步學會用程式解決問題</p></header>
+<div class="shell">
+<aside>
+ <div class="aside-title">課程地圖</div>
+ <div class="nav" id="nav"></div>
+ <div class="progress"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><b>學習進度</b><span id="progressText">0 / 13</span></div><div class="track"><div class="fill" id="progressFill"></div></div></div>
+ <button class="action secondary" style="width:100%;margin-top:12px" onclick="resetProgress()">重設學習紀錄</button>
+</aside>
+<main class="content" id="lesson"></main>
+</div>
+<footer>學習紀錄儲存在目前瀏覽器的 localStorage。更換瀏覽器、裝置或清除網站資料後，紀錄不會自動同步。</footer>
+<script>
+const lessons = [
+{title:"變數",tag:"建立資料的名字",intro:"變數可以想成有標籤的收納盒，用名稱保存資料，之後可以讀取或更新。",body:`
+<h3>1. 指定（賦值）</h3><pre>name = "小明"\nage = 16\nscore = 92\nprint(name)\nprint(age)\nprint(score)</pre>
+<p><code class="inline">=</code> 在 Python 中是「把右邊的值指定給左邊的變數」，不是數學上的相等。</p>
+<h3>2. 變數可以更新</h3><pre>score = 80\nscore = score + 5\nprint(score)  # 85</pre>
+<div class="tip">命名建議：使用有意義的英文名稱，例如 <code>student_name</code>、<code>total_score</code>。不能以數字開頭，也不能使用 Python 保留字。</div>
+<h3>小實驗：追蹤變數</h3><p>依序執行後，最後的 total 是多少？</p><pre>total = 10\ntotal = total + 3\ntotal = total * 2</pre>` ,quiz:{q:"執行 x = 7，再執行 x = x + 2，x 的值是多少？",opts:["7","2","9","72"],a:2,why:"先把 7 指定給 x，再將原本的 x 加 2，結果是 9。"}},
+{title:"輸出",tag:"讓程式顯示結果",intro:"使用 print() 將文字、數字或運算結果顯示在螢幕上。",body:`
+<h3>1. 輸出文字與數字</h3><pre>print("Hello, Python!")\nprint(2026)\nprint(3 + 5)</pre>
+<h3>2. 一次輸出多個資料</h3><pre>name = "小華"\nscore = 95\nprint("姓名：", name)\nprint("成績：", score)</pre>
+<h3>3. sep 與 end</h3><pre>print("A", "B", "C", sep="-")\nprint("早安", end="！")\nprint("今天開始學 Python")</pre>
+<p><code class="inline">sep</code> 設定多個資料之間的分隔符號；<code class="inline">end</code> 設定輸出結尾，預設是換行。</p>` ,quiz:{q:"print(2, 4, 6, sep=':') 會輸出哪一個結果？",opts:["246","2:4:6","2 4 6","2,4,6"],a:1,why:"sep=':' 會在每個輸出項目之間插入冒號。"}},
+{title:"資料型態",tag:"int、str、bool、float",intro:"資料型態決定資料的種類，以及可以進行哪些操作。",body:`
+<table><tr><th>型態</th><th>用途</th><th>範例</th></tr><tr><td>int 整數</td><td>沒有小數點</td><td><code>age = 16</code></td></tr><tr><td>str 字串</td><td>文字資料</td><td><code>name = "Amy"</code></td></tr><tr><td>bool 布林</td><td>真或假</td><td><code>passed = True</code></td></tr><tr><td>float 浮點數</td><td>含小數的數值</td><td><code>height = 158.5</code></td></tr></table>
+<h3>使用 type() 查看型態</h3><pre>print(type(18))       # int\nprint(type("18"))     # str\nprint(type(True))     # bool\nprint(type(18.0))     # float</pre>
+<h3>型態轉換</h3><pre>number = int("25")\nprice = float("39.5")\ntext = str(100)\nprint(number + 5)  # 30</pre>
+<div class="warn">注意：<code>input()</code> 讀進來的資料預設是字串，需要計算時通常要用 <code>int()</code> 或 <code>float()</code> 轉型。</div>` ,quiz:{q:"下列哪一個資料的型態是字串 str？",opts:["25","25.0",'\"25\"',"True"],a:2,why:"加上引號的 25 是文字字串，不是整數。"}},
+{title:"數值運算",tag:"加減乘除與餘數",intro:"Python 可以直接進行數學運算，也有整除與取餘數運算子。",body:`
+<table><tr><th>運算子</th><th>意義</th><th>範例</th><th>結果</th></tr><tr><td>+</td><td>加</td><td>7 + 2</td><td>9</td></tr><tr><td>-</td><td>減</td><td>7 - 2</td><td>5</td></tr><tr><td>*</td><td>乘</td><td>7 * 2</td><td>14</td></tr><tr><td>/</td><td>除</td><td>7 / 2</td><td>3.5</td></tr><tr><td>//</td><td>整除</td><td>7 // 2</td><td>3</td></tr><tr><td>%</td><td>取餘數</td><td>7 % 2</td><td>1</td></tr><tr><td>**</td><td>次方</td><td>2 ** 3</td><td>8</td></tr></table>
+<h3>生活應用：判斷奇偶數</h3><pre>number = 17\nprint(number % 2)  # 1，代表奇數</pre>
+<p>如果除以 2 的餘數是 0，就是偶數；餘數是 1，就是奇數。</p>
+<div class="tip">運算優先順序：括號 → 次方 → 乘除、整除、餘數 → 加減。需要時請加上括號讓程式更清楚。</div>` ,quiz:{q:"執行 17 // 5 + 17 % 5，結果是多少？",opts:["3","5","7","3.4"],a:1,why:"17 // 5 是 3，17 % 5 是 2，因此 3 + 2 = 5。"}},
+{title:"關係運算",tag:"比較大小與是否相等",intro:"關係運算會比較兩個值，結果一定是 True 或 False。",body:`
+<table><tr><th>運算子</th><th>意義</th><th>例子</th></tr><tr><td>==</td><td>等於</td><td>5 == 5 → True</td></tr><tr><td>!=</td><td>不等於</td><td>5 != 3 → True</td></tr><tr><td>&gt;</td><td>大於</td><td>8 &gt; 5 → True</td></tr><tr><td>&lt;</td><td>小於</td><td>2 &lt; 5 → True</td></tr><tr><td>&gt;=</td><td>大於或等於</td><td>5 &gt;= 5 → True</td></tr><tr><td>&lt;=</td><td>小於或等於</td><td>4 &lt;= 5 → True</td></tr></table>
+<h3>範例：是否及格</h3><pre>score = 72\npassed = score >= 60\nprint(passed)  # True</pre>
+<div class="warn"><code>=</code> 是指定值；<code>==</code> 才是比較是否相等。這是初學者最常見的錯誤之一。</div>` ,quiz:{q:"若 x = 10，哪一個條件會得到 True？",opts:["x < 10","x == 9","x != 10","x >= 10"],a:3,why:"10 大於或等於 10，因此 x >= 10 為 True。"}},
+{title:"邏輯運算",tag:"and、or、not",intro:"邏輯運算可以把多個條件組合起來。",body:`
+<table><tr><th>運算子</th><th>意義</th><th>成立條件</th></tr><tr><td>and</td><td>且</td><td>左右兩邊都 True</td></tr><tr><td>or</td><td>或</td><td>至少一邊 True</td></tr><tr><td>not</td><td>非</td><td>將 True / False 反轉</td></tr></table>
+<h3>範例：活動參加資格</h3><pre>age = 17\nhas_ticket = True\nprint(age >= 15 and has_ticket)  # True\nprint(age < 12 or age >= 18)    # False\nprint(not has_ticket)           # False</pre>
+<h3>and / or 真值表</h3><table><tr><th>A</th><th>B</th><th>A and B</th><th>A or B</th></tr><tr><td>True</td><td>True</td><td>True</td><td>True</td></tr><tr><td>True</td><td>False</td><td>False</td><td>True</td></tr><tr><td>False</td><td>True</td><td>False</td><td>True</td></tr><tr><td>False</td><td>False</td><td>False</td><td>False</td></tr></table>` ,quiz:{q:"True and (False or True) 的結果是？",opts:["True","False","None","錯誤"],a:0,why:"括號內 False or True 為 True，再計算 True and True，結果是 True。"}},
+{title:"字串運算",tag:"串接與重複",intro:"字串是文字資料。Python 可以使用 + 串接字串，使用 * 重複字串。",body:`
+<h3>1. 字串串接 +</h3><pre>first = "Python"\nsecond = "程式設計"\nprint(first + second)\nprint("Hello, " + "World!")</pre>
+<h3>2. 字串重複 *</h3><pre>print("哈" * 3)      # 哈哈哈\nprint("-" * 10)      # ----------</pre>
+<h3>3. 常見錯誤</h3><pre>age = 16\n# print("年齡：" + age)  # 會發生型態錯誤\nprint("年齡：" + str(age))</pre>
+<div class="tip">字串不能直接和整數相加。可以使用 <code>str()</code> 轉換，或使用逗號分隔輸出。</div>` ,quiz:{q:"下列程式 print('Go' * 2) 的輸出是？",opts:["Go2","Go Go","GoGo","錯誤"],a:2,why:"字串乘以 2，代表將字串內容重複兩次。"}},
+{title:"子字串 [ : : ]",tag:"切片 slicing",intro:"切片可以擷取字串中的一部分。索引從 0 開始，右邊界不包含在結果內。",body:`
+<h3>索引位置</h3><pre>word = "PYTHON"\n# 索引  012345\nprint(word[0])      # P\nprint(word[1:4])    # YTH\nprint(word[:3])     # PYT\nprint(word[3:])     # HON\nprint(word[-1])     # N</pre>
+<h3>完整切片格式</h3><pre>字串[start : stop : step]\nword = "PYTHON"\nprint(word[::2])    # PTO\nprint(word[::-1])   # NOHTYP</pre>
+<table><tr><th>寫法</th><th>意思</th></tr><tr><td>[1:4]</td><td>從索引 1 到 3</td></tr><tr><td>[:3]</td><td>從開頭到索引 2</td></tr><tr><td>[3:]</td><td>從索引 3 到結尾</td></tr><tr><td>[::2]</td><td>每隔一個取一次</td></tr><tr><td>[::-1]</td><td>反向排列</td></tr></table>
+<div class="warn">stop 是「停止位置」，不會被取出。例如 [1:4] 只取索引 1、2、3。</div>` ,quiz:{q:"word = 'COMPUTER'，word[1:5] 的結果是？",opts:["COMP","OMPU","MPUT","OMPUT"],a:1,why:"索引 1 到 4 分別是 O、M、P、U；索引 5 不包含。"}},
+{title:"串列",tag:"list：一次保存多筆資料",intro:"串列可以保存多個資料，使用中括號 []，每個元素以逗號分隔。",body:`
+<h3>建立與讀取</h3><pre>scores = [85, 92, 78, 90]\nprint(scores)\nprint(scores[0])   # 85\nprint(scores[-1])  # 90\nprint(scores[1:3]) # [92, 78]</pre>
+<h3>修改元素與長度</h3><pre>scores[0] = 88\nprint(scores)\nprint(len(scores))  # 4</pre>
+<h3>不同型態也能放在同一個串列</h3><pre>student = ["小美", 16, 92.5, True]\nprint(student[0])</pre>
+<div class="tip">串列索引從 0 開始。若有 4 個元素，索引依序為 0、1、2、3。</div>` ,quiz:{q:"data = [10, 20, 30, 40]，data[2] 是？",opts:["10","20","30","40"],a:2,why:"串列索引從 0 開始，data[2] 是第三個元素 30。"}},
+{title:"串列方法",tag:"append、pop、insert",intro:"串列方法可以新增、刪除或插入元素，會直接改變原本的串列。",body:`
+<h3>append()：加在最後面</h3><pre>nums = [1, 2, 3]\nnums.append(4)\nprint(nums)  # [1, 2, 3, 4]</pre>
+<h3>pop()：移除並取出元素</h3><pre>nums = [1, 2, 3, 4]\nlast = nums.pop()\nprint(last)  # 4\nprint(nums)  # [1, 2, 3]</pre>
+<h3>insert()：指定位置插入</h3><pre>nums = [1, 3, 4]\nnums.insert(1, 2)\nprint(nums)  # [1, 2, 3, 4]</pre>
+<table><tr><th>方法</th><th>功能</th><th>語法</th></tr><tr><td>append(x)</td><td>加到最後</td><td>list.append(x)</td></tr><tr><td>pop()</td><td>移除最後一個並回傳</td><td>list.pop()</td></tr><tr><td>insert(i,x)</td><td>在索引 i 插入 x</td><td>list.insert(i,x)</td></tr></table>` ,quiz:{q:"執行 a = [2, 4]；a.insert(1, 3)，結果為？",opts:["[3, 2, 4]","[2, 3, 4]","[2, 4, 3]","[2, 4]"],a:1,why:"insert(1, 3) 會在索引 1 的位置插入 3。"}},
+{title:"字串、串列互換",tag:"split() 與 join()",intro:"split() 將字串切割成串列；join() 將串列中的字串組合成一個字串。",body:`
+<h3>split()：字串 → 串列</h3><pre>sentence = "apple banana orange"\nfruits = sentence.split()\nprint(fruits)\n# ['apple', 'banana', 'orange']</pre>
+<p>也可以指定分隔符號：</p><pre>data = "小明,16,90"\nitems = data.split(",")\nprint(items)  # ['小明', '16', '90']</pre>
+<h3>join()：串列 → 字串</h3><pre>words = ["Python", "is", "fun"]\nresult = " ".join(words)\nprint(result)  # Python is fun</pre>
+<div class="warn">join() 的串列元素必須是字串。若串列中有整數，需先轉成字串，例如 <code>",".join(map(str, nums))</code>。</div>` ,quiz:{q:"'red,blue,green'.split(',') 會得到？",opts:["'redbluegreen'","['red', 'blue', 'green']","('red','blue','green')","['red,blue,green']"],a:1,why:"split(',') 以逗號切割字串，產生包含三個字串元素的串列。"}},
+{title:"輸入",tag:"input() 與型態轉換",intro:"input() 可以讓使用者輸入資料。讀取的內容預設為字串。",body:`
+<h3>輸入文字</h3><pre>name = input("請輸入姓名：")\nprint("你好，", name)</pre>
+<h3>輸入數字並計算</h3><pre>a = int(input("第一個數字："))\nb = int(input("第二個數字："))\nprint(a + b)</pre>
+<h3>輸入小數</h3><pre>height = float(input("請輸入身高："))\nprint(height / 100)</pre>
+<div class="tip">ZeroJudge 常見格式：題目會提供輸入資料，程式通常直接使用 input() 讀取，不需要自行印出「請輸入」提示文字。</div>
+<h3>多筆資料</h3><pre>a, b = map(int, input().split())\nprint(a + b)</pre>` ,quiz:{q:"x = input() 後，輸入 123，x 的型態是？",opts:["int","float","str","bool"],a:2,why:"input() 回傳的資料預設為 str 字串。"}},
+{title:"ZeroJudge 解題",tag:"從題意到程式碼",intro:"開始練習線上評測。先確認輸入、輸出格式，再設計程式。",body:`
+<h3>解題四步驟</h3><ol><li>讀懂題目：要輸入什麼資料？</li><li>確認輸出：要印出什麼？格式是否有空格或換行？</li><li>設計程式：使用 input()、型態轉換與運算。</li><li>測試範例：確認輸出完全符合題目。</li></ol>
+<div class="card"><span class="pill">題目 1｜a001. 哈囉</span><h3>任務</h3><p>請輸出指定文字：<code class="inline">世界，您好！</code></p><p>參考程式：</p><pre>print("世界，您好！")</pre><p><a href="https://zerojudge.tw/ShowProblem?problemid=a001" target="_blank" rel="noopener">前往 ZeroJudge a001 題目 ↗</a></p></div>
+<div class="card"><span class="pill">題目 2｜a002. 簡易加法</span><h3>任務</h3><p>讀入兩個整數，輸出兩數相加的結果。</p><p>解題核心：</p><pre>a = int(input())\nb = int(input())\nprint(a + b)</pre><p>若題目輸入格式為同一行兩個數字，也可使用：</p><pre>a, b = map(int, input().split())\nprint(a + b)</pre><p><a href="https://zerojudge.tw/ShowProblem?problemid=a002" target="_blank" rel="noopener">前往 ZeroJudge a002 題目 ↗</a></p></div>
+<div class="warn">請以 ZeroJudge 題目頁面實際敘述與輸入格式為準。不同題目的輸入可能在同一行，也可能分成多行。</div>` ,quiz:{q:"ZeroJudge 程式通常不需要哪一種內容？",opts:["讀取題目輸入","依規定輸出答案","自行印出「請輸入數字：」提示文字","處理輸入資料"],a:2,why:"線上評測會比對標準輸出，額外提示文字可能造成答案格式錯誤。"}}
+];
+const KEY="pythonBasicsProgress_v1";
+let completed=JSON.parse(localStorage.getItem(KEY)||"[]");
+let current=0;
+const nav=document.getElementById("nav"), lesson=document.getElementById("lesson");
+function updateProgress(){document.getElementById("progressText").textContent=`${completed.length} / ${lessons.length}`;document.getElementById("progressFill").style.width=(completed.length/lessons.length*100)+"%";document.querySelectorAll(".nav button").forEach((b,i)=>b.classList.toggle("done",completed.includes(i)));document.querySelectorAll(".nav button").forEach((b,i)=>{b.innerHTML=`<small>${String(i+1).padStart(2,"0")}</small>${lessons[i].title}${completed.includes(i)?"　✓":""}`})}
+function buildNav(){nav.innerHTML="";lessons.forEach((l,i)=>{let b=document.createElement("button");b.onclick=()=>showLesson(i);b.textContent=`${String(i+1).padStart(2,"0")} ${l.title}`;nav.appendChild(b)});updateProgress()}
+function showLesson(i){current=i;let l=lessons[i];document.querySelectorAll(".nav button").forEach((b,j)=>b.classList.toggle("active",j===i));lesson.innerHTML=`
+<div class="topline"><span>單元 ${String(i+1).padStart(2,"0")} / ${lessons.length}</span><span class="pill">${l.tag}</span></div>
+<h2>${l.title}</h2><p class="lead">${l.intro}</p>${l.body}
+<div class="exercise"><h3>🧠 單元小測驗</h3><p><b>${l.quiz.q}</b></p><div id="options">${l.quiz.opts.map((o,j)=>`<label class="quiz-option"><input type="radio" name="answer" value="${j}"> ${o}</label>`).join("")}</div><button class="action" onclick="checkQuiz()">檢查答案</button><div class="feedback" id="feedback"></div></div>
+<div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:20px"><button class="action secondary" ${i===0?"disabled":""} onclick="showLesson(${i-1})">← 上一單元</button><button class="action" onclick="markDone()">${completed.includes(i)?"已完成 ✓":"標記本單元完成"}</button><button class="action secondary" ${i===lessons.length-1?"disabled":""} onclick="showLesson(${i+1})">下一單元 →</button></div>`;
+}
+function checkQuiz(){let selected=document.querySelector('input[name="answer"]:checked');let f=document.getElementById("feedback");if(!selected){f.textContent="請先選擇一個答案。";f.className="feedback bad";return}let q=lessons[current].quiz;if(Number(selected.value)===q.a){f.textContent="答對了！"+q.why;f.className="feedback good"}else{f.textContent="再想一想！"+q.why;f.className="feedback bad"}}
+function markDone(){if(!completed.includes(current)){completed.push(current);localStorage.setItem(KEY,JSON.stringify(completed));updateProgress()}if(current<lessons.length-1)showLesson(current+1);else showLesson(current)}
+function resetProgress(){if(confirm("確定清除所有單元完成紀錄？")){completed=[];localStorage.removeItem(KEY);updateProgress();showLesson(current)}}
+buildNav();showLesson(0);
+</script>
+</body>
+</html>
